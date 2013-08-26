@@ -249,5 +249,21 @@
             " javascript"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1377261135375,
+        "title": "Setting up a Raspberry Pi",
+        "description": "First experience running a Raspberry Pi",
+        "date": "2013-08-23T12:32:15.375Z",
+        "year": 2013,
+        "month": 8,
+        "day": 23,
+        "filename": "2013-8-23_setting-up-a-raspberry-pi",
+        "url": "/2013/8/23/setting-up-a-raspberry-pi",
+        "categories": [
+            "raspberry pi",
+            " hacking"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
