@@ -1,4 +1,4 @@
-Yesterday I finally stopped procrastinatnig and purchased a Raspberry Pi. What I found most amazing about this device is its small size and the shear power it possesses. The video below shows the first visiuals coming from my Pi after loading the Raspbian OS.
+Yesterday I finally stopped procrastinating and purchased a Raspberry Pi. What I found most amazing about this device is its small size and the shear power it possesses. The video below shows the first visiuals coming from my Pi after loading the Raspbian OS.
 
 ### Specs
  - Model: Model B
