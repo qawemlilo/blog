@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>How I use Gruntjs to build Joomla! extensions</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="How I use Gruntjs to build Joomla! extension" />
+<meta name="generator" content="Node Blogger" />
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <!-- header -->
+  <header>
+  </header>
+
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/qawe.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), I write code and build stuff on the web. By day I hack on Joomla! CMS, by night I tangle myself in callbacks heaven and shoot ducks in the Event loop.
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="http://www.ragingflame.co.za">My Website</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post"> 
+      <h1>How I use Gruntjs to build Joomla! extensions</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           30 Sep 2013
+        </div>
+         
+        
+          
+        <div class="sharep">
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p>JavaScript is my first love but the bulk of my &#39;paid&#39; work involves writing a lot of PHP for Joomla! CMS. Joomla! CMS is a powerful piece of software that is extendable through extensions. These extensions give you the powerful ability to turn the CMS into any application that tickles your fancy.</p>
+
+<p>Building Joomla! extensions can be cumbersome because their architacture follows a strict MVC pattern. Once all the necessary files have been created you need to compress them into a zip file that is installable via the CMS backend.</p>
+
+<p>Since I started using Gruntjs I have automated my development process in a number of ways that has greatly increased my productivity and eliminated some of the boring monotonous tasks. These are the ways that I&#39;m using Gruntjs to build Joomla! Extensions.</p>
+
+<h3>Automatically generated extension templates</h3>
+
+<p>I am using grunt-init to automatically generate the base code and files for my extensions. I have created a grunt-init template that is copied to my project by simply openning my project directory from the commandline shell and running the command <code>grunt-init my-extension-template</code>. This will prompt me for all the required metadata and create all files.</p>
+
+<h3>Automatically generated views, models and controllers</h3>
+
+<p>I have also written a plugin that generates boilerplate code and files for my views, models, and controllers. All I need do is type the command and pass in the name of the new item, e.g <code>grunt joomla:view</code> will prompt me for a name and then create all the <code>view</code> files.</p>
+
+<pre><code>joomla: {
+    model: {          
+        files: [
+            {tmpl: &#39;tmpl/com/model.tmpl&#39;, dest: &#39;com_mycomponent/site/models/&lt;%= view %&gt;.php&#39;},
+            {tmpl: &#39;tmpl/com/table.tmpl&#39;, dest: &#39;com_mycomponent/site/models/tables/&lt;%= view %&gt;.php&#39;}
+        ]
+    },
+
+    view: {          
+        files: [
+            {tmpl: &#39;tmpl/com/view.tmpl&#39;, dest: &#39;com_mycomponent/site/views/&lt;%= view %&gt;/view.html.php&#39;},
+            {tmpl: &#39;tmpl/com/default.tmpl&#39;, dest: &#39;com_mycomponent/site/views/&lt;%= view %&gt;/tmpl/default.php&#39;},
+            {tmpl: &#39;tmpl/com/xml.tmpl&#39;, dest: &#39;com_mycomponent/site/views/&lt;%= view %&gt;/tmpl/default.xml&#39;}
+        ]
+    },
+
+    controller: {          
+        files: [
+            {tmpl: &#39;tmpl/com/controller.tmpl&#39;, dest: &#39;com_mycomponent/site/controllers/&lt;%= view %&gt;.php&#39;}
+        ]
+    }
+}</code></pre>
+
+<h3>JSHinting JavaScript files</h3>
+
+<p>JSHint is a JavaScript quality tool that helps to detect errors and potential problems in your JavaScript code. <a href="http://www.jshint.com">Visit the JSHint page to learn more</a>.</p>
+
+<pre><code>jshint: {
+    all: [
+        &#39;Gruntfile.js&#39;,
+        &#39;com_mycomponent/*.js&#39;
+    ],
+
+    options: {
+        jshintrc: &#39;.jshintrc&#39;
+    }
+}</code></pre>
+
+<h3>Creating compressed files</h3>
+
+<p>When I&#39;m writing code my commandline shell is always open and I find it easier to run some desktop operation from there. Instead of opening the file system to create compressed zip files for my extensions I simply run a Gruntjs task that generates that file for me. No more time wasted deleting files first and responding to pop up dialog boxes. For this task I use a plug in called compress.  </p>
+
+<pre><code>compress: {
+    component: {
+        options: {
+            archive: &quot;build/com_mycomponent.zip&quot;
+        },
+
+        files: [
+            {cwd: &#39;com_mycomponent/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;}, 
+        ]
+    }
+}</code></pre>
+
+<h3>Validating PHP files</h3>
+
+<p>Before I build a zipped file for extension I run JSHint to validate the JavaScript and I also run a PHP command that checks for syntanx errors in my php files. For this I use a plugin called grunt-exec. I have modified the original grunt-exec plugin so that I can pass a custom to the child_process&#39;s &#39;data&#39; event, <a href="https://github.com/jharding/grunt-exec/pull/31">you can checkout my pull request for this feature</a>. If validation fails the process will exit.</p>
+
+<pre><code>exec: {
+    testphp: {
+        cmd: &quot;find ./com_mycomponent -name &#39;*.php&#39; -exec php -l {} ;&quot;,
+
+        onOutData: function (data) {
+            console.log(data);
+
+            if (data.match(/Errors parsing|PHP Parse error/g)) {
+                process.exit(1);
+            }
+        },
+
+        onErrData: function (data) {
+            console.log(data);
+
+            if (data.match(/Errors parsing|PHP Parse error/g)) {
+                process.exit(1);
+            }
+        }
+}</code></pre>
+
+<p>Now I don&#39;t have to leave the commandline to perform trivial tasks like compressing zip files. It feels awesome!</p>
+    </div>
+    
+    
+      <a href="/2013/8/23/setting-up-a-raspberry-pi" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

@@ -265,5 +265,23 @@
             " hacking"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1380539413734,
+        "title": "How I use Gruntjs to build Joomla! extensions",
+        "description": "How I use Gruntjs to build Joomla! extension",
+        "date": "2013-09-30T11:10:13.734Z",
+        "year": 2013,
+        "month": 9,
+        "day": 30,
+        "filename": "2013-9-30_how-i-use-gruntjs-to-build-joomla-extensions",
+        "url": "/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions",
+        "categories": [
+            "joomla",
+            " gruntjs",
+            " node.js",
+            " javascript"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
