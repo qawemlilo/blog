@@ -79,17 +79,19 @@
       
       <p style="clear:both"></p>
       
-      <p>JavaScript is my first love but the bulk of my &#39;paid&#39; work involves writing a lot of PHP for Joomla! CMS. Joomla! CMS is a powerful piece of software that is extendable through extensions. These extensions give you the powerful ability to turn the CMS into any application that tickles your fancy.</p>
+      <p>JavaScript is my first love but the bulk of my paid work involves writing a lot of PHP for Joomla! CMS. Joomla! CMS is a powerful piece of software that is extendable through extensions. These extensions give you the powerful ability to turn the CMS into any application that tickles your fancy.</p>
 
 <p>Building Joomla! extensions can be cumbersome because their architacture follows a strict MVC pattern. Once all the necessary files have been created you need to compress them into a zip file that is installable via the CMS backend.</p>
 
-<p>Since I started using Gruntjs I have automated my development process in a number of ways that has greatly increased my productivity and eliminated some of the boring monotonous tasks. These are the ways that I&#39;m using Gruntjs to build Joomla! Extensions.</p>
+<p>Since I started using Gruntjs I have automated my development process in a number of ways that has greatly increased my productivity and eliminated some of the boring monotonous tasks. </p>
 
-<h3>Automatically generated extension templates</h3>
+<p>These are the ways that I&#39;m using Gruntjs to build Joomla! Extensions.</p>
 
-<p>I am using grunt-init to automatically generate the base code and files for my extensions. I have created a grunt-init template that is copied to my project by simply openning my project directory from the commandline shell and running the command <code>grunt-init my-extension-template</code>. This will prompt me for all the required metadata and create all files.</p>
+<h2>Automatically generated extension templates</h2>
 
-<h3>Automatically generated views, models and controllers</h3>
+<p>I am using grunt-init to automatically generate the base code and files for my extensions. I have created a grunt-init template that is copied to my project by simply openning my project directory from the commandline shell and running the command <code>grunt-init my-extension-template</code>. This will prompt me for all the required metadata and then create my files.</p>
+
+<h2>Automatically generated views, models and controllers</h2>
 
 <p>I have also written a plugin that generates boilerplate code and files for my views, models, and controllers. All I need do is type the command and pass in the name of the new item, e.g <code>grunt joomla:view</code> will prompt me for a name and then create all the <code>view</code> files.</p>
 
@@ -116,7 +118,7 @@
     }
 }</code></pre>
 
-<h3>JSHinting JavaScript files</h3>
+<h2>JSHinting JavaScript files</h2>
 
 <p>JSHint is a JavaScript quality tool that helps to detect errors and potential problems in your JavaScript code. <a href="http://www.jshint.com">Visit the JSHint page to learn more</a>.</p>
 
@@ -131,9 +133,9 @@
     }
 }</code></pre>
 
-<h3>Creating compressed files</h3>
+<h2>Creating compressed files</h2>
 
-<p>When I&#39;m writing code my commandline shell is always open and I find it easier to run some desktop operation from there. Instead of opening the file system to create compressed zip files for my extensions I simply run a Gruntjs task that generates that file for me. No more time wasted deleting files first and responding to pop up dialog boxes. For this task I use a plug in called compress.  </p>
+<p>When I&#39;m writing code my commandline shell is always open and I find it easier to run most desktop operations from there. Instead of opening the file system to create compressed zip files for my extensions I simply run a Gruntjs task that generates that file for me. No more time wasted deleting files first and responding to pop up dialog boxes. For this task I use a plug in called compress.  </p>
 
 <pre><code>compress: {
     component: {
@@ -147,9 +149,9 @@
     }
 }</code></pre>
 
-<h3>Validating PHP files</h3>
+<h2>Validating PHP files</h2>
 
-<p>Before I build a zipped file for extension I run JSHint to validate the JavaScript and I also run a PHP command that checks for syntanx errors in my php files. For this I use a plugin called grunt-exec. I have modified the original grunt-exec plugin so that I can pass a custom to the child_process&#39;s &#39;data&#39; event, <a href="https://github.com/jharding/grunt-exec/pull/31">you can checkout my pull request for this feature</a>. If validation fails the process will exit.</p>
+<p>Before I build a zipped file for extension I run JSHint to validate the JavaScript and I also run a PHP command that checks for syntanx errors in my php files. For this I use a plugin called grunt-exec. I have modified the original grunt-exec plugin so that I can pass a custom function to the child_process&#39;s &#39;data&#39; event, <a href="https://github.com/jharding/grunt-exec/pull/31">you can checkout my pull request for this feature</a>. If validation fails the process will exit.</p>
 
 <pre><code>exec: {
     testphp: {
