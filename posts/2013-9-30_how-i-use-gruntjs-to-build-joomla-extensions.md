@@ -6,12 +6,12 @@ Since I started using Gruntjs I have automated my development process in a numbe
 
 These are the ways that I'm using Gruntjs to build Joomla! Extensions.
 
-## Automatically generated extension templates
+### Automatically generated extension templates
 
 I am using grunt-init to automatically generate the base code and files for my extensions. I have created a grunt-init template that is copied to my project by simply openning my project directory from the commandline shell and running the command `grunt-init my-extension-template`. This will prompt me for all the required metadata and then create my files.
 
 
-## Automatically generated views, models and controllers
+### Automatically generated views, models and controllers
 
 I have also written a plugin that generates boilerplate code and files for my views, models, and controllers. All I need do is type the command and pass in the name of the new item, e.g `grunt joomla:view` will prompt me for a name and then create all the `view` files.
 
@@ -39,7 +39,7 @@ I have also written a plugin that generates boilerplate code and files for my vi
     }
     
 
-## JSHinting JavaScript files
+### JSHinting JavaScript files
 
 JSHint is a JavaScript quality tool that helps to detect errors and potential problems in your JavaScript code. [Visit the JSHint page to learn more](http://www.jshint.com).
 
@@ -56,7 +56,7 @@ JSHint is a JavaScript quality tool that helps to detect errors and potential pr
     }
 
 
-## Creating compressed files
+### Creating compressed files
 
 When I'm writing code my commandline shell is always open and I find it easier to run most desktop operations from there. Instead of opening the file system to create compressed zip files for my extensions I simply run a Gruntjs task that generates that file for me. No more time wasted deleting files first and responding to pop up dialog boxes. For this task I use a plug in called compress.  
 
