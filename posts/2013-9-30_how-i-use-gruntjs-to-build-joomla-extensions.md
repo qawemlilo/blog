@@ -74,9 +74,9 @@ When I'm writing code my commandline shell is always open and I find it easier t
     }
 
 
-## Validating PHP files
+### Validating PHP files
 
-Before I build a zipped file for extension I run JSHint to validate the JavaScript and I also run a PHP command that checks for syntanx errors in my php files. For this I use a plugin called grunt-exec. I have modified the original grunt-exec plugin so that I can pass a custom function to the child_process's 'data' event, [you can checkout my pull request for this feature](https://github.com/jharding/grunt-exec/pull/31). If validation fails the process will exit.
+Before I build a zipped file for extension I run JSHint to validate the JavaScript and I also run a PHP command that checks for syntanx errors in my php files. For this I use a plugin called grunt-exec. I have modified the original grunt-exec plugin so that I can pass a custom function to the child_process's `data` event, [you can checkout my pull request for this feature](https://github.com/jharding/grunt-exec/pull/31). If validation fails the process will exit.
 
 
     exec: {

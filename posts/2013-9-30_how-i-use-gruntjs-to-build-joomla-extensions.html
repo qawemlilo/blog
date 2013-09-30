@@ -149,9 +149,9 @@
     }
 }</code></pre>
 
-<h2>Validating PHP files</h2>
+<h3>Validating PHP files</h3>
 
-<p>Before I build a zipped file for extension I run JSHint to validate the JavaScript and I also run a PHP command that checks for syntanx errors in my php files. For this I use a plugin called grunt-exec. I have modified the original grunt-exec plugin so that I can pass a custom function to the child_process&#39;s &#39;data&#39; event, <a href="https://github.com/jharding/grunt-exec/pull/31">you can checkout my pull request for this feature</a>. If validation fails the process will exit.</p>
+<p>Before I build a zipped file for extension I run JSHint to validate the JavaScript and I also run a PHP command that checks for syntanx errors in my php files. For this I use a plugin called grunt-exec. I have modified the original grunt-exec plugin so that I can pass a custom function to the child_process&#39;s <code>data</code> event, <a href="https://github.com/jharding/grunt-exec/pull/31">you can checkout my pull request for this feature</a>. If validation fails the process will exit.</p>
 
 <pre><code>exec: {
     testphp: {
