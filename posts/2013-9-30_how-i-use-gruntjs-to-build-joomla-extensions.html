@@ -87,11 +87,11 @@
 
 <p>These are the ways that I&#39;m using Gruntjs to build Joomla! Extensions.</p>
 
-<h2>Automatically generated extension templates</h2>
+<h3>Automatically generated extension templates</h3>
 
 <p>I am using grunt-init to automatically generate the base code and files for my extensions. I have created a grunt-init template that is copied to my project by simply openning my project directory from the commandline shell and running the command <code>grunt-init my-extension-template</code>. This will prompt me for all the required metadata and then create my files.</p>
 
-<h2>Automatically generated views, models and controllers</h2>
+<h3>Automatically generated views, models and controllers</h3>
 
 <p>I have also written a plugin that generates boilerplate code and files for my views, models, and controllers. All I need do is type the command and pass in the name of the new item, e.g <code>grunt joomla:view</code> will prompt me for a name and then create all the <code>view</code> files.</p>
 
@@ -118,7 +118,7 @@
     }
 }</code></pre>
 
-<h2>JSHinting JavaScript files</h2>
+<h3>JSHinting JavaScript files</h3>
 
 <p>JSHint is a JavaScript quality tool that helps to detect errors and potential problems in your JavaScript code. <a href="http://www.jshint.com">Visit the JSHint page to learn more</a>.</p>
 
@@ -133,7 +133,7 @@
     }
 }</code></pre>
 
-<h2>Creating compressed files</h2>
+<h3>Creating compressed files</h3>
 
 <p>When I&#39;m writing code my commandline shell is always open and I find it easier to run most desktop operations from there. Instead of opening the file system to create compressed zip files for my extensions I simply run a Gruntjs task that generates that file for me. No more time wasted deleting files first and responding to pop up dialog boxes. For this task I use a plug in called compress.  </p>
 
