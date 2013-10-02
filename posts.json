@@ -283,5 +283,22 @@
             " javascript"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1380736090323,
+        "title": "Simple CLI prompt for Node",
+        "description": "A simple commandline prompt for node.js",
+        "date": "2013-10-02T17:48:10.323Z",
+        "year": 2013,
+        "month": 10,
+        "day": 2,
+        "filename": "2013-10-2_simple-cli-prompt-for-node",
+        "url": "/2013/10/2/simple-cli-prompt-for-node",
+        "categories": [
+            "node",
+            " javascript",
+            " modules"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
