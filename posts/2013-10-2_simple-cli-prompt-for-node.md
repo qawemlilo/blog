@@ -34,8 +34,8 @@ Simple prompt accepts an array of `question objects`
                 return parseInt(answer, 10); // bring back my answer as a number
             }
         }
-   ];
-
+    ];
+    
     prompt(questions, function (answers) {
         console.log(answers);
     });

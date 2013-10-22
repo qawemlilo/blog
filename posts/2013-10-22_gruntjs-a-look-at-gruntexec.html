@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gruntjs: A look at grunt-exec</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="A Gruntjs plugin for executing shell commands" />
+<meta name="generator" content="Node Blogger" />
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <!-- header -->
+  <header>
+  </header>
+
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/qawe.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), I write code and build stuff on the web. By day I hack on Joomla! CMS, by night I tangle myself in callbacks heaven and shoot ducks in the Event loop.
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="http://www.ragingflame.co.za">My Website</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post"> 
+      <h1>Gruntjs: A look at grunt-exec</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           22 Oct 2013
+        </div>
+         
+        
+          
+        <div class="sharep">
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2013/10/22/gruntjs-a-look-at-gruntexec" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2013/10/22/gruntjs-a-look-at-gruntexec" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2013/10/22/gruntjs-a-look-at-gruntexec" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2013/10/22/gruntjs-a-look-at-gruntexec" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p>Lately, Grunt has completely taken over my development process. In one of my previous posts I explained <a href="http://blog.ragingflame.co.za/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions">how I use Gruntjs to develop Joomla! extenstions</a>.</p>
+
+<p>Today I would like to take a closer look at one of Gruntjs plugins that I have been using, <a href="https://github.com/jharding/grunt-exec">grunt-exec</a>. <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> is a plugin for executing shell commands. I have 2 shell commands that I use the most when working on a project:</p>
+
+<p>The first one removes the backup files created by text editors. It filters all files ending with the charecter <code>~</code> in the current working directory and sub-directories. I run this command everytime I perform a clean up.</p>
+
+<pre><code>find . -type f -name &quot;*~&quot; -exec rm -f {} \;</code></pre>
+
+<p>I use the second command in my PHP projects to check for syntax errors in php files.  I run this command just before packaging my project into a zip file.</p>
+
+<pre><code>find . -type f -name &#39;*.php&#39; -exec php -l {} \;</code></pre>
+
+<p>Below is how my Gruntfile for executing these commands looks like.</p>
+
+<pre><code>module.exports = function(grunt) {
+  grunt.initConfig({
+    exec: {
+      test: {
+        cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,
+
+        callback: function (error, stdout, stderr) {
+            grunt.log.write(&#39;stdout: &#39; + stdout);
+            grunt.log.write(&#39;stderr: &#39; + stderr);
+
+            if (error !== null) {
+                grunt.log.error(&#39;exec error: &#39; + error);
+            }
+        }
+      },
+
+      clean: {
+        cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
+      }
+    },
+
+    compress: {
+      project: {
+        options: {
+          archive: &#39;./com_project.zip&#39;
+        },
+
+        files: [
+          {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;}
+        ]
+      }
+    }
+  });
+
+  grunt.loadNpmTasks(&#39;grunt-exec&#39;);
+  grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);
+
+  grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);
+};  </code></pre>
+
+<p>The problem that I encountered with <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> is that it buffers output, which is inconvenient if you want to check each operation output individually. What I wanted was the ability to exit the Node process if any php file had syntax errors and prevent the zip file from being created.</p>
+
+<p>So I dived into the <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> code to see if I could solve the problem. <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> uses the <code>exec</code> method of the [child<em>process module](http://nodejs.org/api/child</em>process.html) to execute commands. When the <code>exec</code> method is called it returns the <code>ChildProcess object</code> which is an event emmiter. Bingo! All I needed to do was pass functions that accept the data event emmited by <code>ChildProcess object</code>&#39;s <code>stdout</code> and <code>stderr</code> streams. I then replaced the callback option with 2 ondata event handlers.</p>
+
+<p>What the 2 functions do is check if the emmited data contains error reports, if so, exit the Node process.</p>
+
+<pre><code>module.exports = function(grunt) {
+  grunt.initConfig({
+    exec: {
+      test: {
+        cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,
+
+        onOutData: function (data) {
+          if (data.match(/Errors parsing|PHP Parse error/g)) {
+            grunt.log.error(data);
+            process.exit(1);
+          }
+          else {
+            grunt.log.write(data);
+          }
+        },
+
+        onErrData: function (data) {
+          if (data.match(/Errors parsing|PHP Parse error/g)) {
+            grunt.log.error(data);
+            process.exit(1);
+          }
+          else {
+            grunt.log.write(data);  
+          }
+        }
+      },
+
+      clean: {
+        cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
+      }
+    },
+
+    compress: {
+      project: {
+        options: {
+          archive: &#39;./com_project.zip&#39;
+        },
+
+        files: [
+          {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;},
+        ]
+      }
+    }
+  });
+
+  grunt.loadNpmTasks(&#39;grunt-exec&#39;);
+  grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);
+
+  grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);
+};  </code></pre>
+
+<p>I submitted <a href="https://github.com/qawemlilo/grunt-exec/commit/2d97c3c71c4f12cb3509c018d55801a92d7ec50e">a pull request</a> which has not yet been merged, so for now I am using <a href="https://github.com/qawemlilo/grunt-exec/releases/tag/v0.4.3">my own fork</a>.</p>
+
+<p>If you are using <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> and you need more control over the output you can replace the <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> version value in your <code>package.json</code> file with the url to <a href="git+ssh://git@github.com:qawemlilo/grunt-exec.git#v0.4.3">my fork</a> or create your own fork.</p>
+
+<pre><code>----
+  &quot;devDependencies&quot;: {
+    &quot;grunt&quot;: &quot;~0.4.1&quot;,
+    &quot;grunt-contrib-compress&quot;: &quot;~0.5.2&quot;,
+    &quot;grunt-exec&quot;: &quot;git+ssh://git@github.com:qawemlilo/grunt-exec.git#v0.4.3&quot;
+  }
+---</code></pre>
+    </div>
+    
+    
+      <a href="/2013/10/2/simple-cli-prompt-for-node" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

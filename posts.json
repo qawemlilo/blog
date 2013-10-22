@@ -300,5 +300,22 @@
             " modules"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1382441361843,
+        "title": "Gruntjs: A look at grunt-exec",
+        "description": "A Gruntjs plugin for executing shell commands",
+        "date": "2013-10-22T11:29:21.843Z",
+        "year": 2013,
+        "month": 10,
+        "day": 22,
+        "filename": "2013-10-22_gruntjs-a-look-at-gruntexec",
+        "url": "/2013/10/22/gruntjs-a-look-at-gruntexec",
+        "categories": [
+            "nodejs",
+            " javascript",
+            " gruntjs"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
