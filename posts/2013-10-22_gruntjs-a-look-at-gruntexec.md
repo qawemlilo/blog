@@ -54,7 +54,7 @@ Below is how my Gruntfile for executing these commands looks like.
 
 The problem that I encountered with [grunt-exec](https://github.com/jharding/grunt-exec) is that it buffers output, which is inconvenient if you want to check each operation output individually. What I wanted was the ability to exit the Node process if any php file had syntax errors and prevent the zip file from being created.
 
-So I dived into the [grunt-exec](https://github.com/jharding/grunt-exec) code to see if I could solve the problem. [grunt-exec](https://github.com/jharding/grunt-exec) uses the `exec` method of the [child_process module](http://nodejs.org/api/child_process.html) to execute commands. When the `exec` method is called it returns the `ChildProcess object` which is an event emmiter. Bingo! All I needed to do was pass functions that accept the data event emmited by `ChildProcess object`'s `stdout` and `stderr` streams. I then replaced the callback option with 2 ondata event handlers.
+So I dived into the [grunt-exec](https://github.com/jharding/grunt-exec) code to see if I could solve the problem. [grunt-exec](https://github.com/jharding/grunt-exec) uses the `exec` method of the [Child Process](http://nodejs.org/api/child_process.html) module to execute commands. When the `exec` method is called it returns the `ChildProcess object` which is an event emmiter. Bingo! All I needed to do was pass functions that accept the data event emmited by `ChildProcess object`'s `stdout` and `stderr` streams. I then replaced the callback option with 2 ondata event handlers.
 
 What the 2 functions do is check if the emmited data contains error reports, if so, exit the Node process.
 
