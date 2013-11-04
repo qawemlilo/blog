@@ -95,7 +95,7 @@ function loadRSS (res) {
 module.exports = function (req, res) {
     "use strict";
     
-    var path = url.parse(req.url).path, filename; 
+    var path = url.parse(req.url).pathname, filename; 
     
     switch (path) {
     
