@@ -1,6 +1,6 @@
 > A simple commandline prompt for Node.js
 
-While working on a Node.js automation software I needed to generate some files and code after asking the user a few questions. Most of the modules that I found were a bit of an over-kill, all I wanted was a good old prompt (the browser type :)) so I decided to write this module. 
+While working on a Node.js automation software I needed to generate some files and code after collecting some information from the user. Most of the modules that I found were a bit of an over-kill, all I wanted was a good old prompt (the browser type) so I decided to write this module. 
 
 ### Installation
 

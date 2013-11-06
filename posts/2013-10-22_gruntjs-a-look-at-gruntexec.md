@@ -1,6 +1,6 @@
 Lately, Grunt has completely taken over my development process. In one of my previous posts I explained [how I use Gruntjs to develop Joomla! extenstions](http://blog.ragingflame.co.za/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions).
 
-Today I would like to take a closer look at one of Gruntjs plugins that I have been using, [grunt-exec](https://github.com/jharding/grunt-exec). [grunt-exec](https://github.com/jharding/grunt-exec) is a plugin for executing shell commands. I have 2 shell commands that I use the most when working on a project:
+Today I would like to take a closer look at one Gruntjs plugin that I have been using, [grunt-exec](https://github.com/jharding/grunt-exec). [grunt-exec](https://github.com/jharding/grunt-exec) is a plugin for executing shell commands. I have 2 shell commands that I use the most when working on a project:
 
 The first one removes the backup files created by text editors. It filters all files ending with the charecter `~` in the current working directory and sub-directories. I run this command everytime I perform a clean up.
 
@@ -54,9 +54,9 @@ Below is how my Gruntfile for executing these commands looks like.
 
 The problem that I encountered with [grunt-exec](https://github.com/jharding/grunt-exec) is that it buffers output, which is inconvenient if you want to check each operation output individually. What I wanted was the ability to exit the Node process if any php file had syntax errors and prevent the zip file from being created.
 
-So I dived into the [grunt-exec](https://github.com/jharding/grunt-exec) code to see if I could solve the problem. [grunt-exec](https://github.com/jharding/grunt-exec) uses the `exec` method of the [Child Process](http://nodejs.org/api/child_process.html) module to execute commands. When the `exec` method is called it returns the `ChildProcess object` which is an event emmiter. Bingo! All I needed to do was pass functions that accept the data event emmited by `ChildProcess object`'s `stdout` and `stderr` streams. I then replaced the callback option with 2 ondata event handlers.
+So I dived into the [grunt-exec](https://github.com/jharding/grunt-exec) code to see if I could solve the problem. [grunt-exec](https://github.com/jharding/grunt-exec) uses the `exec` method of the [Child Process](http://nodejs.org/api/child_process.html) module to execute commands. When the `exec` method is called it returns the `ChildProcess object` which is an event emitter. Bingo! All I needed to do was pass functions that accept the data event emitted by `ChildProcess object`'s `stdout` and `stderr` streams. I then replaced the callback option with 2 ondata event handlers.
 
-What the 2 functions do is check if the emmited data contains error reports, if so, exit the Node process.
+What the 2 functions do is check if the emitted data contains error reports, if so, exit the Node process.
 
     module.exports = function(grunt) {
       grunt.initConfig({
