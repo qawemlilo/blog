@@ -317,5 +317,22 @@
             " gruntjs"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1386667180084,
+        "title": "Proposing a native Event Emitter in JavaScript",
+        "description": "Proposing a native Event Emitter in JavaScript",
+        "date": "2013-12-10T09:19:40.084Z",
+        "year": 2013,
+        "month": 12,
+        "day": 10,
+        "filename": "2013-12-10_proposing-a-native-event-emitter-in-javascript",
+        "url": "/2013/12/10/proposing-a-native-event-emitter-in-javascript",
+        "categories": [
+            "node.js",
+            " events",
+            " javascript"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
