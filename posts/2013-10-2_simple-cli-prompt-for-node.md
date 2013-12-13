@@ -15,7 +15,6 @@ Simple prompt accepts an array of `question objects`
     var questions = [
         {
             question: 'Name',
-        
             required: true // required
         },
         {
@@ -23,13 +22,10 @@ Simple prompt accepts an array of `question objects`
         },
         {
             question: 'Age',
-        
             required: true, // required
-        
             validate: function (answer) {
                 return parseInt(answer, 10) >= 18; // only 18 or higher
             },
-        
             filter: function (answer) {
                 return parseInt(answer, 10); // bring back my answer as a number
             }

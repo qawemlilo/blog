@@ -101,31 +101,19 @@
 
 <p>
         {
-            question: &#39;Name&#39;,</p>
-
-<pre><code>        required: true // required</code></pre>
-
-<p>
+            question: &#39;Name&#39;,
+            required: true // required
         },
         {
             question: &#39;Surname&#39; //optional
         },
         {
-            question: &#39;Age&#39;,</p>
-
-<pre><code>        required: true, // required</code></pre>
-
-<p></p>
-
-<pre><code>        validate: function (answer) {</code></pre>
-
-<p>
+            question: &#39;Age&#39;,
+            required: true, // required
+            validate: function (answer) {
                 return parseInt(answer, 10) &gt;= 18; // only 18 or higher
-            },</p>
-
-<pre><code>        filter: function (answer) {</code></pre>
-
-<p>
+            },
+            filter: function (answer) {
                 return parseInt(answer, 10); // bring back my answer as a number
             }
         }

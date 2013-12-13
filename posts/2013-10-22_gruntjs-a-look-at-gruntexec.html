@@ -100,57 +100,54 @@
 <pre><code>module.exports = function(grunt) {</code></pre>
 
 <p>
-      grunt.initConfig({
-        exec: {
-          test: {
-            cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,</p>
+        grunt.initConfig({
+            exec: {
+              test: {
+                cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,</p>
 
-<pre><code>        callback: function (error, stdout, stderr) {</code></pre>
-
-<p>
-                grunt.log.write(&#39;stdout: &#39; + stdout);
-                grunt.log.write(&#39;stderr: &#39; + stderr);</p>
-
-<pre><code>            if (error !== null) {</code></pre>
+<pre><code>            callback: function (error, stdout, stderr) {</code></pre>
 
 <p>
-                    grunt.log.error(&#39;exec error: &#39; + error);
+                    grunt.log.write(&#39;stdout: &#39; + stdout);
+                    grunt.log.write(&#39;stderr: &#39; + stderr);</p>
+
+<pre><code>                if (error !== null) {</code></pre>
+
+<p>
+                        grunt.log.error(&#39;exec error: &#39; + error);
+                    }
                 }
-            }
-          },</p>
+              },</p>
 
-<pre><code>      clean: {</code></pre>
-
-<p>
-            cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
-          }
-        },</p>
-
-<pre><code>    compress: {</code></pre>
+<pre><code>          clean: {</code></pre>
 
 <p>
-          project: {
-            options: {
-              archive: &#39;./com_project.zip&#39;
+                cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
+              }
             },</p>
 
-<pre><code>        files: [</code></pre>
+<pre><code>        compress: {</code></pre>
 
 <p>
-              {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;}
-            ]
-          }
-        }
-      });</p>
+              project: {
+                options: {
+                  archive: &#39;./com_project.zip&#39;
+                },</p>
 
-<pre><code>  grunt.loadNpmTasks(&#39;grunt-exec&#39;);</code></pre>
-
-<p>
-      grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);</p>
-
-<pre><code>  grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);</code></pre>
+<pre><code>            files: [</code></pre>
 
 <p>
+                  {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;}
+                ]
+              }
+            }
+        });</p>
+
+<pre><code>    grunt.loadNpmTasks(&#39;grunt-exec&#39;);</code></pre>
+
+<p>
+        grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);
+        grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);
     };  </p>
 
 <p>The problem that I encountered with <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> is that it buffers output, which is inconvenient if you want to check each operation output individually. What I wanted was the ability to exit the Node process if any php file had syntax errors and prevent the zip file from being created.</p>
@@ -162,66 +159,66 @@
 <pre><code>module.exports = function(grunt) {</code></pre>
 
 <p>
-      grunt.initConfig({
-        exec: {
-          test: {
-            cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,</p>
+        grunt.initConfig({
+            exec: {
+                test: {
+                    cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,</p>
 
-<pre><code>        onOutData: function (data) {</code></pre>
+<pre><code>                onOutData: function (data) {</code></pre>
 
 <p>
-              if (data.match(/Errors parsing|PHP Parse error/g)) {
-                grunt.log.error(data);
-                process.exit(1);
-              }
-              else {
-                grunt.log.write(data);
-              }
+                      if (data.match(/Errors parsing|PHP Parse error/g)) {
+                        grunt.log.error(data);
+                        process.exit(1);
+                      }
+                      else {
+                        grunt.log.write(data);
+                      }
+                    },</p>
+
+<pre><code>                onErrData: function (data) {</code></pre>
+
+<p>
+                      if (data.match(/Errors parsing|PHP Parse error/g)) {
+                        grunt.log.error(data);
+                        process.exit(1);
+                      }
+                      else {
+                        grunt.log.write(data);  
+                      }
+                    }
+                },</p>
+
+<pre><code>            clean: {</code></pre>
+
+<p>
+                    cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
+                }
             },</p>
 
-<pre><code>        onErrData: function (data) {</code></pre>
+<pre><code>        compress: {</code></pre>
 
 <p>
-              if (data.match(/Errors parsing|PHP Parse error/g)) {
-                grunt.log.error(data);
-                process.exit(1);
-              }
-              else {
-                grunt.log.write(data);  
-              }
+                project: {
+                    options: {
+                      archive: &#39;./com_project.zip&#39;
+                    },</p>
+
+<pre><code>                files: [</code></pre>
+
+<p>
+                      {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;},
+                    ]
+                }
             }
-          },</p>
+        });</p>
 
-<pre><code>      clean: {</code></pre>
-
-<p>
-            cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
-          }
-        },</p>
-
-<pre><code>    compress: {</code></pre>
+<pre><code>    grunt.loadNpmTasks(&#39;grunt-exec&#39;);</code></pre>
 
 <p>
-          project: {
-            options: {
-              archive: &#39;./com_project.zip&#39;
-            },</p>
+        grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);</p>
 
-<pre><code>        files: [</code></pre>
-
-<p>
-              {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;},
-            ]
-          }
-        }
-      });</p>
-
-<pre><code>  grunt.loadNpmTasks(&#39;grunt-exec&#39;);</code></pre>
-
-<p>
-      grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);</p>
-
-<pre><code>  grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);</code></pre>
+<pre><code>    grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);</code></pre>
 
 <p>
     };  </p>
@@ -233,12 +230,14 @@
 <pre><code>----</code></pre>
 
 <p>
-      &quot;devDependencies&quot;: {
-        &quot;grunt&quot;: &quot;~0.4.1&quot;,
-        &quot;grunt-contrib-compress&quot;: &quot;~0.5.2&quot;,
-        &quot;grunt-exec&quot;: &quot;git+ssh://git@github.com:qawemlilo/grunt-exec.git#v0.4.3&quot;
-      }
+        &quot;devDependencies&quot;: {
+            &quot;grunt&quot;: &quot;~0.4.1&quot;,
+            &quot;grunt-contrib-compress&quot;: &quot;~0.5.2&quot;,
+            &quot;grunt-exec&quot;: &quot;git+ssh://git@github.com:qawemlilo/grunt-exec.git#v0.4.3&quot;
+        }
     ---</p>
+
+<pre><code></code></pre>
     </div>
     
     
