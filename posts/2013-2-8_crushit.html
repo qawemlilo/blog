@@ -88,15 +88,17 @@ npm install -g crushit</code></pre>
 
 <h3>CLI Example</h3>
 
-<p>Crushing scripts from on website.
-    crushit http://www.ragingflame.co.za</p>
+<p>Crushing scripts from on website:</p>
+
+<pre><code>crushit http://www.ragingflame.co.za</code></pre>
 
 <h3>Program Example</h3>
 
-<p>You can also include CrushIt in your Node programs.
-    var crushit = require(&quot;crushit&quot;);</p>
+<p>You can also include CrushIt in your Node programs.</p>
 
-<pre><code>crushit.crushScripts(&quot;http://www.rflab.co.za&quot;, {
+<pre><code>var crushit = require(&quot;crushit&quot;);
+
+crushit.crushScripts(&quot;http://www.rflab.co.za&quot;, {
     beautify: true,
     max: false,
     comments: true,

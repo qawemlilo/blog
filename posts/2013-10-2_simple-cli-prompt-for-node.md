@@ -11,7 +11,7 @@ While working on a Node.js automation software I needed to generate some files a
 Simple prompt accepts an array of `question objects`
 
     var prompt = require('simple-prompt');
-
+    
     var questions = [
         {
             question: 'Name',

@@ -136,7 +136,7 @@ Emitter uses the same API as [Backbone.Events](http://backbonejs.org/#Events). T
     npm test
 
 
-### License
+### LICENSE
 (MIT License)
 
 Copyright (c) 2013 Qawelesizwe Mlilo <qawemlilo@gmail.com>

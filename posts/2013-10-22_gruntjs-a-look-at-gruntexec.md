@@ -63,7 +63,7 @@ What the 2 functions do is check if the emitted data contains error reports, if 
         exec: {
           test: {
             cmd: "find . -type f -name '*.php' -exec php -l {} ;",
-
+    
             onOutData: function (data) {
               if (data.match(/Errors parsing|PHP Parse error/g)) {
                 grunt.log.error(data);

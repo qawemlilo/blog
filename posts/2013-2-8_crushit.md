@@ -7,12 +7,14 @@ A few weeks ago I wrote CrushIt, a Node CLI tool that crawls through a web page,
 
 ### CLI Example
 
-Crushing scripts from on website.
+Crushing scripts from on website:
+
     crushit http://www.ragingflame.co.za
     
 ### Program Example
 
 You can also include CrushIt in your Node programs.
+
     var crushit = require("crushit");
  
     crushit.crushScripts("http://www.rflab.co.za", {
