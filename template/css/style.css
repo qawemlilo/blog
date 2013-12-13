@@ -460,6 +460,7 @@ img.github {
   top: 0; 
   right: 0; 
   border: 0;
+  width: auto!important;
 }
 /*-------------------------
 	endof prettify.css
