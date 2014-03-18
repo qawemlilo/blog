@@ -9,14 +9,14 @@
 	margin:0;
 	padding:0;
 }
-
+/*
 img.desktop {
   display: block!important;
 }
 
 img.mobile {
   display: none!important;
-}
+}*/
 
 
 /*-------------------------
@@ -83,9 +83,10 @@ h1 a, h2 a{
 #content{
 	position: absolute;
 	font: 16px/1.5 'PT Serif', Times, Cambria, serif;
-	width: 580px;
-	left: 50%;
-	margin-left: -100px;
+	width: 71%;
+    padding-left: 2%;
+    padding-right: 2%;
+	left: 25%;
 }
 
 #content p,
@@ -151,7 +152,7 @@ aside ul{
 }
 
 .post{
-	padding: 40px 0 15px 0;
+	padding: 20px 0 15px 0;
 	border-bottom: 1px solid #dfdfdf;
 }
 
@@ -268,17 +269,20 @@ pre code {
 
 aside{
 	position: fixed;
-	width: 250px;
+	width: 23%;
 	height: auto;
 	top: 0;
-	left: 50%;
+	left: 0;
 	bottom: 0;
-	margin-left: -460px;
-	padding-top: 45px;
+	padding-left: 1%;
+    padding-right: 1%;
+	padding-top: 30px;
+    background: #333;
 }
 
 aside h1 {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 aside p.description{
@@ -296,7 +300,7 @@ aside ul{
 
 aside ul li a{
   text-decoration:none !important;
-  display:inline-block;
+  display: inline-block;
   padding:0px;
   margin:2px 0 2px 0px;
 }
@@ -312,13 +316,13 @@ aside p.author{
 	height: 50px;
 	font-size: 12px;
 	color: #888;
-    text-align: center
+    text-align: center;
+    width: 98%;
 }
 
 aside p.author a { 
    width: 48px;
-   display: block;
-   float: left;   
+   display: inline-block;  
    height: 48px;
    margin-right: 10px;
    background-image: url('../img/icons.png');
@@ -477,9 +481,11 @@ img.github {
 
 @media all and (max-width: 1024px) {
 	aside{
-		left: 5%;
+		left: 0;
 		margin-left: 0;
-		width: 25%;
+		width: 23%;
+	    padding-left: 1%;
+        padding-right: 1%;
 	}
     
     header {
@@ -490,9 +496,11 @@ img.github {
     }
 
 	#content{
-		left: 35%;
+		left: 25%;
 		margin-left: 0;
-		width: 60%;
+		width: 71%;
+	    padding-left: 2%;
+        padding-right: 2%;
 	}
 }
 
@@ -513,7 +521,7 @@ aside{
 margin-left: 0;
 position: static;
 width: 90%;
-padding: 5% 5% 0 5%;
+padding: 5%;
 text-align: center;
 }
 
