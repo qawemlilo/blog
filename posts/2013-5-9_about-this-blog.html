@@ -75,100 +75,115 @@
       
       <p style="clear:both"></p>
       
-      <p>This blog is powered by <a href="https://github.com/qawemlilo/node-blogger">Node Blogger</a>, a small blogging platform for Node.js that I created out of my frustrations with WordPress&#39;s bloatedness and never-ending updates. Below is a detailed documantion on how to create your own blog using <a href="https://github.com/qawemlilo/node-blogger">Node Blogger</a>.</p>
+      <p>This blog is powered by <a href="https://github.com/qawemlilo/node-blogger">Node Blogger</a>, a small blogging platform for Node.js that I created out of my frustrations with WordPress&#39;s bloatedness and never-ending updates. Below is a detailed documantion on how to create your own blog using <a href="https://github.com/qawemlilo/node-blogger">Node Blogger</a>.</p>
 
 <h3>Installation</h3>
 
-<p>First you need to download the repo</p>
+<p>First you need to download the repo</p>
 
 <pre><code>git clone https://github.com/qawemlilo/node-blogger.git</code></pre>
 
-<p>Then install dependencies</p>
+<p></p>
+
+<p>Then install dependencies</p>
 
 <pre><code>cd node-blogger &amp;&amp; npm install</code></pre>
 
-<p>After installing dependencies, link the <code>bin</code> scripts to access them via the commandline</p>
+<p></p>
+
+<p>After installing dependencies, link the <code>bin</code> scripts to access them via the commandline</p>
 
 <pre><code>npm link</code></pre>
 
-<p>Now you need to set up the basic configs for your blog. This process will update <code>config.json</code> with your data.</p>
+<p></p>
+
+<p>Now you need to set up the basic configs for your blog. This process will update <code>config.json</code> with your data.</p>
 
 <pre><code>setupblog </code></pre>
 
-<p><strong>Note:</strong> If this command doesn&#39;t work it means that npm linking did not work. Run the script directly: <code>node bin/setupblog</code>.</p>
+<p></p>
+
+<p><strong>Note:</strong> If this command doesn&#39;t work it means that npm linking did not work. Run the script directly: <code>node bin/setupblog</code>.</p>
 
 <h3>How it works</h3>
 
-<p>Node Blogger is super easy to use once you have installed it as shown above. When you create a new post, the data is logged in <code>posts.json</code>, which is our pseudo-database.</p>
+<p>Node Blogger is super easy to use once you have installed it as shown above. When you create a new post, the data is logged in <code>posts.json</code>, which is our pseudo-database.</p>
 
-<p>Create a new post from the commandline: </p>
+<p>Create a new post from the commandline: </p>
 
-<pre><code>newpost
+<pre><code>newpost</code></pre>
 
-# prompt
-Title: My NodeJS adventures
-Categories: node.js, javascript
-Date: </code></pre>
+<p></p>
 
-<p><strong>Note:</strong> If this command doesn&#39;t work run the script directly: <code>node bin/newpost</code>.</p>
+<pre><code># prompt</code></pre>
 
-<ul><li>Title: (String) - title of your new post (required)</li><li>Categories: (String - csv) - categories for your post (optional, defaults to uncategorised)</li><li>Date: (Int - millisecs) - publishing date (optional, defaults to current time)</li></ul>
+<p>
+    Title: My NodeJS adventures
+    Categories: node.js, javascript
+    Date: 
+<strong>Note:</strong> If this command doesn&#39;t work run the script directly: <code>node bin/newpost</code>.</p>
 
-<p>A new markdown file is created with some placeholding text. You can find that file in the <code>posts</code> directory, use it to write your post.</p>
+<ul><li>Title: (String) - title of your new post (required)</li><li>Categories: (String - csv) - categories for your post (optional, defaults to uncategorised)</li><li>Date: (Int - millisecs) - publishing date (optional, defaults to current time)</li></ul>
 
-<p>After you have finished writing your post in markdown format, compile it to html by running the <code>compile</code> command.</p>
+<p>A new markdown file is created with some placeholding text. You can find that file in the <code>posts</code> directory, use it to write your post.</p>
+
+<p>After you have finished writing your post in markdown format, compile it to html by running the <code>compile</code> command.</p>
 
 <pre><code>compile</code></pre>
 
-<p><strong>Note:</strong> If this command doesn&#39;t work run the script directly: <code>node bin/compile</code>.</p>
+<p></p>
 
-<p>Awesome! Now let&#39;s fire up the server.</p>
+<p><strong>Note:</strong> If this command doesn&#39;t work run the script directly: <code>node bin/compile</code>.</p>
+
+<p>Awesome! Now let&#39;s fire up the server.</p>
 
 <pre><code>node server.js</code></pre>
 
-<p>That&#39;s it, your blog in now up and running!</p>
+<p></p>
+
+<p>That&#39;s it, your blog in now up and running!</p>
 
 <h3>Dependencies</h3>
 
-<ul><li>EJS -  for templating</li><li>markdown-js - for parsing markdown files.</li><li>connect - for serving static files for the template</li><li>rss - blog rss feed</li></ul>
+<ul><li>EJS -  for templating</li><li>markdown-js - for parsing markdown files.</li><li>connect - for serving static files for the template</li><li>rss - blog rss feed</li></ul>
 
 <h3>Customisation</h3>
 
-<p>You can customise your blog by editing files in the <code>template</code> directory. Node blogger uses EJS for templating, <code>template/index.ejs</code> holds the template for the home page and <code>template/post.ejs</code> holds the template for posts. </p>
+<p>You can customise your blog by editing files in the <code>template</code> directory. Node blogger uses EJS for templating, <code>template/index.ejs</code> holds the template for the home page and <code>template/post.ejs</code> holds the template for posts. </p>
 
 <h3>Routing</h3>
 
-<p>The <code>routes.js</code> file contains the connect middleware for handling http requests.</p>
+<p>The <code>routes.js</code> file contains the connect middleware for handling http requests.</p>
 
 <h3>Commands</h3>
 
-<ul><li><code>setupblog</code> - (bin/setupblog) the setupblog command sets up configuration for a new blog </li><li><code>newpost</code> - (bin/newpost) the newpost command creates the markdown file that will contain the new post. It also logs the new post in <code>posts.json</code>, our pseudo-database.</li><li><code>compile</code> - (bin/compile) the compile command generates the html files that are served by our http server. This command is intelligent because it only compiles files that have been modified or are new. If you modify any of the templates it will also know this and make changes accordingly when you compile.</li></ul>
+<ul><li><code>setupblog</code> - (bin/setupblog) the setupblog command sets up configuration for a new blog </li><li><code>newpost</code> - (bin/newpost) the newpost command creates the markdown file that will contain the new post. It also logs the new post in <code>posts.json</code>, our pseudo-database.</li><li><code>compile</code> - (bin/compile) the compile command generates the html files that are served by our http server. This command is intelligent because it only compiles files that have been modified or are new. If you modify any of the templates it will also know this and make changes accordingly when you compile.</li></ul>
 
 <h3>Server</h3>
 
-<p><code>server.js</code> contains our http server which makes our blog posts available and accessible via a browser.</p>
+<p><code>server.js</code> contains our http server which makes our blog posts available and accessible via a browser.</p>
 
 <h2>Contributing</h2>
 
-<p>Fork and send me a pull request. Do not develop on the master branch.</p>
+<p>Fork and send me a pull request. Do not develop on the master branch.</p>
 
-<ul><li>For bugs and tweaks create new branch prefixed by <code>hotfix-</code>.</li><li>For new features create a new branch prefixed by <code>feature-</code>.</li></ul>
+<ul><li>For bugs and tweaks create new branch prefixed by <code>hotfix-</code>.</li><li>For new features create a new branch prefixed by <code>feature-</code>.</li></ul>
 
 <h3>Credits</h3>
 
-<p>Node blogger was inspired by <a href="http://tutorialzine.com/2013/03/simple-php-blogging-system">this post</a> on http://tutorialzine.com.</p>
+<p>Node blogger was inspired by <a href="http://tutorialzine.com/2013/03/simple-php-blogging-system">this post</a> on http://tutorialzine.com.</p>
 
 <h2>License</h2>
 
-<p>(MIT License)</p>
+<p>(MIT License)</p>
 
-<p>Copyright (c) 2013 Qawelesizwe Mlilo <a href="mailto:qawemlilo@gmail.com">qawemlilo@gmail.com</a></p>
+<p>Copyright (c) 2013 Qawelesizwe Mlilo <a href="mailto:qawemlilo@gmail.com">qawemlilo@gmail.com</a></p>
 
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &#39;Software&#39;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &#39;Software&#39;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 
-<p>THE SOFTWARE IS PROVIDED &#39;AS IS&#39;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<p>THE SOFTWARE IS PROVIDED &#39;AS IS&#39;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
     </div>
     
     

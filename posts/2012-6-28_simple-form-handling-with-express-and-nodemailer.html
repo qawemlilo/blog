@@ -75,113 +75,130 @@
       
       <p style="clear:both"></p>
       
-      <p>In my last Node.js post I created a simple website for my projects, creating static pages is a breeze once you understand how Express works. However, your traditional website is not really complete without a &#39;contact us&#39; page, today I will write about creating a contact form for my website.</p>
+      <p>In my last Node.js post I created a simple website for my projects, creating static pages is a breeze once you understand how Express works. However, your traditional website is not really complete without a &#39;contact us&#39; page, today I will write about creating a contact form for my website.</p>
 
-<p>Node.js is minimalistic by design and does not offer native support for sending emails, for this purpose I have chosen Nodemailer - an easy to use module to send e-mails with Node.JS.</p>
+<p>Node.js is minimalistic by design and does not offer native support for sending emails, for this purpose I have chosen Nodemailer - an easy to use module to send e-mails with Node.JS.</p>
 
 <h3>The view</h3>
 
-<p>A new view is required to display our contact page therefore I created a file in the views directory and named it <code>contact.jade</code>.</p>
+<p>A new view is required to display our contact page therefore I created a file in the views directory and named it <code>contact.jade</code>.</p>
 
 <h3>views/contact.js</h3>
 
-<pre><code>h1 Contact Form
-div.content
-  form(action=&#39;/contact&#39;, name=&#39;contactus&#39;, id=&#39;contactus&#39;, method=&#39;post&#39;)
-    fieldset
-      p
-        label(for=&#39;name&#39;) Name:
-        br
-        input(name=&#39;name&#39;, type=&#39;text&#39;, value=&#39;&#39;, id=&#39;name&#39;)
-      p
-        label(for=&#39;email&#39;) Email:
-        br
-        input(name=&#39;email&#39;, type=&#39;text&#39;, value=&#39;&#39;, id=&#39;email&#39;)
-      p
-        label(for=&#39;message&#39;) Message:
-        br
-        textarea(name=&#39;message&#39;, cols=&#39;40&#39;, rows=&#39;10&#39;, id=&#39;message&#39;)
-      p
-        input(name=&#39;submit&#39;, type=&#39;submit&#39;, value=&#39;Send&#39;, id=&#39;submit&#39;)</code></pre>
+<pre><code>h1 Contact Form</code></pre>
 
-<p>After the form view is created we need to create a route that will handle a <code>/contact</code> GET request and load the view. Two files need to be edited, app.js and <code>routes/index.js</code>.</p>
+<p>
+    div.content
+      form(action=&#39;/contact&#39;, name=&#39;contactus&#39;, id=&#39;contactus&#39;, method=&#39;post&#39;)
+        fieldset
+          p
+            label(for=&#39;name&#39;) Name:
+            br
+            input(name=&#39;name&#39;, type=&#39;text&#39;, value=&#39;&#39;, id=&#39;name&#39;)
+          p
+            label(for=&#39;email&#39;) Email:
+            br
+            input(name=&#39;email&#39;, type=&#39;text&#39;, value=&#39;&#39;, id=&#39;email&#39;)
+          p
+            label(for=&#39;message&#39;) Message:
+            br
+            textarea(name=&#39;message&#39;, cols=&#39;40&#39;, rows=&#39;10&#39;, id=&#39;message&#39;)
+          p
+            input(name=&#39;submit&#39;, type=&#39;submit&#39;, value=&#39;Send&#39;, id=&#39;submit&#39;)</p>
+
+<p>After the form view is created we need to create a route that will handle a <code>/contact</code> GET request and load the view. Two files need to be edited, app.js and <code>routes/index.js</code>.</p>
 
 <h3>app.js</h3>
 
 <pre><code>app.get(&#39;/contact&#39;, routes.contact);</code></pre>
 
+<p></p>
+
 <h3>routes/index.js</h3>
 
-<pre><code>exports.contact = function(req, res){
-    res.render(&#39;contact&#39;, { title: &#39;Raging Flame Laboratory - Contact&#39;, page: &#39;contact&#39; })
-};</code></pre>
+<pre><code>exports.contact = function(req, res){</code></pre>
 
-<p>At this point our contact page is working beautifully but  cannot do much because it can&#39;t handle any data.</p>
+<p>
+        res.render(&#39;contact&#39;, { title: &#39;Raging Flame Laboratory - Contact&#39;, page: &#39;contact&#39; })
+    };</p>
+
+<p>At this point our contact page is working beautifully but  cannot do much because it can&#39;t handle any data.</p>
 
 <h3>Handling form data</h3>
 
-<p>I really love express for its ease to use and the amount of goodness it comes with, in our <code>app.js</code> file we need to include the <code>bodyParser()</code> middleware, this will ensure that form variables are stored in the request object.</p>
+<p>I really love express for its ease to use and the amount of goodness it comes with, in our <code>app.js</code> file we need to include the <code>bodyParser()</code> middleware, this will ensure that form variables are stored in the request object.</p>
 
-<p>Next we need to install Nodemailer.</p>
+<p>Next we need to install Nodemailer.</p>
 
 <pre><code>npm install nodemailer</code></pre>
 
-<p>Let us edit app.js and include this module.</p>
+<p></p>
+
+<p>Let us edit app.js and include this module.</p>
 
 <h3>app.js</h3>
 
 <pre><code>var nodemailer = require(&#39;nodemailer&#39;);</code></pre>
 
-<p>Nodemailer has several options for sending emails, you can find out more on the <a href="http://github.com/andris9/Nodemailer">github page</a>, I chose to use the Gmail option. Let&#39;s handle the <code>/contact</code> post request:</p>
+<p></p>
 
-<pre><code>app.post(&#39;/contact&#39;, function (req, res) {
-  var mailOpts, smtpTrans;
+<p>Nodemailer has several options for sending emails, you can find out more on the <a href="http://github.com/andris9/Nodemailer">github page</a>, I chose to use the Gmail option. Let&#39;s handle the <code>/contact</code> post request:</p>
 
+<pre><code>app.post(&#39;/contact&#39;, function (req, res) {</code></pre>
 
-  //Setup Nodemailer transport, I chose gmail. Create an application-specific password to avoid problems.
-  smtpTrans = nodemailer.createTransport(&#39;SMTP&#39;, {
-      service: &#39;Gmail&#39;,
-      auth: {
-          user: &quot;me@gmail.com&quot;,
-          pass: &quot;application-specific-password&quot; 
-      }
-  });
+<p>
+      var mailOpts, smtpTrans;</p>
 
+<pre><code>  //Setup Nodemailer transport, I chose gmail. Create an application-specific password to avoid problems.</code></pre>
 
-  //Mail options
-  mailOpts = {
-      from: req.body.name + &#39; &amp;lt;&#39; + req.body.email + &#39;&amp;gt;&#39;, //grab form data from the request body object
-      to: &#39;me@gmail.com&#39;,
-      subject: &#39;Website contact form&#39;,
-      text: req.body.message
-  };
+<p>
+      smtpTrans = nodemailer.createTransport(&#39;SMTP&#39;, {
+          service: &#39;Gmail&#39;,
+          auth: {
+              user: &quot;me@gmail.com&quot;,
+              pass: &quot;application-specific-password&quot; 
+          }
+      });</p>
 
+<pre><code>  //Mail options</code></pre>
 
-  smtpTrans.sendMail(mailOpts, function (error, response) {
-      //Email not sent
-      if (error) {
-          res.render(&#39;contact&#39;, { title: &#39;Raging Flame Laboratory - Contact&#39;, msg: &#39;Error occured, message not sent.&#39;, err: true, page: &#39;contact&#39; })
-      }
-      //Yay!! Email sent
-      else {
-          res.render(&#39;contact&#39;, { title: &#39;Raging Flame Laboratory - Contact&#39;, msg: &#39;Message sent! Thank you.&#39;, err: false, page: &#39;contact&#39; })
-      }
-  });
-});</code></pre>
+<p>
+      mailOpts = {
+          from: req.body.name + &#39; &amp;lt;&#39; + req.body.email + &#39;&amp;gt;&#39;, //grab form data from the request body object
+          to: &#39;me@gmail.com&#39;,
+          subject: &#39;Website contact form&#39;,
+          text: req.body.message
+      };</p>
 
-<p>I had problems initially connecting to Gmail because my Gmail account uses a 2-factor authentication but that was easy to solve, simply create an <a href="https://accounts.google.com/IssuedAuthSubTokens">application-specific password</a>.</p>
+<pre><code>  smtpTrans.sendMail(mailOpts, function (error, response) {</code></pre>
 
-<p>Lastly, we need to give some kind of feedback to the user.</p>
+<p>
+          //Email not sent
+          if (error) {
+              res.render(&#39;contact&#39;, { title: &#39;Raging Flame Laboratory - Contact&#39;, msg: &#39;Error occured, message not sent.&#39;, err: true, page: &#39;contact&#39; })
+          }
+          //Yay!! Email sent
+          else {
+              res.render(&#39;contact&#39;, { title: &#39;Raging Flame Laboratory - Contact&#39;, msg: &#39;Message sent! Thank you.&#39;, err: false, page: &#39;contact&#39; })
+          }
+      });
+    });</p>
+
+<p>I had problems initially connecting to Gmail because my Gmail account uses a 2-factor authentication but that was easy to solve, simply create an <a href="https://accounts.google.com/IssuedAuthSubTokens">application-specific password</a>.</p>
+
+<p>Lastly, we need to give some kind of feedback to the user.</p>
 
 <h3>views/contact.jade</h3>
 
-<pre><code>if(typeof msg !== &#39;undefined&#39;)
-  if(!!err)
-    div(class=&#39;msgbox err&#39;) #{msg}
-  else
-    div(class=&#39;msgbox success&#39;) #{msg}</code></pre>
+<pre><code>if(typeof msg !== &#39;undefined&#39;)</code></pre>
 
-<p>That&#39;s all folks, my contact page is now fully functional. Please add basic sanitization and form validation if you are going to create a similar form.</p>
+<p>
+      if(!!err)
+        div(class=&#39;msgbox err&#39;) #{msg}
+      else
+        div(class=&#39;msgbox success&#39;) #{msg}</p>
+
+<p>That&#39;s all folks, my contact page is now fully functional. Please add basic sanitization and form validation if you are going to create a similar form.</p>
     </div>
     
     

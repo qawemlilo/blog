@@ -75,33 +75,41 @@
       
       <p style="clear:both"></p>
       
-      <p>I wrote the function below in a recent project, I needed to create unique keys for a small multidimensional array and store it in a session.</p>
+      <p>I wrote the function below in a recent project, I needed to create unique keys for a small multidimensional array and store it in a session.</p>
 
-<pre><code>&lt;?php
-function createUniqueId($length = 6, array $db)
-{
-    $alph = array(&quot;a&quot;, &quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;p&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;);
-    $nums = array(1,2,3,4,5,6,7,8,9);
+<pre><code>&lt;?php</code></pre>
 
-    $id = &quot;&quot;;
-    srand((double)microtime()*1000000);
-    $max = $length/2;
+<p>
+    function createUniqueId($length = 6, array $db)
+    {
+        $alph = array(&quot;a&quot;, &quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;p&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;);
+        $nums = array(1,2,3,4,5,6,7,8,9);</p>
 
-    for($i = 1; $i     {
-        $id .= $alph[rand(0,20)];
-        $id .= $nums[rand(0,8)];
+<pre><code>    $id = &quot;&quot;;</code></pre>
+
+<p>
+        srand((double)microtime()*1000000);
+        $max = $length/2;</p>
+
+<pre><code>    for($i = 1; $i     {</code></pre>
+
+<p>
+            $id .= $alph[rand(0,20)];
+            $id .= $nums[rand(0,8)];
+        }</p>
+
+<pre><code>    // check if the key already exists</code></pre>
+
+<p>
+        if (!array<em>key</em>exists($id, $db)) {
+            return $id;
+        }
+        else {
+            // if it does,lets recurse the function
+            createUniqueId($length, $db);
+        }
     }
-
-    // check if the key already exists
-    if (!array_key_exists($id, $db)) {
-        return $id;
-    }
-    else {
-        // if it does,lets recurse the function
-        createUniqueId($length, $db);
-    }
-}
-?&gt;</code></pre>
+    ?&gt;</p>
     </div>
     
     

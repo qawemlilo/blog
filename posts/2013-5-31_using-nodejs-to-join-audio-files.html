@@ -75,103 +75,138 @@
       
       <p style="clear:both"></p>
       
-      <p>Today I decided to clean up and organise files on my windows machine at work. This process involved deleting files I no longer have use for and grouping the rest in folders.  So I ended up with folders for audio, video, projects, ebooks, e.t.c.</p>
+      <p>Today I decided to clean up and organise files on my windows machine at work. This process involved deleting files I no longer have use for and grouping the rest in folders.  So I ended up with folders for audio, video, projects, ebooks, e.t.c.</p>
 
-<p>One of the folders that I opened contained about 50 small mp3 files. Before deleting the files I had to play them just to make sure they didn&#39;t contain anything important. What do I know, turns out they are clips of a DHH(the RoR creator) interview - please don&#39;t ask me how they got to my computer.  He&#39;s quite an opinionated guy so I decided to keep the files. But 50 files? Wouldn&#39;t it be nice if I could glue them together into a single file? Well, being the hacker that I am I popped open my terminal and started writing a program.</p>
+<p>One of the folders that I opened contained about 50 small mp3 files. Before deleting the files I had to play them just to make sure they didn&#39;t contain anything important. What do I know, turns out they are clips of a DHH(the RoR creator) interview - please don&#39;t ask me how they got to my computer.  He&#39;s quite an opinionated guy so I decided to keep the files. But 50 files? Wouldn&#39;t it be nice if I could glue them together into a single file? Well, being the hacker that I am I popped open my terminal and started writing a program.</p>
 
-<p>I broke down the task to two main parts.</p>
+<p>I broke down the task to two main parts.</p>
 
-<ol><li>Read and sort the files according to their sequence</li><li>Some how combine the files and write them to a single file</li></ol>
+<ol><li>Read and sort the files according to their sequence</li><li>Some how combine the files and write them to a single file</li></ol>
 
-<p>The first part turned out to be quite easy because the files were named with a date/time stamp in the following format: <code>Mon Jan 03 10;02;07 2011.mp3</code>. This meant that I could extract the time from the file names and sort them accordingly. To simplify this further I decided to rename the files with an easier format for sorting - for this I created the <code>rename.js</code> file:</p>
+<p>The first part turned out to be quite easy because the files were named with a date/time stamp in the following format: <code>Mon Jan 03 10;02;07 2011.mp3</code>. This meant that I could extract the time from the file names and sort them accordingly. To simplify this further I decided to rename the files with an easier format for sorting - for this I created the <code>rename.js</code> file:</p>
 
-<pre><code>/*
-   I placed all the audio files in ./files directory
-*/
-var fs = require(&#39;fs&#39;),
-    files = fs.readdirSync(&#39;./files&#39;);
+<pre><code>/*</code></pre>
 
-files.forEach(function (file) {
-    var currentname = &#39;./files/&#39; + file, 
-        date = parseDate(file),
-        newname = &#39;./files/&#39; + date.split(&#39;;&#39;).join(&#39;&#39;) + &#39;.mp3&#39;;
+<p>
+       I placed all the audio files in ./files directory
+    */
+    var fs = require(&#39;fs&#39;),
+        files = fs.readdirSync(&#39;./files&#39;);</p>
 
-    renameFile(currentname, newname); 
-    console.log(&#39;Renamed &#39; + currentname + &#39; to &#39; + newname);    
-}); 
+<pre><code>files.forEach(function (file) {</code></pre>
 
-/*
-    This function renames a file
+<p>
+        var currentname = &#39;./files/&#39; + file, 
+            date = parseDate(file),
+            newname = &#39;./files/&#39; + date.split(&#39;;&#39;).join(&#39;&#39;) + &#39;.mp3&#39;;</p>
 
-    @param: (String) currentname - current file name
-    @param: (String) newname - new file name     
-*/
-function renameFile(currentname, newname) {
-    fs.renameSync(currentname, newname);
-}
+<pre><code>    renameFile(currentname, newname); </code></pre>
 
-/*
-    Extracts date/time from file name string
+<p>
+        console.log(&#39;Renamed &#39; + currentname + &#39; to &#39; + newname);    
+    }); </p>
 
-    @param: (String) filename - file name 
-*/
-function parseDate(name) {
-    var date = name.substring(11, 19);
+<pre><code>/*</code></pre>
 
-    return date;
-}
+<p>
+        This function renames a file</p>
 
-console.log(&#39;Done&#39;);</code></pre>
+<pre><code>    @param: (String) currentname - current file name</code></pre>
 
-<p>Up next I had to create the main program that combines the files and writes them to a single file. Streams to the rescue! </p>
+<p>
+        @param: (String) newname - new file name     
+    */
+    function renameFile(currentname, newname) {
+        fs.renameSync(currentname, newname);
+    }</p>
+
+<pre><code>/*</code></pre>
+
+<p>
+        Extracts date/time from file name string</p>
+
+<pre><code>    @param: (String) filename - file name </code></pre>
+
+<p>
+    */
+    function parseDate(name) {
+        var date = name.substring(11, 19);</p>
+
+<pre><code>    return date;</code></pre>
+
+<p>
+    }</p>
+
+<pre><code>console.log(&#39;Done&#39;);</code></pre>
+
+<p></p>
+
+<p>Up next I had to create the main program that combines the files and writes them to a single file. Streams to the rescue! </p>
 
 <h3>What are streams?</h3>
 
-<p>Streams are a powerful feature in Node.js, they create a transportation system that moves your data in chunks. The source of the data is a readable stream and the destination a writable stream. The file system module has 2 methods that you can use to take advantage of Node streams, <code>fs.createReadStream</code> and <code>fs.createWriteStream</code>. I created a new file for the main program,  <code>stream.js</code> </p>
+<p>Streams are a powerful feature in Node.js, they create a transportation system that moves your data in chunks. The source of the data is a readable stream and the destination a writable stream. The file system module has 2 methods that you can use to take advantage of Node streams, <code>fs.createReadStream</code> and <code>fs.createWriteStream</code>. I created a new file for the main program,  <code>stream.js</code> </p>
 
-<pre><code>var fs = require(&#39;fs&#39;),
-    files = fs.readdirSync(&#39;./files&#39;),
-    clips = [],
-    stream,
-    currentfile,
-    dhh = fs.createWriteStream(&#39;./dhh-interview.mp3&#39;);
+<pre><code>var fs = require(&#39;fs&#39;),</code></pre>
 
-// create an array with filenames (time)
-files.forEach(function (file) {
-    clips.push(file.substring(0, 6));  
-});
+<p>
+        files = fs.readdirSync(&#39;./files&#39;),
+        clips = [],
+        stream,
+        currentfile,
+        dhh = fs.createWriteStream(&#39;./dhh-interview.mp3&#39;);</p>
 
-// Sort
-clips.sort(function (a, b) {
-    return a - b;
-});
+<pre><code>// create an array with filenames (time)</code></pre>
 
-// recursive function
-function main() {
-    if (!clips.length) {
-        dhh.end(&quot;Done&quot;);
-        return;
-    }
+<p>
+    files.forEach(function (file) {
+        clips.push(file.substring(0, 6));  
+    });</p>
 
-    currentfile = &#39;./files/&#39; + clips.shift() + &#39;.mp3&#39;;
-    stream = fs.createReadStream(currentfile);
+<pre><code>// Sort</code></pre>
 
-    stream.pipe(dhh, {end: false});
+<p>
+    clips.sort(function (a, b) {
+        return a - b;
+    });</p>
 
-    stream.on(&quot;end&quot;, function() {
-        console.log(currentfile + &#39; appended&#39;);
-        main();        
-    });
-}
+<pre><code>// recursive function</code></pre>
 
+<p>
+    function main() {
+        if (!clips.length) {
+            dhh.end(&quot;Done&quot;);
+            return;
+        }</p>
 
-main();</code></pre>
+<pre><code>    currentfile = &#39;./files/&#39; + clips.shift() + &#39;.mp3&#39;;</code></pre>
 
-<p>That&#39;s it. Lastly I needed to run my programs.</p>
+<p>
+        stream = fs.createReadStream(currentfile);</p>
+
+<pre><code>    stream.pipe(dhh, {end: false});</code></pre>
+
+<p></p>
+
+<pre><code>    stream.on(&quot;end&quot;, function() {</code></pre>
+
+<p>
+            console.log(currentfile + &#39; appended&#39;);
+            main();        
+        });
+    }</p>
+
+<pre><code>main();</code></pre>
+
+<p></p>
+
+<p>That&#39;s it. Lastly I needed to run my programs.</p>
 
 <pre><code>node rename.js &amp;&amp; node stream.js</code></pre>
 
-<p><strong>Note:</strong> I have included a few files in <a href="https://github.com/qawemlilo/node-streams">my repo</a> so that you can be able to try this out.</p>
+<p></p>
+
+<p><strong>Note:</strong> I have included a few files in <a href="https://github.com/qawemlilo/node-streams">my repo</a> so that you can be able to try this out.</p>
     </div>
     
     
