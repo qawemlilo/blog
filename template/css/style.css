@@ -116,8 +116,19 @@ h1 a, h2 a{
   margin-bottom: 0px;
 }
 
+#content ul.allposts li span {
+  display: inline-block;
+  width: 94px;
+  font-weight: 400;
+  text-align: right;
+}
+
 #content ul.allposts li a {
   margin-left: 10px;
+}
+
+#content ul.allposts li a:hover {
+  text-decoration: underline;
 }
  
 
