@@ -75,187 +75,137 @@
       
       <p style="clear:both"></p>
       
-      <p>I am in the process of building a web app for managing browser bookmarks and I would like to share some of the code. </p>
+      <p>I am in the process of building a web app for managing browser bookmarks and I would like to share some of the code. </p>
 
-<p>Every web app needs some kind of way to give users feedback on performed tasks and actions, so I wrote this little jQuery function(and a few lines of css for formatting).</p>
+<p>Every web app needs some kind of way to give users feedback on performed tasks and actions, so I wrote this little jQuery function(and a few lines of css for formatting).</p>
 
-<p>The reason why I wrote this as a jQuery function is because I needed it to be available from anywhere within the app and not mess with my MVC-like app architecture.</p>
+<p>The reason why I wrote this as a jQuery function is because I needed it to be available from anywhere within the app and not mess with my MVC-like app architecture.</p>
 
 <h3>CSS</h3>
 
-<pre><code>#appMessage {</code></pre>
+<pre><code>#appMessage {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 25px;
+  text-align: center;
+  padding: 20px 0px 20px 0px;
+  color: #fff;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  border-bottom: 1px solid;
+}
 
-<p>
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      height: 25px;
-      text-align: center;
-      padding: 20px 0px 20px 0px;
-      color: #fff;
-      background-repeat: no-repeat;
-      background-position: 10px center;
-      border-bottom: 1px solid;
-    }</p>
+#appMessage.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
 
-<pre><code>#appMessage.success {</code></pre>
+#appMessage.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
 
-<p>
-      color: #4F8A10;
-      background-color: #DFF2BF;
-    }</p>
+#appMessage.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+}
 
-<pre><code>#appMessage.error {</code></pre>
-
-<p>
-      color: #D8000C;
-      background-color: #FFBABA;
-    }</p>
-
-<pre><code>#appMessage.info {</code></pre>
-
-<p>
-      color: #00529B;
-      background-color: #BDE5F8;
-    }</p>
-
-<pre><code>#appMessage.warning {</code></pre>
-
-<p>
-      color: #9F6000;
-      background-color: #FEEFB3;
-    }</p>
+#appMessage.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}</code></pre>
 
 <h3>JavaScript</h3>
 
-<pre><code>/*</code></pre>
+<pre><code>/*
+************************************
+Author: Qawelesizwe Mlilo
+************************************
+*/
 
-<p>
-    <strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong>
-    Author: Qawelesizwe Mlilo
-    <strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong>
-    */</p>
+(function ($) {
+    $.shout = function (message, seconds, msgType) {
 
-<pre><code>(function ($) {</code></pre>
+      /*
+       Check if there is a notice currently displayed
+       and remove it
+      */
 
-<p>
-        $.shout = function (message, seconds, msgType) {</p>
+      if ($(&quot;#appMessage&quot;).length) {
+        $(&quot;#appMessage&quot;).remove();
+      }
 
-<pre><code>      /*</code></pre>
+      /*
+         Create a div element
+         and default it as an info notice
+      */
 
-<p>
-           Check if there is a notice currently displayed
-           and remove it
-          */</p>
+      var elem = $(&#39;&lt;div&gt;&#39;, {
+        &#39;id&#39;: &#39;appMessage&#39;,
+        &#39;class&#39;: msgType || &#39;info&#39;,
+        &#39;html&#39;: message
+      });
 
-<pre><code>      if ($(&quot;#appMessage&quot;).length) {</code></pre>
+      /*
+         Attach a click event to remove notice
+      */
 
-<p>
-            $(&quot;#appMessage&quot;).remove();
-          }</p>
+      elem.click(function () {
+        $(this).fadeOut(function () {
+            $(this).remove();
+        }.bind(this));
+      });
 
-<pre><code>      /*</code></pre>
+      /*
+         Close the notice after
+         a specified number of seconds
+      */
 
-<p>
-             Create a div element
-             and default it as an info notice
-          */</p>
+      if (seconds) {
+        setTimeout(function () {
+            elem.click();
+        }, seconds * 1000);
+      }
 
-<pre><code>      var elem = $(&#39;&lt;div&gt;&#39;, {</code></pre>
+      /*
+         Create a slide down effect
+      */
 
-<p>
-            &#39;id&#39;: &#39;appMessage&#39;,
-            &#39;class&#39;: msgType || &#39;info&#39;,
-            &#39;html&#39;: message
-          });</p>
-
-<pre><code>      /*</code></pre>
-
-<p>
-             Attach a click event to remove notice
-          */</p>
-
-<pre><code>      elem.click(function () {</code></pre>
-
-<p>
-            $(this).fadeOut(function () {
-                $(this).remove();
-            }.bind(this));
-          });</p>
-
-<pre><code>      /*</code></pre>
-
-<p>
-             Close the notice after
-             a specified number of seconds
-          */</p>
-
-<pre><code>      if (seconds) {</code></pre>
-
-<p>
-            setTimeout(function () {
-                elem.click();
-            }, seconds * 1000);
-          }</p>
-
-<pre><code>      /*</code></pre>
-
-<p>
-             Create a slide down effect
-          */</p>
-
-<pre><code>      elem.hide().appendTo(&#39;body&#39;).slideDown();</code></pre>
-
-<p>
-        };
-    }(jQuery));</p>
+      elem.hide().appendTo(&#39;body&#39;).slideDown();
+    };
+}(jQuery));</code></pre>
 
 <h3>How to use it</h3>
 
-<p>Simply call the function with 2 or 3 arguments</p>
+<p>Simply call the function with 2 or 3 arguments</p>
 
-<pre><code>/*</code></pre>
+<pre><code>/*
+  Calling it with 2 arguments will default
+  to a simple info notice
+*/
 
-<p>
-      Calling it with 2 arguments will default
-      to a simple info notice
-    */</p>
+$.shout(&#39;Hello there, this is just a notice&#39;, 10);
 
-<pre><code>$.shout(&#39;Hello there, this is just a notice&#39;, 10);</code></pre>
+/*
+  Or give an error notice
+*/
 
-<p></p>
+$.shout(&#39;Action failed&#39;, 10, &#39;error&#39;);
 
-<pre><code>/*</code></pre>
+/*
+  Or a success notice
+*/
 
-<p>
-      Or give an error notice
-    */</p>
+$.shout(&#39;Action successfully executed!&#39;, 10, &#39;success&#39;);
 
-<pre><code>$.shout(&#39;Action failed&#39;, 10, &#39;error&#39;);</code></pre>
+/*
+  A warning notice
+*/
 
-<p></p>
-
-<pre><code>/*</code></pre>
-
-<p>
-      Or a success notice
-    */</p>
-
-<pre><code>$.shout(&#39;Action successfully executed!&#39;, 10, &#39;success&#39;);</code></pre>
-
-<p></p>
-
-<pre><code>/*</code></pre>
-
-<p>
-      A warning notice
-    */</p>
-
-<pre><code>$.shout(&#39;Are you sure you want to do that?&#39;, 10, &#39;warning&#39;);</code></pre>
-
-<p></p>
+$.shout(&#39;Are you sure you want to do that?&#39;, 10, &#39;warning&#39;);</code></pre>
     </div>
     
     

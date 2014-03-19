@@ -75,50 +75,42 @@
       
       <p style="clear:both"></p>
       
-      <p>A few weeks ago I wrote CrushIt, a Node CLI tool that crawls through a web page, concatinates all scripts and minifies them.</p>
+      <p>A few weeks ago I wrote CrushIt, a Node CLI tool that crawls through a web page, concatinates all scripts and minifies them.</p>
 
 <h3>Installation</h3>
 
-<pre><code># Run the command below from your node terminal.</code></pre>
-
-<p>
-    npm install -g crushit</p>
+<pre><code># Run the command below from your node terminal.
+npm install -g crushit</code></pre>
 
 <h3>CLI Example</h3>
 
-<p>Crushing scripts from on website:</p>
+<p>Crushing scripts from on website:</p>
 
 <pre><code>crushit http://www.ragingflame.co.za</code></pre>
 
-<p></p>
-
 <h3>Program Example</h3>
 
-<p>You can also include CrushIt in your Node programs.</p>
+<p>You can also include CrushIt in your Node programs.</p>
 
-<pre><code>var crushit = require(&quot;crushit&quot;);</code></pre>
+<pre><code>var crushit = require(&quot;crushit&quot;);
 
-<p></p>
-
-<pre><code>crushit.crushScripts(&quot;http://www.rflab.co.za&quot;, {</code></pre>
-
-<p>
-        beautify: true,
-        max: false,
-        comments: true,
-        onComplete: function (error, code) {
-            if (error) {
-                console.log(error.msg);
-            }
-            else {
-                console.log(code);
-            }
+crushit.crushScripts(&quot;http://www.rflab.co.za&quot;, {
+    beautify: true,
+    max: false,
+    comments: true,
+    onComplete: function (error, code) {
+        if (error) {
+            console.log(error.msg);
         }
-    });</p>
+        else {
+            console.log(code);
+        }
+    }
+});</code></pre>
 
-<p>I have created a web interface for a quick demo.</p>
+<p>I have created a web interface for a quick demo.</p>
 
-<p><a href="http://crushit-compiler.herokuapp.com">DEMO</a>      <a href="https://github.com/qawemlilo/crushit">FORK it</a></p>
+<p><a href="http://crushit-compiler.herokuapp.com">DEMO</a>      <a href="https://github.com/qawemlilo/crushit">FORK it</a></p>
     </div>
     
     
