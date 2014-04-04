@@ -11,9 +11,13 @@ var url = require('url'),
     OneDay = (1000 * 60 * 60 * 24 * 365),
     rss, 
     myblog;
-    
+
+
+
+
 rss = new RSS();
 myblog = new Posts();
+
 
 
 

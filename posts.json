@@ -334,5 +334,22 @@
             " javascript"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1396535798115,
+        "title": "A better way to structure backbone applications",
+        "description": "A better way to structure backbone applications",
+        "date": "2014-04-03T14:36:38.115Z",
+        "year": 2014,
+        "month": 4,
+        "day": 3,
+        "filename": "2014-4-3_a-better-way-to-structure-backbone-applications",
+        "url": "/2014/4/3/a-better-way-to-structure-backbone-applications",
+        "categories": [
+            "javascript",
+            " backbone",
+            " requirejs"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
