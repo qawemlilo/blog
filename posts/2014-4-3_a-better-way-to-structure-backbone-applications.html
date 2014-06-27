@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A better way to structure backbone applications</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="A better way to structure backbone applications" />
+<meta name="generator" content="Node Blogger" />
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/qawe-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), I write code and build stuff on the web. By day I create CMS extensions, by night I tangle myself in callbacks and shoot ducks in the Event loop.
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="http://www.ragingflame.co.za/software" target="_blank">Projects</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post"> 
+      <h1>A better way to structure backbone applications</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           3 Apr 2014
+        </div>
+         
+        
+          
+        <div class="sharep">
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2014/4/3/a-better-way-to-structure-backbone-applications" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2014/4/3/a-better-way-to-structure-backbone-applications" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2014/4/3/a-better-way-to-structure-backbone-applications" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2014/4/3/a-better-way-to-structure-backbone-applications" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p>A lot has been written about how painful it is to maintain large scale JavaScript applications or how Backbone isn&#39;t opinionated enough. Today I call &#39;bs&#39; on all the rants and whinging, there are several ways that a good developer can use to create a clean and easily maintainable architacture for large JavaScript applications. Today I&#39;m going to share with you what I think is a better way for creating large scale JavaScript applications using Backbone.js and Require.js.</p>
+
+<p>Creating large scale JavaScript applications can be very challenging especially to less experienced developers. I have been actively building JavaScript heavy application for several years and my framework of choice is Backbone.js - I use require.js for module loading.</p>
+
+<h3>Why Backbone and Require.js?</h3>
+
+<p>I love backbone.js for its minimalist code base, you only have 4 concepts that you have to learn in order to master it - Models, Views, Collections and Events. Backbone conforms to standard JavaScript principles, it is very easy to dive into the source code and modify it to fit your use case. Extending Backbone is also very easy as demonstrated by the large array of extensions available.</p>
+
+<p>Require.js is a very mature module loading library built on Common.js standards. It is reliable and can map module dependency and compile scrips into a single file.</p>
+
+<h3>But but, how about 2 data way binding??</h3>
+
+<p>What the f is 2 way data binding, it seems to a term that is liberally thrown around when framework authors market their work.</p>
+
+<p><code>Two-way data binding refers to the ability to bind changes to an object’s properties to changes in the UI, and viceversa.</code></p>
+
+<p>Achieving 2 way data binding in Backbone is as easy as attaching a listener to a UI from a model.</p>
+
+<p><code></code>`
+var view =  Backbone.View.extend({
+	el: &#39;#input&#39;,</p>
+
+<pre><code>events: {
+	&#39;keyup&#39;: &#39;update&#39;
+},
+
+initialize: {
+	this.listenTo(this.model, &#39;change&#39;, function () {
+		this.render()
+	}.bind(this));
+
+	this.model.listenTo(this, &#39;keyup&#39;, function () {
+		this.model.set(&#39;value&#39;, this)
+	})
+}</code></pre>
+
+<p>});</p>
+
+<p>var model =  Backbone.View.extend({
+	el: &#39;#input&#39;,</p>
+
+<pre><code>events: {
+	&#39;keyup&#39;: &#39;update&#39;
+},
+
+initialize: {
+	this.listenTo(this.model, &#39;change&#39;, function () {
+		this.render()
+	}.bind(this));
+}</code></pre>
+
+<p>});
+<code></code>`</p>
+
+<h3>My Approach</h3>
+
+<p>My approach to building large scale JavsScript application starts with creating my directory structure.
+Here is how my root directory looks like: views, tmpl, models, collections and libs.</p>
+
+<h3>Views</h3>
+
+<p>The views directory contains all the views required for our applications. If a view has subviews then we a nested directory containing those sub-views. The nesting continues until we reach the last child in the tree.</p>
+
+<h3>tmpl</h3>
+
+<p>The tmpl contains all out html templates, since backbone applications come with underscore we create all templates as underscore templates. Loading templates require the text plugin for require.js. Structuring templates works the same way as structuring views, if a template has nested views, we create a directory.</p>
+
+<h3>models</h3>
+
+<p>Models are the data structures required to display content for out application. The parent container for models is located in the collections directory. Nesting models is not a good idea, rather break them down if possible.</p>
+
+<h3>collections</h3>
+    </div>
+    
+    
+      <a href="/2013/12/10/proposing-a-native-event-emitter-in-javascript" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+      <a href="/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website" title="Next Post" class="pagination-arrow older">Next</a>
+    
+    
+    <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2014/4/3/a-better-way-to-structure-backbone-applications';
+    var disqus_title = 'A better way to structure backbone applications';
+    var disqus_url = 'http://blog.ragingflame.co.za/2014/4/3/a-better-way-to-structure-backbone-applications';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

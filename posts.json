@@ -351,5 +351,22 @@
             " requirejs"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1403881606653,
+        "title": "Using Cheerio and MongoDB to scrap a large website",
+        "description": "Scrapping websites using node.js",
+        "date": "2014-06-27T15:06:46.653Z",
+        "year": 2014,
+        "month": 6,
+        "day": 27,
+        "filename": "2014-6-27_using-cheerio-and-mongodb-to-scrap-a-large-website",
+        "url": "/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website",
+        "categories": [
+            "cheerio",
+            " mongodb",
+            " scrapping"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]

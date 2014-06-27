@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Using Cheerio and MongoDB to scrap a large website</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="Scrapping websites using node.js" />
+<meta name="generator" content="Node Blogger" />
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/qawe-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), I write code and build stuff on the web. By day I create CMS extensions, by night I tangle myself in callbacks and shoot ducks in the Event loop.
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="http://www.ragingflame.co.za/software" target="_blank">Projects</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post"> 
+      <h1>Using Cheerio and MongoDB to scrap a large website</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           27 Jun 2014
+        </div>
+         
+        
+          
+        <div class="sharep">
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p>A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
+After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.</p>
+
+<p><em>Disclaimer:</em> Scrapping has a moral grey area, as much as the information on a website is publically available, I don&#39;t think that mass cloning the data is morally upright.</p>
+
+<h3>The Plan</h3>
+
+<p>Building a scrapping bot requires 2 main things, a collection of urls that you want to scrap and a module that parses HTML. In this particular project we were very lucky because the website we were scrapping had well structured urls that seemed to use database id feilds to load information for a particular business.</p>
+
+<p>The urls looked something like this <code>http://localyellowpages.com/listing/27</code>. All I had to do was run a loop that created all urls starting from 1 and stopping at largest id that we found.</p>
+
+<p>The function that took care of creating our url collection looks like this:</p>
+
+<pre><code>function generateUrls(limit) {
+  var url = &#39;http://localyellowpages.com/listing/&#39;;
+  var urls = [];
+  var i;
+
+  for (i=1; i &lt; limit; i++) {
+    urls.push(url + i);
+  }
+
+  return urls;
+}</code></pre>
+
+<p>Once the collection was created I needed to load each page indidividually using the http module, parse the HTML to access the contact details of a business and then store the details in MongoDB.</p>
+
+<h3>Choosing Cheerio</h3>
+
+<p><a href="https://github.com/cheeriojs/cheerio">Cheerio</a> is an awesome server side DOM manipulation module, I have used it in previous projects like <a href="http://blog.ragingflame.co.za/2013/2/8/crushit">CrushIt</a> and totally loved it. With cheerio, you can access DOM elements the same way you do with jQuery on the browser. Here is an example:</p>
+
+<pre><code>var cheerio = require(&#39;cheerio&#39;);
+var html = &#39;&lt;div&gt;&lt;ul&gt;&lt;li&gt;1&lt;/li&gt;&lt;li id=&quot;mynum&quot;&gt;2&lt;/li&gt;&lt;li&gt;3&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&#39;;
+
+var $ = cheerio.load(html);
+
+// get my number
+var mynum = $(&#39;#mynum&#39;).text();
+
+console.log(mynum) // logs 2</code></pre>
+
+<p>Easy as pie!</p>
+
+<h3>The Bot</h3>
+
+<p>Armed with cheerio and a hacker attitude I went straight to work. The largest id we found was 25000, meaning that the website had about that number of entries minus any that were deleted.</p>
+
+<h3>Dependencies</h3>
+
+<ul><li>Cheerio - for parsing HTML</li><li>Mongoose - for storing our data in MongoDB</li></ul>
+
+<p>The bot comprises of 4 files:</p>
+
+<ul><li><code>bot.js</code> - the main execution file</li><li><code>model.js</code> - MongoDB model for storing data </li><li><code>scrapper.js</code> - scrapping constructor</li><li><code>package.json</code> - metadata </li></ul>
+
+<h3>Model.js</h3>
+
+<p>Creating a model first is good because it defines clearly the data that you want to collect, in this case we wanted detailed contact information.</p>
+
+<pre><code>var mongoose = require(&#39;mongoose&#39;);
+
+mongoose.connect(&#39;mongodb://localhost:27017/scrapper&#39;);
+mongoose.connection.on(&#39;error&#39;, function() {
+  console.error(&#39;MongoDB Connection Error. Make sure MongoDB is running.&#39;);
+});
+
+var ListingsSchema = new mongoose.Schema({
+  title: String,
+  email: {type: String, lowercase: true},
+  cell: Array,
+  telephone: Array,
+  fax: Array,
+  website: {type: String, default: &#39;&#39;, lowercase: true},
+  postalAddress: Array,
+  address: Array,
+  url: String
+});
+
+module.exports = mongoose.model(&#39;Listings&#39;, ListingsSchema);</code></pre>
+
+<p>The model basically defines all fields we want to collect - <code>cell</code>, <code>telephone</code> and <code>fax</code> are arrays because there were cases where a business would have more than one number. The <code>address</code> and <code>postalAddress</code> were also split into arrays for convenience when querying.</p>
+
+<h3>Scrapper.js</h3>
+
+<p>My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scrapper as an EventEmitter and Constructor that fired a <code>complete</code> event when it was done parsing a page. This would make it possible process my urls in batches.</p>
+
+<pre><code>var http = require(&#39;http&#39;);
+var fs = require(&#39;fs&#39;);
+var cheerio = require(&#39;cheerio&#39;);
+var util = require(&#39;util&#39;);
+var EventEmitter = require(&#39;events&#39;).EventEmitter;
+var STATUS_CODES = http.STATUS_CODES;
+
+
+/*
+ * Scrapper Constructor
+**/
+function Scrapper (url) {
+    this.url = url;
+
+    this.init();
+}
+
+
+/*
+ * Make it an EventEmitter
+**/
+util.inherits(Scrapper, EventEmitter);</code></pre>
+
+<p>I started by defining my Scrapper Constructor and turning it into an EventEmitter. When instantiated, it calls the <code>init</code> method.</p>
+
+<p>Up next let&#39;s look at the <code>init</code> method.</p>
+
+<pre><code>/*
+ * Initialize scrapping
+**/
+Scrapper.prototype.init = function () {
+    var model;
+    var self = this;
+
+    self.on(&#39;loaded&#39;, function (html) {
+        model = self.parsePage(html);
+        self.emit(&#39;complete&#39;, model);
+    });
+
+    self.loadWebPage();
+};</code></pre>
+
+<p>The <code>init</code> method attaches an event listener to the Scrapper&#39;s <code>loaded</code> event, when that event fires, it comes with some HTML which is parsed before being passed to a <code>complete</code> event listener. Lastly the <code>init</code> method calls the <code>loadWebPage</code> method.</p>
+
+<pre><code>Scrapper.prototype.loadWebPage = function () {
+  var self = this;
+
+  console.log(&#39;\n\nLoading &#39; + website);
+
+  http.get(self.url, function (res) {
+    var body = &#39;&#39;;
+
+    if(res.statusCode !== 200) {
+      return self.emit(&#39;error&#39;, STATUS_CODES[res.statusCode]);
+    }
+
+    res.on(&#39;data&#39;, function (chunk) {
+      body += chunk;
+    });
+
+    res.on(&#39;end&#39;, function () {
+      self.emit(&#39;loaded&#39;, body);
+    });
+  })
+  .on(&#39;error&#39;, function (err) {
+    self.emit(&#39;error&#39;, err);
+  });       
+};
+
+
+/*
+ * Parse html and return an object
+**/
+Scrapper.prototype.parsePage = function (html) {
+  var $ = cheerio.load(html);
+
+  var address = $(&#39;#address&#39;).text();
+  var tel = $(&#39;#tel&#39;).text();
+  var cell = $(&#39;#cell&#39;).text();
+  var fax = $(&#39;#fax&#39;).text();
+  var email = $(&#39;#email&#39;).text();
+  var website = $(&#39;#website&#39;).attr(&#39;href&#39;);
+  var postal =  $(&#39;#postal&#39;).text();
+
+  var model = {
+    title: address.trim().split(&#39;\n&#39;),
+    email: email.trim(),
+    cell: cell.trim().split(&#39;\n&#39;),
+    telephone: tel.trim().split(&#39;\n&#39;),
+    fax: fax.trim().split(&#39;\n&#39;),
+    website: website || &#39;&#39;,
+    postalAddress: postal.trim().split(&#39;\n&#39;),
+    address: address.trim().split(&#39;\n&#39;),
+    url: this.url
+  };
+
+  return model;
+};
+
+
+module.exports = Scrapper;</code></pre>
+
+<p><code>loadWebPage</code> is pretty straight forward, it loads a web page using the native <code>http</code> module and then fires the <code>loaded</code> event once complete.</p>
+
+<p><code>parsePage</code> is used to traverse the HTML DOM and gather the required data - it really devepends on the page layout, you should first check the source code of the pages you are parsing before creating your own parser method.</p>
+
+<h3>bot.js</h3>
+
+<p>The finally piece of the puzzle is completed in <code>bot.js</code>, we first require our model and scrapper. Earlier on I created the <code>generateUrls</code> function which is also included in <code>bot.js</code>.</p>
+
+<pre><code>var Model = require(&#39;./model&#39;);
+var Scrapper = require(&#39;./scrapper&#39;);
+var Pages = [];
+
+
+function generateUrls(limit) {
+  var url = &#39;http://localyellowpages.com/listing/&#39;;
+  var urls = [];
+  var i;
+
+  for (i=1; i &lt; limit; i++) {
+    urls.push(url + i);
+  }
+
+  return urls;
+}
+
+
+// store all urls in a global variable   
+Pages = generateUrls(25000);
+
+
+function wizard() {
+  // if the Pages array is empty, we are Done!!
+  if (!Pages.length) {
+    return console.log(&#39;Done!!!!&#39;);
+  }
+
+  var url = Pages.pop();
+  var scrapper = new Scrapper(url);
+  var model;
+
+  console.log(&#39;Requests Left: &#39; + Pages.length);
+
+  // if the error occurs we still want to create our
+  // next request
+  scrapper.on(&#39;error&#39;, function (error) {
+    console.log(error);
+    wizard();
+  });
+
+  // if the request completed successfully
+  // we want to store the results in our database
+  scrapper.on(&#39;complete&#39;, function (listing) { 
+    model = new Model(listing);
+
+    model.save(function(err) {
+      if (err) {
+        console.log(&#39;Database err saving: &#39; + url);
+      }
+    });
+
+    wizard();
+  });
+}</code></pre>
+
+<p>Details of how things work are contained in the comments - <code>wizard</code> is basically a recursive function that goes on until the <code>Pages</code> array is empty.</p>
+
+<p>Lastly let us create our first batch and fire away!</p>
+
+<pre><code>var numberOfParallelRequests = 20;
+
+for (var i = 0; i &lt; numberOfParallelRequests; i++) {
+  wizard();
+}</code></pre>
+
+<p>The variable <code>numberOfParallelRequests</code> works like a tap that controls the speed and number of simultenious requests being processed at one particular moment.</p>
+
+<pre><code>// run the bot
+node bot.js</code></pre>
+
+<p>And we are done! Sit back, grab a beer and watch Node.js scrapping like a BOSS. </p>
+
+<p>Remember, with great power comes a greater responsibility - use Node for good and not for evil. Keep hacking.</p>
+    </div>
+    
+    
+      <a href="/2014/4/3/a-better-way-to-structure-backbone-applications" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+    
+    <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website';
+    var disqus_title = 'Using Cheerio and MongoDB to scrap a large website';
+    var disqus_url = 'http://blog.ragingflame.co.za/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
