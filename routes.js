@@ -114,9 +114,13 @@ module.exports = function (req, res) {
         case '/about':
             filename = parseFilename('/2013/5/9/about-this-blog');
             loadPage(filename, res);
-        break;                   
+        break;                  
         
         default:
+            if (path === '/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website') {
+              path = '/2014/6/27/using-cheerio-and-mongodb-to-scrape-a-large-website';
+            }
+
             filename = parseFilename(path);
             loadPage(filename, res);
     }
