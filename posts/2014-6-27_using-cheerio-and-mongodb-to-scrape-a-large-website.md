@@ -23,7 +23,7 @@ The function that took care of creating our url collection looks like this:
       return urls;
     }
 
-Once the collection was created I needed to load each page indidividually using the http module, parse the HTML to access the contact details of a business and then store the details in MongoDB.
+Once the collection was created I needed to load each page individually using the http module, parse the HTML to access the contact details of a business and then store the details in MongoDB.
 
 ### Choosing Cheerio
 [Cheerio](https://github.com/cheeriojs/cheerio) is an awesome server side DOM manipulation module, I have used it in previous projects like [CrushIt](http://blog.ragingflame.co.za/2013/2/8/crushit) and totally loved it. With cheerio, you can access DOM elements the same way you do with jQuery on the browser. Here is an example:
