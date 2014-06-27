@@ -78,11 +78,11 @@
       <p>A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
 After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.</p>
 
-<p><em>Disclaimer:</em> Scrapping has a moral grey area, as much as the information on a website is publically available, I don&#39;t think that mass cloning the data is morally upright.</p>
+<p><em>Disclaimer:</em> Scrapping has a moral grey area, as much as the information on a website is publicly available, I don&#39;t think that mass cloning the data is morally upright.</p>
 
 <h3>The Plan</h3>
 
-<p>Building a scrapping bot requires 2 main things, a collection of urls that you want to scrap and a module that parses HTML. In this particular project we were very lucky because the website we were scrapping had well structured urls that seemed to use database id feilds to load information for a particular business.</p>
+<p>Building a scrapping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scrapping had well structured urls that seemed to use database id feilds to load information for a particular business.</p>
 
 <p>The urls looked something like this <code>http://localyellowpages.com/listing/27</code>. All I had to do was run a loop that created all urls starting from 1 and stopping at largest id that we found.</p>
 
@@ -361,7 +361,7 @@ node bot.js</code></pre>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website';
-    var disqus_title = 'Using Cheerio and MongoDB to scrap a large website';
+    var disqus_title = 'Using Cheerio and MongoDB to scrape a large website';
     var disqus_url = 'http://blog.ragingflame.co.za/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website';
     
     /* * * DON'T EDIT BELOW THIS LINE * * */

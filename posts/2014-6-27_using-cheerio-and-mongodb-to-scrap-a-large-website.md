@@ -1,11 +1,11 @@
 A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
 After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.
 
-*Disclaimer:* Scrapping has a moral grey area, as much as the information on a website is publically available, I don't think that mass cloning the data is morally upright.
+*Disclaimer:* Scrapping has a moral grey area, as much as the information on a website is publicly available, I don't think that mass cloning the data is morally upright.
 
 
 ### The Plan
-Building a scrapping bot requires 2 main things, a collection of urls that you want to scrap and a module that parses HTML. In this particular project we were very lucky because the website we were scrapping had well structured urls that seemed to use database id feilds to load information for a particular business.
+Building a scrapping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scrapping had well structured urls that seemed to use database id feilds to load information for a particular business.
 
 The urls looked something like this `http://localyellowpages.com/listing/27`. All I had to do was run a loop that created all urls starting from 1 and stopping at largest id that we found.
 
