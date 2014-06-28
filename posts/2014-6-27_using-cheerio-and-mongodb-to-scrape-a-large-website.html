@@ -159,7 +159,7 @@ module.exports = mongoose.model(&#39;Listings&#39;, ListingsSchema);</code></pre
 
 <h3>Scrapper.js</h3>
 
-<p>My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scrapper as an EventEmitter and Constructor that fired a <code>complete</code> event when it was done parsing a page. This would make it possible process my urls in batches.</p>
+<p>My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scrapper as an EventEmitter and Constructor that fired a <code>complete</code> event when it was done parsing a page. This would make it possible to process my urls in batches.</p>
 
 <pre><code>var http = require(&#39;http&#39;);
 var fs = require(&#39;fs&#39;);
@@ -269,7 +269,7 @@ module.exports = Scrapper;</code></pre>
 
 <h3>bot.js</h3>
 
-<p>The finally piece of the puzzle is completed in <code>bot.js</code>, we first require our model and scrapper. Earlier on I created the <code>generateUrls</code> function which is also included in <code>bot.js</code>.</p>
+<p>The final piece of the puzzle is completed in <code>bot.js</code>, we first require our model and scrapper. Earlier on I created the <code>generateUrls</code> function which is also included in <code>bot.js</code>.</p>
 
 <pre><code>var Model = require(&#39;./model&#39;);
 var Scrapper = require(&#39;./scrapper&#39;);
