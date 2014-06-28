@@ -82,7 +82,7 @@ Creating a model first is good because it defines clearly the data that you want
 The model basically defines all fields we want to collect - `cell`, `telephone` and `fax` are arrays because there were cases where a business would have more than one number. The `address` and `postalAddress` were also split into arrays for convenience when querying.
 
 ### Scrapper.js
-My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scrapper as an EventEmitter and Constructor that fired a `complete` event when it was done parsing a page. This would make it possible process my urls in batches.
+My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scrapper as an EventEmitter and Constructor that fired a `complete` event when it was done parsing a page. This would make it possible to process my urls in batches.
 
     var http = require('http');
     var fs = require('fs');
@@ -192,7 +192,7 @@ The `init` method attaches an event listener to the Scrapper's `loaded` event, w
 
 
 ### bot.js
-The finally piece of the puzzle is completed in `bot.js`, we first require our model and scrapper. Earlier on I created the `generateUrls` function which is also included in `bot.js`.
+The final piece of the puzzle is completed in `bot.js`, we first require our model and scrapper. Earlier on I created the `generateUrls` function which is also included in `bot.js`.
 
     var Model = require('./model');
     var Scrapper = require('./scrapper');
