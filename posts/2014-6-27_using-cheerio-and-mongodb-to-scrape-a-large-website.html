@@ -75,7 +75,7 @@
       
       <p style="clear:both"></p>
       
-      <p><strong>Edit:</strong> Fixed spelling errors. </p>
+      <p><em>Edit:</em> Fixed spelling errors. </p>
 
 <p>A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
 After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.</p>
@@ -164,7 +164,6 @@ module.exports = mongoose.model(&#39;Listings&#39;, ListingsSchema);</code></pre
 <p>My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scraper as an EventEmitter and Constructor that fired a <code>complete</code> event when it was done parsing a page. This would make it possible to process my urls in batches.</p>
 
 <pre><code>var http = require(&#39;http&#39;);
-var fs = require(&#39;fs&#39;);
 var cheerio = require(&#39;cheerio&#39;);
 var util = require(&#39;util&#39;);
 var EventEmitter = require(&#39;events&#39;).EventEmitter;
