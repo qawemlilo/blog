@@ -75,14 +75,16 @@
       
       <p style="clear:both"></p>
       
-      <p>A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
+      <p><strong>Edit:</strong> Fixed spelling errors. </p>
+
+<p>A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
 After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.</p>
 
-<p><em>Disclaimer:</em> Scrapping has a moral grey area, as much as the information on a website is publicly available, I don&#39;t think that mass cloning the data is morally upright.</p>
+<p><em>Disclaimer:</em> Scraping has a moral grey area, as much as the information on a website is publicly available, I don&#39;t think that mass cloning the data is morally upright.</p>
 
 <h3>The Plan</h3>
 
-<p>Building a scrapping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scrapping had well structured urls that seemed to use database id feilds to load information for a particular business.</p>
+<p>Building a scraping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scraping had well structured urls that seemed to use database id feilds to load information for a particular business.</p>
 
 <p>The urls looked something like this <code>http://localyellowpages.com/listing/27</code>. All I had to do was run a loop that created all urls starting from 1 and stopping at largest id that we found.</p>
 
@@ -128,7 +130,7 @@ console.log(mynum) // logs 2</code></pre>
 
 <p>The bot comprises of 4 files:</p>
 
-<ul><li><code>bot.js</code> - the main execution file</li><li><code>model.js</code> - MongoDB model for storing data </li><li><code>scraper.js</code> - scrapping constructor</li><li><code>package.json</code> - metadata </li></ul>
+<ul><li><code>bot.js</code> - the main execution file</li><li><code>model.js</code> - MongoDB model for storing data </li><li><code>scraper.js</code> - scraping constructor</li><li><code>package.json</code> - metadata </li></ul>
 
 <h3>Model.js</h3>
 
@@ -189,7 +191,7 @@ util.inherits(Scraper, EventEmitter);</code></pre>
 <p>Up next let&#39;s look at the <code>init</code> method.</p>
 
 <pre><code>/*
- * Initialize scrapping
+ * Initialize scraping
 **/
 Scraper.prototype.init = function () {
     var model;
@@ -342,7 +344,7 @@ for (var i = 0; i &lt; numberOfParallelRequests; i++) {
 <pre><code>// run the bot
 node bot.js</code></pre>
 
-<p>And we are done! Sit back, grab a beer and watch Node.js scrapping like a BOSS. </p>
+<p>And we are done! Sit back, grab a beer and watch Node.js scraping like a BOSS. </p>
 
 <p>Remember, with great power comes a greater responsibility - use Node for good and not for evil. Keep hacking.</p>
     </div>

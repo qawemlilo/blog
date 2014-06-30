@@ -1,11 +1,13 @@
+**Edit:** Fixed spelling errors. 
+
 A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
 After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.
 
-*Disclaimer:* Scrapping has a moral grey area, as much as the information on a website is publicly available, I don't think that mass cloning the data is morally upright.
+*Disclaimer:* Scraping has a moral grey area, as much as the information on a website is publicly available, I don't think that mass cloning the data is morally upright.
 
 
 ### The Plan
-Building a scrapping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scrapping had well structured urls that seemed to use database id feilds to load information for a particular business.
+Building a scraping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scraping had well structured urls that seemed to use database id feilds to load information for a particular business.
 
 The urls looked something like this `http://localyellowpages.com/listing/27`. All I had to do was run a loop that created all urls starting from 1 and stopping at largest id that we found.
 
@@ -51,7 +53,7 @@ The bot comprises of 4 files:
 
  - `bot.js` - the main execution file
  - `model.js` - MongoDB model for storing data 
- - `scraper.js` - scrapping constructor
+ - `scraper.js` - scraping constructor
  - `package.json` - metadata 
 
 
@@ -112,7 +114,7 @@ I started by defining my Scraper Constructor and turning it into an EventEmitter
 Up next let's look at the `init` method.
 
     /*
-     * Initialize scrapping
+     * Initialize scraping
     **/
     Scraper.prototype.init = function () {
         var model;
@@ -265,7 +267,7 @@ The variable `numberOfParallelRequests` works like a tap that controls the speed
     // run the bot
     node bot.js
 
-And we are done! Sit back, grab a beer and watch Node.js scrapping like a BOSS. 
+And we are done! Sit back, grab a beer and watch Node.js scraping like a BOSS. 
 
 Remember, with great power comes a greater responsibility - use Node for good and not for evil. Keep hacking.
 
