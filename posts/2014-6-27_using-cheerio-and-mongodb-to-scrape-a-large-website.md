@@ -1,4 +1,4 @@
-**Edit:** Fixed spelling errors. 
+*Edit:* Fixed spelling errors. 
 
 A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
 After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.
@@ -87,7 +87,6 @@ The model basically defines all fields we want to collect - `cell`, `telephone` 
 My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scraper as an EventEmitter and Constructor that fired a `complete` event when it was done parsing a page. This would make it possible to process my urls in batches.
 
     var http = require('http');
-    var fs = require('fs');
     var cheerio = require('cheerio');
     var util = require('util');
     var EventEmitter = require('events').EventEmitter;
