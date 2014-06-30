@@ -51,7 +51,7 @@ The bot comprises of 4 files:
 
  - `bot.js` - the main execution file
  - `model.js` - MongoDB model for storing data 
- - `scrapper.js` - scrapping constructor
+ - `scraper.js` - scrapping constructor
  - `package.json` - metadata 
 
 
@@ -60,7 +60,7 @@ Creating a model first is good because it defines clearly the data that you want
 
     var mongoose = require('mongoose');
 
-    mongoose.connect('mongodb://localhost:27017/scrapper');
+    mongoose.connect('mongodb://localhost:27017/scraper');
     mongoose.connection.on('error', function() {
       console.error('MongoDB Connection Error. Make sure MongoDB is running.');
     });
@@ -81,8 +81,8 @@ Creating a model first is good because it defines clearly the data that you want
 
 The model basically defines all fields we want to collect - `cell`, `telephone` and `fax` are arrays because there were cases where a business would have more than one number. The `address` and `postalAddress` were also split into arrays for convenience when querying.
 
-### Scrapper.js
-My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scrapper as an EventEmitter and Constructor that fired a `complete` event when it was done parsing a page. This would make it possible to process my urls in batches.
+### Scraper.js
+My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scraper as an EventEmitter and Constructor that fired a `complete` event when it was done parsing a page. This would make it possible to process my urls in batches.
 
     var http = require('http');
     var fs = require('fs');
@@ -93,9 +93,9 @@ My first attempt at loading pages and parsing them was a disaster, the bot tried
 
 
     /*
-     * Scrapper Constructor
+     * Scraper Constructor
     **/
-    function Scrapper (url) {
+    function Scraper (url) {
         this.url = url;
 
         this.init();
@@ -105,16 +105,16 @@ My first attempt at loading pages and parsing them was a disaster, the bot tried
     /*
      * Make it an EventEmitter
     **/
-    util.inherits(Scrapper, EventEmitter);
+    util.inherits(Scraper, EventEmitter);
 
-I started by defining my Scrapper Constructor and turning it into an EventEmitter. When instantiated, it calls the `init` method.
+I started by defining my Scraper Constructor and turning it into an EventEmitter. When instantiated, it calls the `init` method.
 
 Up next let's look at the `init` method.
 
     /*
      * Initialize scrapping
     **/
-    Scrapper.prototype.init = function () {
+    Scraper.prototype.init = function () {
         var model;
         var self = this;
 
@@ -126,9 +126,9 @@ Up next let's look at the `init` method.
         self.loadWebPage();
     };
 
-The `init` method attaches an event listener to the Scrapper's `loaded` event, when that event fires, it comes with some HTML which is parsed before being passed to a `complete` event listener. Lastly the `init` method calls the `loadWebPage` method.
+The `init` method attaches an event listener to the Scraper's `loaded` event, when that event fires, it comes with some HTML which is parsed before being passed to a `complete` event listener. Lastly the `init` method calls the `loadWebPage` method.
 
-    Scrapper.prototype.loadWebPage = function () {
+    Scraper.prototype.loadWebPage = function () {
       var self = this;
 
       console.log('\n\nLoading ' + website);
@@ -157,7 +157,7 @@ The `init` method attaches an event listener to the Scrapper's `loaded` event, w
     /*
      * Parse html and return an object
     **/
-    Scrapper.prototype.parsePage = function (html) {
+    Scraper.prototype.parsePage = function (html) {
       var $ = cheerio.load(html);
 
       var address = $('#address').text();
@@ -184,7 +184,7 @@ The `init` method attaches an event listener to the Scrapper's `loaded` event, w
     };
 
 
-    module.exports = Scrapper;
+    module.exports = Scraper;
 
 `loadWebPage` is pretty straight forward, it loads a web page using the native `http` module and then fires the `loaded` event once complete.
 
@@ -192,10 +192,10 @@ The `init` method attaches an event listener to the Scrapper's `loaded` event, w
 
 
 ### bot.js
-The final piece of the puzzle is completed in `bot.js`, we first require our model and scrapper. Earlier on I created the `generateUrls` function which is also included in `bot.js`.
+The final piece of the puzzle is completed in `bot.js`, we first require our model and scraper. Earlier on I created the `generateUrls` function which is also included in `bot.js`.
 
     var Model = require('./model');
-    var Scrapper = require('./scrapper');
+    var Scraper = require('./scraper');
     var Pages = [];
 
 
@@ -223,21 +223,21 @@ The final piece of the puzzle is completed in `bot.js`, we first require our mod
       }
 
       var url = Pages.pop();
-      var scrapper = new Scrapper(url);
+      var scraper = new Scraper(url);
       var model;
 
       console.log('Requests Left: ' + Pages.length);
 
       // if the error occurs we still want to create our
       // next request
-      scrapper.on('error', function (error) {
+      scraper.on('error', function (error) {
         console.log(error);
         wizard();
       });
 
       // if the request completed successfully
       // we want to store the results in our database
-      scrapper.on('complete', function (listing) { 
+      scraper.on('complete', function (listing) { 
         model = new Model(listing);
         
         model.save(function(err) {

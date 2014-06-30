@@ -128,7 +128,7 @@ console.log(mynum) // logs 2</code></pre>
 
 <p>The bot comprises of 4 files:</p>
 
-<ul><li><code>bot.js</code> - the main execution file</li><li><code>model.js</code> - MongoDB model for storing data </li><li><code>scrapper.js</code> - scrapping constructor</li><li><code>package.json</code> - metadata </li></ul>
+<ul><li><code>bot.js</code> - the main execution file</li><li><code>model.js</code> - MongoDB model for storing data </li><li><code>scraper.js</code> - scrapping constructor</li><li><code>package.json</code> - metadata </li></ul>
 
 <h3>Model.js</h3>
 
@@ -136,7 +136,7 @@ console.log(mynum) // logs 2</code></pre>
 
 <pre><code>var mongoose = require(&#39;mongoose&#39;);
 
-mongoose.connect(&#39;mongodb://localhost:27017/scrapper&#39;);
+mongoose.connect(&#39;mongodb://localhost:27017/scraper&#39;);
 mongoose.connection.on(&#39;error&#39;, function() {
   console.error(&#39;MongoDB Connection Error. Make sure MongoDB is running.&#39;);
 });
@@ -157,9 +157,9 @@ module.exports = mongoose.model(&#39;Listings&#39;, ListingsSchema);</code></pre
 
 <p>The model basically defines all fields we want to collect - <code>cell</code>, <code>telephone</code> and <code>fax</code> are arrays because there were cases where a business would have more than one number. The <code>address</code> and <code>postalAddress</code> were also split into arrays for convenience when querying.</p>
 
-<h3>Scrapper.js</h3>
+<h3>Scraper.js</h3>
 
-<p>My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scrapper as an EventEmitter and Constructor that fired a <code>complete</code> event when it was done parsing a page. This would make it possible to process my urls in batches.</p>
+<p>My first attempt at loading pages and parsing them was a disaster, the bot tried to load all 25000 pages at the same time. After some deliberation I decided to  create the Scraper as an EventEmitter and Constructor that fired a <code>complete</code> event when it was done parsing a page. This would make it possible to process my urls in batches.</p>
 
 <pre><code>var http = require(&#39;http&#39;);
 var fs = require(&#39;fs&#39;);
@@ -170,9 +170,9 @@ var STATUS_CODES = http.STATUS_CODES;
 
 
 /*
- * Scrapper Constructor
+ * Scraper Constructor
 **/
-function Scrapper (url) {
+function Scraper (url) {
     this.url = url;
 
     this.init();
@@ -182,16 +182,16 @@ function Scrapper (url) {
 /*
  * Make it an EventEmitter
 **/
-util.inherits(Scrapper, EventEmitter);</code></pre>
+util.inherits(Scraper, EventEmitter);</code></pre>
 
-<p>I started by defining my Scrapper Constructor and turning it into an EventEmitter. When instantiated, it calls the <code>init</code> method.</p>
+<p>I started by defining my Scraper Constructor and turning it into an EventEmitter. When instantiated, it calls the <code>init</code> method.</p>
 
 <p>Up next let&#39;s look at the <code>init</code> method.</p>
 
 <pre><code>/*
  * Initialize scrapping
 **/
-Scrapper.prototype.init = function () {
+Scraper.prototype.init = function () {
     var model;
     var self = this;
 
@@ -203,9 +203,9 @@ Scrapper.prototype.init = function () {
     self.loadWebPage();
 };</code></pre>
 
-<p>The <code>init</code> method attaches an event listener to the Scrapper&#39;s <code>loaded</code> event, when that event fires, it comes with some HTML which is parsed before being passed to a <code>complete</code> event listener. Lastly the <code>init</code> method calls the <code>loadWebPage</code> method.</p>
+<p>The <code>init</code> method attaches an event listener to the Scraper&#39;s <code>loaded</code> event, when that event fires, it comes with some HTML which is parsed before being passed to a <code>complete</code> event listener. Lastly the <code>init</code> method calls the <code>loadWebPage</code> method.</p>
 
-<pre><code>Scrapper.prototype.loadWebPage = function () {
+<pre><code>Scraper.prototype.loadWebPage = function () {
   var self = this;
 
   console.log(&#39;\n\nLoading &#39; + website);
@@ -234,7 +234,7 @@ Scrapper.prototype.init = function () {
 /*
  * Parse html and return an object
 **/
-Scrapper.prototype.parsePage = function (html) {
+Scraper.prototype.parsePage = function (html) {
   var $ = cheerio.load(html);
 
   var address = $(&#39;#address&#39;).text();
@@ -261,7 +261,7 @@ Scrapper.prototype.parsePage = function (html) {
 };
 
 
-module.exports = Scrapper;</code></pre>
+module.exports = Scraper;</code></pre>
 
 <p><code>loadWebPage</code> is pretty straight forward, it loads a web page using the native <code>http</code> module and then fires the <code>loaded</code> event once complete.</p>
 
@@ -269,10 +269,10 @@ module.exports = Scrapper;</code></pre>
 
 <h3>bot.js</h3>
 
-<p>The final piece of the puzzle is completed in <code>bot.js</code>, we first require our model and scrapper. Earlier on I created the <code>generateUrls</code> function which is also included in <code>bot.js</code>.</p>
+<p>The final piece of the puzzle is completed in <code>bot.js</code>, we first require our model and scraper. Earlier on I created the <code>generateUrls</code> function which is also included in <code>bot.js</code>.</p>
 
 <pre><code>var Model = require(&#39;./model&#39;);
-var Scrapper = require(&#39;./scrapper&#39;);
+var Scraper = require(&#39;./scraper&#39;);
 var Pages = [];
 
 
@@ -300,21 +300,21 @@ function wizard() {
   }
 
   var url = Pages.pop();
-  var scrapper = new Scrapper(url);
+  var scraper = new Scraper(url);
   var model;
 
   console.log(&#39;Requests Left: &#39; + Pages.length);
 
   // if the error occurs we still want to create our
   // next request
-  scrapper.on(&#39;error&#39;, function (error) {
+  scraper.on(&#39;error&#39;, function (error) {
     console.log(error);
     wizard();
   });
 
   // if the request completed successfully
   // we want to store the results in our database
-  scrapper.on(&#39;complete&#39;, function (listing) { 
+  scraper.on(&#39;complete&#39;, function (listing) { 
     model = new Model(listing);
 
     model.save(function(err) {
