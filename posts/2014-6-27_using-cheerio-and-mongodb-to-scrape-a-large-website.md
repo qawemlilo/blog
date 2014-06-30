@@ -1,13 +1,13 @@
-*Edit:* Fixed spelling errors. 
+*Edit:* Fixed spelling errors.
 
-A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible. 
-After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruite me to write a bot that collected all the data he required from the Yellow Pages website.
+A friend of mine is building a web application that provides services to local businesses and he needed to collect contact details of as many companies as possible.
+After doing some research, he discovered that the best resource that provided information about local business was our Yellow Pages website. In his infinite wisdom, he decided to recruit me to write a bot that collected all the data he required from the Yellow Pages website.
 
 *Disclaimer:* Scraping has a moral grey area, as much as the information on a website is publicly available, I don't think that mass cloning the data is morally upright.
 
 
 ### The Plan
-Building a scraping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scraping had well structured urls that seemed to use database id feilds to load information for a particular business.
+Building a scraping bot requires 2 main things, a collection of urls that you want to scrape and a module that parses HTML. In this particular project we were very lucky because the website we were scraping had well structured urls that seemed to use database id fields to load information for a particular business.
 
 The urls looked something like this `http://localyellowpages.com/listing/27`. All I had to do was run a loop that created all urls starting from 1 and stopping at largest id that we found.
 
@@ -52,9 +52,9 @@ Armed with cheerio and a hacker attitude I went straight to work. The largest id
 The bot comprises of 4 files:
 
  - `bot.js` - the main execution file
- - `model.js` - MongoDB model for storing data 
+ - `model.js` - MongoDB model for storing data
  - `scraper.js` - scraping constructor
- - `package.json` - metadata 
+ - `package.json` - metadata
 
 
 ### Model.js
@@ -136,7 +136,7 @@ The `init` method attaches an event listener to the Scraper's `loaded` event, wh
 
       http.get(self.url, function (res) {
         var body = '';
-        
+       
         if(res.statusCode !== 200) {
           return self.emit('error', STATUS_CODES[res.statusCode]);
         }
@@ -151,7 +151,7 @@ The `init` method attaches an event listener to the Scraper's `loaded` event, wh
       })
       .on('error', function (err) {
         self.emit('error', err);
-      });       
+      });      
     };
 
 
@@ -189,7 +189,7 @@ The `init` method attaches an event listener to the Scraper's `loaded` event, wh
 
 `loadWebPage` is pretty straight forward, it loads a web page using the native `http` module and then fires the `loaded` event once complete.
 
-`parsePage` is used to traverse the HTML DOM and gather the required data - it really devepends on the page layout, you should first check the source code of the pages you are parsing before creating your own parser method.
+`parsePage` is used to traverse the HTML DOM and gather the required data - it really depends on the page layout, you should first check the source code of the pages you are parsing before creating your own parser method.
 
 
 ### bot.js
@@ -213,7 +213,7 @@ The final piece of the puzzle is completed in `bot.js`, we first require our mod
     }
 
 
-    // store all urls in a global variable   
+    // store all urls in a global variable  
     Pages = generateUrls(25000);
 
 
@@ -238,9 +238,9 @@ The final piece of the puzzle is completed in `bot.js`, we first require our mod
 
       // if the request completed successfully
       // we want to store the results in our database
-      scraper.on('complete', function (listing) { 
+      scraper.on('complete', function (listing) {
         model = new Model(listing);
-        
+       
         model.save(function(err) {
           if (err) {
             console.log('Database err saving: ' + url);
@@ -261,14 +261,11 @@ Lastly let us create our first batch and fire away!
       wizard();
     }
 
-The variable `numberOfParallelRequests` works like a tap that controls the speed and number of simultenious requests being processed at one particular moment.
+The variable `numberOfParallelRequests` works like a tap that controls the speed and number of simultaneous requests being processed at one particular moment.
 
     // run the bot
     node bot.js
 
-And we are done! Sit back, grab a beer and watch Node.js scraping like a BOSS. 
+And we are done! Sit back, grab a beer and watch Node.js scrape like a BOSS.
 
 Remember, with great power comes a greater responsibility - use Node for good and not for evil. Keep hacking.
-
-
-
