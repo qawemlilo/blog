@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Using Node.js with MySQL</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="A tutorial about how to connect to MySQL in Node.js applications" />
+<meta name="generator" content="Node Blogger" />
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/qawe-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), I'm a contract Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="http://www.ragingflame.co.za/software" target="_blank">Projects</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post"> 
+      <h1>Using Node.js with MySQL</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           21 Jul 2014
+        </div>
+         
+        
+          
+        <div class="sharep">
+            Share
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p>So you have been playing around with Node.js writing pretty little programs and marvelling at how awesome it is. You have finally wrapped your brain around this async stuff and feel confident that you can go to callback hell and still find your way back. But then you realise, your newly acquired wizardry isn&#39;t that much fun if you cannot collect data, store it in a database, and do something useful with it. So you jump on your broom and starting surfing the interwebs in search of a solution.</p>
+
+<p>When you search the internet for a Node.js database solution you will quickly notice how popular NoSQL databases are. As someone who is new to Node.js it is easy to start believing that it only speaks to NoSQL databases or that it doesn&#39;t work well with SQL databases. I held this perception for quite a long time. Sometimes a SQL database may be a better solution for you, it is a good fit if you are dealing with a lot of relational data that requires complex queries. Node.js prides itself at being very efficient in performing IO intensive tasks - that includes communicating with both SQL and NoSQL databases. <a href="https://github.com/TryGhost/Ghost">Ghost</a>, one of the most prominent opensource Node projects, uses SQL databases. Today I will share with you how I use MySQL in my Node.js projects.</p>
+
+<h3>Choosing an ORM</h3>
+
+<p>The standard way of connecting to a database in most platforms is through an ORM, it provides a nice API to interact with your programs. After doing some research I came across Bookshelf.js, it is described as a JavaScript ORM for Node.js, built on the Knex SQL query builder and designed to work well with PostgreSQL, MySQL, and SQLite3.</p>
+
+<p>My decision to pick <a href="http://bookshelfjs.org">Bookshelf.js</a> was influenced by the following reasons:</p>
+
+<ul><li>It has good documentation</li><li>It extends the Model and Collection patterns of Backbone.js - which I was already familiar with.</li><li>It is used by the <a href="https://github.com/TryGhost/Ghost">Ghost</a> project - while reading the project&#39;s code base I found it quite intuitive.</li><li>It uses promises which makes handling callbacks less painful</li><li>It has a large community following and is actively maintained</li></ul>
+
+<h3>Getting started</h3>
+
+<p>To get up and running you need to install <a href="http://bookshelfjs.org">Bookshelf.js</a> and its dependencies.</p>
+
+<pre><code>npm install bookshelf mysql knex --save</code></pre>
+
+<p>Making a database connection is pretty straight forward, let&#39;s do it in <code>app.js</code>:</p>
+
+<h3>app.js</h3>
+
+<pre><code>var knex = require(&#39;knex&#39;)({
+    client: &#39;mysql&#39;,
+    connection: {
+        host     : &#39;127.0.0.1&#39;,
+        user     : &#39;your_database_user&#39;,
+        password : &#39;your_database_password&#39;,
+        database : &#39;myapp_test&#39;,
+        charset  : &#39;utf8&#39;
+  }
+});
+
+var Bookshelf = require(&#39;bookshelf&#39;)(knex);</code></pre>
+
+<p>We need to be able to reuse the same connection throughout our application, make sure it is accessible globally.</p>
+
+<h3>Using Bookshelf</h3>
+
+<p>The example that I am going to use to demonstrate how Bookshelf works is that of a blog post. We will create a blog post that includes author, category, and tags metadata.</p>
+
+<p>Firstly, we need to create database tables, let&#39;s create a separate file and name it <code>schema.js</code>. This file contains the schema for our database tables.</p>
+
+<h3>schema.js</h3>
+
+<pre><code>var Schema = {
+  users: {
+    id: {type: &#39;increments&#39;, nullable: false, primary: true},
+    email: {type: &#39;string&#39;, maxlength: 254, nullable: false, unique: true},
+    name: {type: &#39;string&#39;, maxlength: 150, nullable: false}
+  },
+
+
+  categories: {
+    id: {type: &#39;increments&#39;, nullable: false, primary: true},
+    name: {type: &#39;string&#39;, maxlength: 150, nullable: false}
+  },
+
+  posts: {
+    id: {type: &#39;increments&#39;, nullable: false, primary: true},
+    user_id: {type: &#39;integer&#39;, nullable: false, unsigned: true},
+    category_id: {type: &#39;integer&#39;, nullable: false, unsigned: true},
+    title: {type: &#39;string&#39;, maxlength: 150, nullable: false},
+    slug: {type: &#39;string&#39;, maxlength: 150, nullable: false, unique: true},
+    html: {type: &#39;text&#39;, maxlength: 16777215, fieldtype: &#39;medium&#39;, nullable: false},
+    created_at: {type: &#39;dateTime&#39;, nullable: false},
+    updated_at: {type: &#39;dateTime&#39;, nullable: true}
+  },
+
+
+  tags: {
+    id: {type: &#39;increments&#39;, nullable: false, primary: true},
+    slug: {type: &#39;string&#39;, maxlength: 150, nullable: false, unique: true},
+    name: {type: &#39;string&#39;, maxlength: 150, nullable: false}
+  },
+
+
+  posts_tags: {
+    id: {type: &#39;increments&#39;, nullable: false, primary: true},
+    post_id: {type: &#39;integer&#39;, nullable: false, unsigned: true},
+    tag_id: {type: &#39;integer&#39;, nullable: false, unsigned: true}
+  }
+};
+
+module.exports = Schema;</code></pre>
+
+<p><strong>Pro Tip:</strong> Promises will save you a lot of time and headaches when dealing with databases in Node, my preferred flavour is <a href="https://github.com/cujojs/when">when</a>. Also install a utility library for doing common tasks, <code>lodash</code> is one of the best.</p>
+
+<pre><code>npm install when lodash --save</code></pre>
+
+<p>We need another file for the code that creates our tables, let&#39;s call it <code>migrate.js</code>. It requires <code>knex</code> so let&#39;s copy the code that we wrote earlier and place it at the beginning of the file.</p>
+
+<h3>migrate.js</h3>
+
+<p>I also copied the <code>createTable</code> function from the <a href="https://github.com/TryGhost/Ghost">Ghost</a> project, it accepts a <code>tableName</code> string and returns a promise.</p>
+
+<pre><code>var knex = require(&#39;knex&#39;)({
+    client: &#39;mysql&#39;,
+    connection: {
+        host     : &#39;localhost&#39;,
+        user     : &#39;your_database_user&#39;,
+        password : &#39;your_database_password&#39;,
+        database : &#39;myapp_test&#39;,
+        charset  : &#39;utf8&#39;
+  }
+});
+
+var Schema = require(&#39;./schema&#39;);
+var sequence = require(&#39;when/sequence&#39;);
+var _ = require(&#39;lodash&#39;);
+
+
+function createTable(tableName) {
+
+  return knex.schema.createTable(tableName, function (table) {
+
+    var column;
+    var columnKeys = _.keys(Schema[tableName]);
+
+    _.each(columnKeys, function (key) {
+      if (Schema[tableName][key].type === &#39;text&#39; &amp;&amp; Schema[tableName][key].hasOwnProperty(&#39;fieldtype&#39;)) {
+        column = table[Schema[tableName][key].type](key, Schema[tableName][key].fieldtype);
+      }
+      else if (Schema[tableName][key].type === &#39;string&#39; &amp;&amp; Schema[tableName][key].hasOwnProperty(&#39;maxlength&#39;)) {
+        column = table[Schema[tableName][key].type](key, Schema[tableName][key].maxlength);
+      }
+      else {
+        column = table[Schema[tableName][key].type](key);
+      }
+
+      if (Schema[tableName][key].hasOwnProperty(&#39;nullable&#39;) &amp;&amp; Schema[tableName][key].nullable === true) {
+        column.nullable();
+      }
+      else {
+        column.notNullable();
+      }
+
+      if (Schema[tableName][key].hasOwnProperty(&#39;primary&#39;) &amp;&amp; Schema[tableName][key].primary === true) {
+        column.primary();
+      }
+
+      if (Schema[tableName][key].hasOwnProperty(&#39;unique&#39;) &amp;&amp; Schema[tableName][key].unique) {
+        column.unique();
+      }
+
+      if (Schema[tableName][key].hasOwnProperty(&#39;unsigned&#39;) &amp;&amp; Schema[tableName][key].unsigned) {
+        column.unsigned();
+      }
+
+      if (Schema[tableName][key].hasOwnProperty(&#39;references&#39;) &amp;&amp; Schema[tableName][key].hasOwnProperty(&#39;inTable&#39;)) {
+        //check if table exists?
+        column.references(Schema[tableName][key].references);
+        column.inTable(Schema[tableName][key].inTable);
+      }
+
+      if (Schema[tableName][key].hasOwnProperty(&#39;defaultTo&#39;)) {
+        column.defaultTo(Schema[tableName][key].defaultTo);
+      }
+    });
+  });
+}
+
+
+function createTables () {
+  var tables = [];
+  var tableNames = _.keys(Schema);
+
+  tables = _.map(tableNames, function (tableName) {
+    return function () {
+      return createTable(tableName);
+    };
+  });
+
+  return sequence(tables);
+}
+
+
+createTables()
+.then(function() {
+  console.log(&#39;Tables created!!&#39;);
+  process.exit(0);
+})
+.otherwise(function (error) {
+  throw error;
+});</code></pre>
+
+<p>Run the file from the command-line <code>node migrate</code>. If everything went well you will see the text <code>Tables created!!</code>.</p>
+
+<p><strong>Another Pro Tip:</strong> <a href="https://github.com/TryGhost/Ghost">Ghost</a> is an amazing piece of software, its code is clean and well written. When you get stuck with Bookshelf and cannot find an answer on Google, just dig through the code base and look at how Bookshelf is used. I find myself constantly referring to it for solutions.</p>
+
+<p>Now back to <code>app.js</code> - I only use Bookshelf in data structures, i.e, in my Models and Collections. Let&#39;s go ahead and create a few Models:</p>
+
+<pre><code>// User model
+var User = Bookshelf.Model.extend({
+    tableName: &#39;users&#39;
+});
+
+// Post model
+var Post = Bookshelf.Model.extend({
+    tableName: &#39;posts&#39;,
+
+    hasTimestamps: true,
+
+    category: function () {
+      return this.belongsTo(Category, &#39;category_id&#39;);
+    },
+
+    tags: function () {
+        return this.hasMany(Tag);
+    },
+
+    author: function () {
+        return this.belongsTo(User);
+    }
+});
+
+// Category model
+var Category = Bookshelf.Model.extend({
+
+    tableName: &#39;categories&#39;,
+
+    posts: function () {
+       return this.belongsToMany(Post, &#39;category_id&#39;);
+    }
+});
+
+// Tag model
+var Tag = Bookshelf.Model.extend({
+    tableName: &#39;tags&#39;,
+
+    posts: function () {
+       return this.belongsToMany(Post);
+    }
+});</code></pre>
+
+<p>Bookshelf is heavily influenced by Eloquent ORM and handles one-to-one, one-to-many, and many-to-many associations by defining relationships on Models.
+What is important to know is how Bookshelf handles these relationships under the hood. Let us look some of the special properties and methods.</p>
+
+<h3>hasTimestamps</h3>
+
+<p>Defining a <code>hasTimestamps</code> property in a model and assigning a value of <code>true</code> creates special effects. Upon creation or when updating Bookshelf will automatically insert values for the <code>created_at</code> and <code>updated_at</code> columns.</p>
+
+<h3>hasMany</h3>
+
+<p>The <code>hasMay</code> method tells the current model that it has a one-to-many relationship with the model contained in its arguments.</p>
+
+<h3>belongsTo</h3>
+
+<p>The <code>belongsTo</code> method  tells the current model that it has a one-to-one or one-to-many relationship with the model contained in its arguments.</p>
+
+<h3>belongsToMay</h3>
+
+<p>The <code>belongsToMay</code> method  tells the current model that it has a many-to-many relationship with the model contained in its arguments. This type of a relationship is joined through another table. In our example, the <code>Post</code> model has a many-to-many relationship with the <code>Tags</code> model. Bookshelf will assume that there is a table named <code>posts_tags</code> -  it joins the two table names with an underscore. This is all done under the hood, all you have to do is create the table and Bookshelf will do the rest.</p>
+
+<p>In other relationships Bookshelf assumes that table names are plurals and that the foreignkey is the singular post-fixed with <code>_id</code>. It uses the following format:<code>&lt;TableNameSingular&gt;_id</code>. In our example,  the <code>author</code> method in the <code>Post</code> model will be mapped to the <code>User</code> model (where the table name is <code>users</code>) through the foreignkey <code>user_id</code> (substring <code>user</code> is the singular of table name <code>users</code>).</p>
+
+<p>If your foreignkey and table name do not conform to the above convention you need to specify the foreignkey as a second argument like we did for the relationship between <code>Posts</code> and <code>Categories</code>.</p>
+
+<p>Phew, hope that makes sense, if not leave a comment.</p>
+
+<p>In the next post we will create a small API that uses our Models. Stay tuned.</p>
+    </div>
+    
+    
+      <a href="/2014/6/27/using-cheerio-and-mongodb-to-scrape-a-large-website" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+    
+    <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2014/7/21/using-nodejs-with-mysql';
+    var disqus_title = 'Using Node.js with MySQL';
+    var disqus_url = 'http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

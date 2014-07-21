@@ -1,0 +1,236 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'when',
+1 verbose cli   'lodash',
+1 verbose cli   '--save' ]
+2 info using npm@1.4.9
+3 info using node@v0.11.13
+4 info shrinkwrap file "/home/qawe/Desktop/code/blog/npm-shrinkwrap.json"
+5 verbose readDependencies returned deps { connect: 'https://registry.npmjs.org/connect/-/connect-2.7.11.tgz',
+5 verbose readDependencies returned deps   ejs: '0.8.4',
+5 verbose readDependencies returned deps   markdown: 'https://registry.npmjs.org/markdown/-/markdown-0.4.0.tgz',
+5 verbose readDependencies returned deps   rss: 'https://registry.npmjs.org/rss/-/rss-0.0.4.tgz',
+5 verbose readDependencies returned deps   st: 'https://registry.npmjs.org/st/-/st-0.3.2.tgz',
+5 verbose readDependencies returned deps   xml: 'https://registry.npmjs.org/xml/-/xml-0.0.8.tgz' }
+6 verbose cache add [ 'when', null ]
+7 verbose cache add name=undefined spec="when" args=["when",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'when',
+8 verbose parsed url   path: 'when',
+8 verbose parsed url   href: 'when' }
+9 verbose cache add [ 'lodash', null ]
+10 verbose cache add name=undefined spec="lodash" args=["lodash",null]
+11 verbose parsed url { protocol: null,
+11 verbose parsed url   slashes: null,
+11 verbose parsed url   auth: null,
+11 verbose parsed url   host: null,
+11 verbose parsed url   port: null,
+11 verbose parsed url   hostname: null,
+11 verbose parsed url   hash: null,
+11 verbose parsed url   search: null,
+11 verbose parsed url   query: null,
+11 verbose parsed url   pathname: 'lodash',
+11 verbose parsed url   path: 'lodash',
+11 verbose parsed url   href: 'lodash' }
+12 silly lockFile 30603fa9-when when
+13 verbose lock when /home/qawe/.npm/30603fa9-when.lock
+14 silly lockFile 901466a5-lodash lodash
+15 verbose lock lodash /home/qawe/.npm/901466a5-lodash.lock
+16 silly lockFile 30603fa9-when when
+17 silly lockFile 30603fa9-when when
+18 silly lockFile 901466a5-lodash lodash
+19 silly lockFile 901466a5-lodash lodash
+20 verbose addNamed [ 'when', '' ]
+21 verbose addNamed [ null, '*' ]
+22 silly lockFile 3ec6522e-when when@
+23 verbose lock when@ /home/qawe/.npm/3ec6522e-when.lock
+24 verbose addNamed [ 'lodash', '' ]
+25 verbose addNamed [ null, '*' ]
+26 silly lockFile f856e425-lodash lodash@
+27 verbose lock lodash@ /home/qawe/.npm/f856e425-lodash.lock
+28 silly addNameRange { name: 'when', range: '*', hasData: false }
+29 silly addNameRange { name: 'lodash', range: '*', hasData: false }
+30 verbose url raw lodash
+31 verbose url resolving [ 'https://registry.npmjs.org/', './lodash' ]
+32 verbose url resolved https://registry.npmjs.org/lodash
+33 info trying registry request attempt 1 at 11:47:36
+34 verbose etag "D63RJHTTMZAPF5IDV7LZMJK04"
+35 http GET https://registry.npmjs.org/lodash
+36 verbose url raw when
+37 verbose url resolving [ 'https://registry.npmjs.org/', './when' ]
+38 verbose url resolved https://registry.npmjs.org/when
+39 info trying registry request attempt 1 at 11:47:36
+40 verbose etag "F090Q0VIWDPX3UBFMBZVT7TBP"
+41 http GET https://registry.npmjs.org/when
+42 http 304 https://registry.npmjs.org/lodash
+43 silly registry.get cb [ 304,
+43 silly registry.get   { date: 'Mon, 21 Jul 2014 09:47:37 GMT',
+43 silly registry.get     server: 'Apache',
+43 silly registry.get     via: '1.1 varnish',
+43 silly registry.get     'last-modified': 'Mon, 21 Jul 2014 09:47:22 GMT',
+43 silly registry.get     'cache-control': 'max-age=60',
+43 silly registry.get     etag: '"D63RJHTTMZAPF5IDV7LZMJK04"',
+43 silly registry.get     'x-served-by': 'cache-ams4124-AMS',
+43 silly registry.get     'x-cache': 'HIT',
+43 silly registry.get     'x-cache-hits': '2',
+43 silly registry.get     'x-timer': 'S1405936057.339459,VS0,VE0',
+43 silly registry.get     vary: 'Accept',
+43 silly registry.get     'content-length': '0',
+43 silly registry.get     connection: 'close' } ]
+44 verbose etag lodash from cache
+45 silly addNameRange number 2 { name: 'lodash', range: '*', hasData: true }
+46 silly addNameRange versions [ 'lodash',
+46 silly addNameRange   [ '0.1.0',
+46 silly addNameRange     '0.2.0',
+46 silly addNameRange     '0.2.1',
+46 silly addNameRange     '0.2.2',
+46 silly addNameRange     '0.3.0',
+46 silly addNameRange     '0.3.1',
+46 silly addNameRange     '0.3.2',
+46 silly addNameRange     '0.4.0',
+46 silly addNameRange     '0.4.1',
+46 silly addNameRange     '0.4.2',
+46 silly addNameRange     '0.5.0-rc.1',
+46 silly addNameRange     '0.5.0',
+46 silly addNameRange     '0.5.1',
+46 silly addNameRange     '0.5.2',
+46 silly addNameRange     '0.6.0',
+46 silly addNameRange     '0.6.1',
+46 silly addNameRange     '0.7.0',
+46 silly addNameRange     '0.8.0',
+46 silly addNameRange     '0.8.1',
+46 silly addNameRange     '0.8.2',
+46 silly addNameRange     '0.9.0',
+46 silly addNameRange     '0.9.1',
+46 silly addNameRange     '0.9.2',
+46 silly addNameRange     '0.10.0',
+46 silly addNameRange     '1.0.0-rc.1',
+46 silly addNameRange     '1.0.0-rc.2',
+46 silly addNameRange     '1.0.0-rc.3',
+46 silly addNameRange     '1.0.0',
+46 silly addNameRange     '1.0.1',
+46 silly addNameRange     '1.1.0',
+46 silly addNameRange     '1.1.1',
+46 silly addNameRange     '1.2.0',
+46 silly addNameRange     '1.2.1',
+46 silly addNameRange     '1.3.0',
+46 silly addNameRange     '1.3.1',
+46 silly addNameRange     '2.0.0',
+46 silly addNameRange     '2.1.0',
+46 silly addNameRange     '2.2.0',
+46 silly addNameRange     '2.2.1',
+46 silly addNameRange     '2.3.0',
+46 silly addNameRange     '2.4.0',
+46 silly addNameRange     '2.4.1' ] ]
+47 verbose addNamed [ 'lodash', '2.4.1' ]
+48 verbose addNamed [ '2.4.1', '2.4.1' ]
+49 silly lockFile 8502be2a-lodash-2-4-1 lodash@2.4.1
+50 verbose lock lodash@2.4.1 /home/qawe/.npm/8502be2a-lodash-2-4-1.lock
+51 silly lockFile 8502be2a-lodash-2-4-1 lodash@2.4.1
+52 silly lockFile 8502be2a-lodash-2-4-1 lodash@2.4.1
+53 silly lockFile f856e425-lodash lodash@
+54 silly lockFile f856e425-lodash lodash@
+55 http 200 https://registry.npmjs.org/when
+56 silly registry.get cb [ 200,
+56 silly registry.get   { date: 'Mon, 21 Jul 2014 09:47:37 GMT',
+56 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+56 silly registry.get     etag: '"1OPDUD1IJXLGCMY2ZGJHL1E88"',
+56 silly registry.get     'content-type': 'application/json',
+56 silly registry.get     'cache-control': 'max-age=60',
+56 silly registry.get     'content-length': '65336',
+56 silly registry.get     'accept-ranges': 'bytes',
+56 silly registry.get     via: '1.1 varnish',
+56 silly registry.get     age: '2015',
+56 silly registry.get     'x-served-by': 'cache-ams4134-AMS',
+56 silly registry.get     'x-cache': 'HIT',
+56 silly registry.get     'x-cache-hits': '1',
+56 silly registry.get     'x-timer': 'S1405936057.366724,VS0,VE90',
+56 silly registry.get     vary: 'Accept',
+56 silly registry.get     connection: 'close' } ]
+57 silly addNameRange number 2 { name: 'when', range: '*', hasData: true }
+58 silly addNameRange versions [ 'when',
+58 silly addNameRange   [ '1.2.0',
+58 silly addNameRange     '1.3.0',
+58 silly addNameRange     '1.4.0',
+58 silly addNameRange     '1.4.1',
+58 silly addNameRange     '1.4.2',
+58 silly addNameRange     '1.4.3',
+58 silly addNameRange     '1.4.4',
+58 silly addNameRange     '1.5.0',
+58 silly addNameRange     '1.5.1',
+58 silly addNameRange     '1.5.2',
+58 silly addNameRange     '1.6.0',
+58 silly addNameRange     '1.6.1',
+58 silly addNameRange     '1.7.0',
+58 silly addNameRange     '1.7.1',
+58 silly addNameRange     '1.8.0',
+58 silly addNameRange     '1.8.1',
+58 silly addNameRange     '2.0.0',
+58 silly addNameRange     '2.0.1',
+58 silly addNameRange     '2.1.0',
+58 silly addNameRange     '2.1.1',
+58 silly addNameRange     '2.2.0',
+58 silly addNameRange     '2.2.1',
+58 silly addNameRange     '2.3.0',
+58 silly addNameRange     '2.4.0',
+58 silly addNameRange     '2.5.0',
+58 silly addNameRange     '2.5.1',
+58 silly addNameRange     '2.6.0',
+58 silly addNameRange     '2.7.0',
+58 silly addNameRange     '2.7.1',
+58 silly addNameRange     '2.8.0',
+58 silly addNameRange     '3.0.0',
+58 silly addNameRange     '3.0.1',
+58 silly addNameRange     '3.1.0',
+58 silly addNameRange     '3.2.0',
+58 silly addNameRange     '3.2.1',
+58 silly addNameRange     '3.2.2',
+58 silly addNameRange     '3.2.3',
+58 silly addNameRange     '3.3.0',
+58 silly addNameRange     '3.3.1',
+58 silly addNameRange     '3.4.0',
+58 silly addNameRange     '3.4.1' ] ]
+59 verbose addNamed [ 'when', '3.4.1' ]
+60 verbose addNamed [ '3.4.1', '3.4.1' ]
+61 silly lockFile 667a4c70-when-3-4-1 when@3.4.1
+62 verbose lock when@3.4.1 /home/qawe/.npm/667a4c70-when-3-4-1.lock
+63 silly lockFile 28a8768d-ry-npmjs-org-when-when-3-4-1-tgz https://registry.npmjs.org/when/-/when-3.4.1.tgz
+64 verbose lock https://registry.npmjs.org/when/-/when-3.4.1.tgz /home/qawe/.npm/28a8768d-ry-npmjs-org-when-when-3-4-1-tgz.lock
+65 verbose addRemoteTarball [ 'https://registry.npmjs.org/when/-/when-3.4.1.tgz',
+65 verbose addRemoteTarball   '5e211e23aa22bb175d27dd6eb26ceec6590f26df' ]
+66 silly lockFile 28a8768d-ry-npmjs-org-when-when-3-4-1-tgz https://registry.npmjs.org/when/-/when-3.4.1.tgz
+67 silly lockFile 28a8768d-ry-npmjs-org-when-when-3-4-1-tgz https://registry.npmjs.org/when/-/when-3.4.1.tgz
+68 silly lockFile 667a4c70-when-3-4-1 when@3.4.1
+69 silly lockFile 667a4c70-when-3-4-1 when@3.4.1
+70 silly lockFile 3ec6522e-when when@
+71 silly lockFile 3ec6522e-when when@
+72 error Error: EACCES, mkdir '/home/qawe/tmp/npm-7455-48K849BD'
+72 error     at Error (native)
+72 error  { [Error: EACCES, mkdir '/home/qawe/tmp/npm-7455-48K849BD']
+72 error   stack: 'Error: EACCES, mkdir \'/home/qawe/tmp/npm-7455-48K849BD\'\n    at Error (native)',
+72 error   errno: -13,
+72 error   code: 'EACCES',
+72 error   path: '/home/qawe/tmp/npm-7455-48K849BD',
+72 error   parent: 'node-blogger' }
+73 error Please try running this command again as root/Administrator.
+74 error System Linux 3.2.0-67-generic
+75 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "when" "lodash" "--save"
+76 error cwd /home/qawe/Desktop/code/blog
+77 error node -v v0.11.13
+78 error npm -v 1.4.9
+79 error path /home/qawe/tmp/npm-7455-48K849BD
+80 error code EACCES
+81 error errno -13
+82 error stack Error: EACCES, mkdir '/home/qawe/tmp/npm-7455-48K849BD'
+82 error stack     at Error (native)
+83 verbose exit [ -13, true ]

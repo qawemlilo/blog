@@ -351,5 +351,23 @@
             " scrapping"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1405936337185,
+        "title": "Using Node.js with MySQL",
+        "description": "A tutorial about how to connect to MySQL in Node.js applications",
+        "date": "2014-07-21T09:52:17.184Z",
+        "year": 2014,
+        "month": 7,
+        "day": 21,
+        "filename": "2014-7-21_using-nodejs-with-mysql",
+        "url": "/2014/7/21/using-nodejs-with-mysql",
+        "categories": [
+            "nodejs",
+            " mysql",
+            " bookshelf.js",
+            " knex"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
