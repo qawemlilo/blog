@@ -1,4 +1,4 @@
-So you have been playing around with Node.js writing pretty little programs and marvelling at how awesome it is. You have finally wrapped your brain around this async stuff and feel confident that you can go to callback hell and still find your way back. But then you realise, your newly acquired wizardry isn't that much fun if you cannot collect data, store it in a database, and do something useful with it. So you jump on your broom and starting surfing the interwebs in search of a solution.
+So you have been playing around with Node.js writing pretty little programs and marvelling at how awesome it is. You have finally wrapped your brain around this async stuff and feel confident that you can go to callback hell and still find your way back. But then you realise, your newly acquired wizardry isn't that much fun if you cannot collect data, store it in a database, and do something useful with it. So you jump on your broom and start surfing the interwebs in search of a solution.
 
 When you search the internet for a Node.js database solution you will quickly notice how popular NoSQL databases are. As someone who is new to Node.js it is easy to start believing that it only speaks to NoSQL databases or that it doesn't work well with SQL databases. I held this perception for quite a long time. Sometimes a SQL database may be a better solution for you, it is a good fit if you are dealing with a lot of relational data that requires complex queries. Node.js prides itself at being very efficient in performing IO intensive tasks - that includes communicating with both SQL and NoSQL databases. [Ghost](https://github.com/TryGhost/Ghost), one of the most prominent opensource Node projects, uses SQL databases. Today I will share with you how I use MySQL in my Node.js projects.
 
@@ -235,10 +235,10 @@ Now back to `app.js` - I only use Bookshelf in data structures, i.e, in my Model
     });
 
 Bookshelf is heavily influenced by Eloquent ORM and handles one-to-one, one-to-many, and many-to-many associations by defining relationships on Models.
-What is important to know is how Bookshelf handles these relationships under the hood. Let us look some of the special properties and methods.
+What is important to know is how Bookshelf handles these relationships under the hood. Let us look at some of the special properties and methods.
 
 ### hasTimestamps
-Defining a `hasTimestamps` property in a model and assigning a value of `true` creates special effects. Upon creation or when updating Bookshelf will automatically insert values for the `created_at` and `updated_at` columns.
+Defining a `hasTimestamps` property in a model and assigning a value of `true` has special effects. Upon creation or when updating, Bookshelf will automatically insert values for the `created_at` and `updated_at` columns.
 
 ### hasMany
 The `hasMay` method tells the current model that it has a one-to-many relationship with the model contained in its arguments.
