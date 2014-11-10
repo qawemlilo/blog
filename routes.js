@@ -5,12 +5,15 @@
 */
 
 
-var url = require('url'),
-    Posts = require('./posts'), 
-    RSS = require('./rss'),
-    OneDay = (1000 * 60 * 60 * 24 * 365),
-    rss, 
-    myblog;
+var url = require('url');
+var fs = require('fs');
+var path = require('path');
+var Posts = require('./posts');
+var RSS = require('./rss');
+var OneDay = (1000 * 60 * 60 * 24 * 365);
+var rss;
+var myblog;
+var favicon = fs.readFileSync(path.resolve(__dirname, './template/img/favicon.ico'));
 
 
 
@@ -72,7 +75,6 @@ function loadPage (filename, res) {
 
 
 
-
 /*
     Loads the rss feed
 
@@ -114,7 +116,12 @@ module.exports = function (req, res) {
         case '/about':
             filename = parseFilename('/2013/5/9/about-this-blog');
             loadPage(filename, res);
-        break;                  
+        break; 
+
+        case '/favicon.ico':
+            res.writeHead(200, {'Content-Type': 'image/x-icon'} );
+            res.end(favicon);
+        break;                 
         
         default:
             if (path === '/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website') {
