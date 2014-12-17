@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Building a simple API with Express and Bookshelf.js</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="Using Bookshelf.js and Express to build a restful API" />
+<meta name="generator" content="Node Blogger" />
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), I'm a contract Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="https://github.com/qawemlilo" target="_blank">Projects</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post blogpost"> 
+      <h1>Building a simple API with Express and Bookshelf.js</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           16 Dec 2014
+        </div>
+         
+        
+          
+        <div class="sharep">
+            Share
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p><strong>This article is a continuation from the last one - <a href="/2014/7/21/using-nodejs-with-mysql">Using Node.js with MySQL</a></strong></p>
+
+<p>It&#39;s been a long time since my last post, work commitments has kept me very busy - hopefully, next year I&#39;ll be able to publish more regularly.</p>
+
+<p>As promised in the previous article, today we are going to be building a simple restful API with Bookshelf.js and Express. We need to install 2 additional modules for our application, namely, <code>express</code> - for routing, and <code>body-parser</code> - for parsing request variables: </p>
+
+<pre><code>npm install express body-parser --save</code></pre>
+
+<p>I prefer defining all my main variables at the top of the file, let&#39;s go ahead and do that:</p>
+
+<pre><code>var _ = require(&#39;lodash&#39;);
+var express = require(&#39;express&#39;);
+var app = express();
+var bodyParser = require(&#39;body-parser&#39;);
+
+// application routing
+var router = express.Router();
+
+// body-parser middleware for handling request variables
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json()); </code></pre>
+
+<p>Right below the main variables we have also passed the body-parser middleware to be used by our application to handle request variables.</p>
+
+<p>In the last article we ended by creating <code>Models</code>, it is also a good idea to create
+<code>Collections</code> which will give us the ability to perform wholesale operations on our <code>Models</code>.</p>
+
+<h3>Collections</h3>
+
+<pre><code>var Users = Bookshelf.Collection.extend({
+  model: User
+});
+
+var Posts = Bookshelf.Collection.extend({
+  model: Post
+});
+
+var Categories = Bookshelf.Collection.extend({
+  model: Category
+});
+
+var Tags = Bookshelf.Collection.extend({
+  model: Tag
+});</code></pre>
+
+<p>Next we need to define our API end points - we want to be able to perform basic CRUD operations on the following resources: <code>users</code>, <code>categories</code>, and <code>posts</code>.</p>
+
+<h3>Users</h3>
+
+<ul><li><code>GET    /users</code>     - fetch all users</li><li><code>POST   /users</code>     - create a new user</li><li><code>GET    /users/:id</code> - fetch a single user by id</li><li><code>PUT    /users/:id</code> - update user</li><li><code>DELETE /users/:id</code> - delete user</li></ul>
+
+<h3>Categories</h3>
+
+<ul><li><code>GET    /categories</code>     - fetch all categories</li><li><code>POST   /categories</code>     - create a new category</li><li><code>GET    /categories/:id</code> - fetch a single category</li><li><code>PUT    /categories/:id</code> - update category</li><li><code>DELETE /categories/:id</code> - delete category</li></ul>
+
+<h3>Posts</h3>
+
+<ul><li><code>GET    /posts</code>      - fetch all posts</li><li><code>POST   /posts</code>      - create a new post</li><li><code>GET    /posts/:id</code>  - fetch a single post by id</li><li><code>PUT    /posts/:id</code>  - update post</li><li><p><code>DELETE /posts/:id</code>  - delete post</p></li><li><p><code>GET    /posts/category/:id</code> - fetch all posts from a single category</p></li><li><code>GET    /posts/tags/:slug</code>   - fetch all posts from a single tag us</li></ul>
+
+<p>All is set, now we can go ahead and start setting up our API routes. First up we&#39;ll create users routes, every post created will require a <code>user_id</code>.</p>
+
+<pre><code>router.route(&#39;/users&#39;)
+  // fetch all users
+  .get(function (req, res) {
+    Users.forge()
+    .fetch()
+    .then(function (collection) {
+      res.json({error: false, data: collection.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  })
+
+  // create a user
+  .post(function (req, res) {
+    User.forge({
+      name: req.body.name,
+      email: req.body.email
+    })
+    .save()
+    .then(function (user) {
+      res.json({error: false, data: {id: user.get(&#39;id&#39;)}});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    }); 
+  });
+
+router.route(&#39;/users/:id&#39;)
+  // fetch user
+  .get(function (req, res) {
+    Users.forge({id: req.params.id})
+    .fetch()
+    .then(function (user) {
+      res.json({error: false, data: user.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  })
+
+  // update user details
+  .put(function (req, res) {
+    User.forge({id: req.params.id})
+    .fetch()
+    .then(function (user) {
+      user.save({
+        name: req.body.name || user.get(&#39;name&#39;),
+        email: req.body.email || user.get(&#39;email&#39;)
+      })
+      .then(function () {
+        res.json({error: false, data: {message: &#39;User details updated&#39;}});
+      })
+      .otherwise(function (err) {
+        res.json({error: true, data: {message: err.message}});
+      });
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  })
+
+  // delete a user
+  .delete(function (req, res) {
+    User.forge({id: req.params.id})
+    .fetch()
+    .then(function (user) {
+      user.destroy()
+      .then(function () {
+        res.json({error: true, data: {message: &#39;User successfully deleted&#39;}});
+      })
+      .otherwise(function (err) {
+        res.json({error: true, data: {message: err.message}});
+      });
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  });</code></pre>
+
+<p>The <code>forge</code> method is a simple helper function to instantiate a new Model without the need of using the <code>new</code> keyword. </p>
+
+<p>Categories have a one-to-many relation with posts so it is also a good idea to define their routes next.</p>
+
+<pre><code>router.route(&#39;/categories&#39;)
+  // fetch all categories
+  .get(function (req, res) {
+    Categories.forge()
+    .fetch()
+    .then(function (collection) {
+      res.json({error: false, data: collection.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  })
+
+  // create a new category
+  .post(function (req, res) {
+    Category.forge({name: req.body.name})
+    .save()
+    .then(function (category) {
+      res.json({error: false, data: {id: category.get(&#39;id&#39;)}});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    }); 
+  });
+
+router.route(&#39;/categories/:id&#39;)
+  // fetch all categories
+  .get(function (req, res) {
+    Category.forge({id: req.params.id})
+    .fetch()
+    .then(function (category) {
+      res.json({error: false, data: category.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  })   
+
+  // update a category
+  .put(function (req, res) {
+    Category.forge({id: req.params.id})
+    .fetch()
+    .then(function (category) {
+      category.save({name: req.body.name || category.get(&#39;name&#39;)})
+      .then(function () {
+        res.json({error: false, data: {message: &#39;Category updated&#39;}});
+      })
+      .otherwise(function (err) {
+        res.json({error: true, data: {message: err.message}});
+      });
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  })
+
+  // delete a category
+  .delete(function (req, res) {
+    Category.forge({id: req.params.id})
+    .fetch()
+    .then(function (category) {
+      category.destroy()
+      .then(function () {
+        res.json({error: true, data: {message: &#39;Category successfully deleted&#39;}});
+      })
+      .otherwise(function (err) {
+        res.json({error: true, data: {message: err.message}});
+      });
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  });</code></pre>
+
+<p>The main purpose of this application is to provide an API for creating and reading blog posts, which brings us to the crux of this article - creating posts routes.</p>
+
+<pre><code>router.route(&#39;/posts&#39;)
+  // fetch all posts
+  .get(function (req, res) {
+    Posts.forge()
+    .fetch()
+    .then(function (collection) {
+      res.json({error: false, data: collection.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  });
+
+router.route(&#39;/posts/:id&#39;)
+  // fetch a post by id
+  .get(function (req, res) {
+    Post.forge({id: req.params.id})
+    .fetch({withRelated: [&#39;categories&#39;, &#39;tags&#39;]})
+    .then(function (post) {
+      res.json({error: false, data: post.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  });</code></pre>
+
+<p>The above <code>GET</code> routes provide the ability to fetch all posts or a single one.</p>
+
+<p>Creating new posts is a bit complicated because we have update 3 tables, the <code>posts</code> table, the <code>tags</code> table, and the <code>posts_tags</code> table. 
+Here is what we are going to do - firstly, we&#39;ll collect all post variables and then parse the tags to create an array, secondly, save the post, thirdly, save the related tags, and lastly, attach the tags to the newly created post.</p>
+
+<pre><code>router.route(&#39;/posts&#39;)
+
+  .post(function (req, res) {
+    var tags = req.body.tags;
+
+   // parse tags variable
+    if (tags) {
+      tags = tags.split(&#39;,&#39;).map(function (tag){
+        return tag.trim();
+      });
+    }
+    else {
+      tags = [&#39;uncategorised&#39;];
+    }
+
+    // save post variables
+    Post.forge({
+      user_id: req.body.user_id,
+      category_id: req.body.category_id,
+      title: req.body.title,
+      slug: req.body.title.replace(/ /g, &#39;-&#39;).toLowerCase(),
+      html: req.body.post
+    })
+    .save()
+    .then(function (post) {
+
+      // post successfully saved
+      // save tags
+      saveTags(tags)
+      .then(function (ids) {
+
+        post.load([&#39;tags&#39;])
+        .then(function (model) {
+
+          // attach tags to post
+          model.tags().attach(ids);
+
+          res.json({error: false, data: {message: &#39;Tags saved&#39;}});
+        })
+        .otherwise(function (err) {
+          res.json({error: true, data: {message: err.message}});
+        });
+      })
+      .otherwise(function (err) {
+        res.json({error: true, data: {message: err.message}}); 
+      });      
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    }); 
+  });</code></pre>
+
+<p>The sole purpose of the <code>saveTags</code> function is saving tags - it accepts an array of tags when called and returns a promise which resolves with their table ids. </p>
+
+<pre><code>function saveTags(tags) {
+  // create tag objects
+  var tagObjects = tags.map(function (tag) {
+    return {
+      name: tag,
+      slug: tag.replace(/ /g, &#39;-&#39;).toLowerCase()
+    };
+  });
+
+  return Tags.forge()
+  // fetch tags that already exist
+  .query(&#39;whereIn&#39;, &#39;slug&#39;, _.pluck(tagObjects, &#39;slug&#39;))
+  .fetch()
+  .then(function (existingTags) {
+    var doNotExist = [];
+
+    existingTags = existingTags.toJSON();
+
+    // filter out existing tags
+    if (existingTags.length &gt; 0) {
+      var existingSlugs = _.pluck(existingTags, &#39;slug&#39;);
+
+      doNotExist = tagObjects.filter(function (t) {
+        return existingSlugs.indexOf(t.slug) &lt; 0;
+      });
+    }
+    else {
+      doNotExist = tagObjects;
+    }
+
+    // save tags that do not exist
+    return new Tags(doNotExist).mapThen(function(model) {
+      return model.save()
+      .then(function() {
+        return model.get(&#39;id&#39;);
+      });
+    })
+    // return ids of all passed tags
+    .then(function (ids) {
+      return _.union(ids, _.pluck(existingTags, &#39;id&#39;));
+    });
+  });
+}</code></pre>
+
+<p>This function uses a simple algorhythm:</p>
+
+<ol><li>Before saving tags, check which ones already exist</li><li>Filter the existing tags out and only save the new ones</li><li>Get the ids of newly created tags and combine them with ids of existing ones </li><li>Resolve the promise. </li></ol>
+
+<p>The hard part is done but we would also like to query our posts using categories and tags.</p>
+
+<pre><code>router.route(&#39;/posts/category/:id&#39;)
+  .get(function (req, res) {
+    Category.forge({id: req.params.id})
+    .fetch({withRelated: [&#39;posts&#39;]})
+    .then(function (category) {
+      var posts = category.related(&#39;posts&#39;);
+
+      res.json({error: false, data: posts.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  });
+
+router.route(&#39;/posts/tag/:slug&#39;)
+  .get(function (req, res) {
+    Tag.forge({slug: req.params.slug})
+    .fetch({withRelated: [&#39;posts&#39;]})
+    .then(function (tag) {
+      var posts = tag.related(&#39;posts&#39;);
+
+      res.json({error: false, data: posts.toJSON()});
+    })
+    .otherwise(function (err) {
+      res.json({error: true, data: {message: err.message}});
+    });
+  });</code></pre>
+
+<p>The <code>/posts/category/:id</code> route will allow us to only fetch posts from a particular category while the <code>/posts/tag/:slug</code> route will only fetch posts from a particular tag.</p>
+
+<p>That&#39;s it, our API is done! Let&#39;s wrap up by adding the routes to the main appliction and creating a server.</p>
+
+<pre><code>app.use(&#39;/api&#39;, router);
+
+app.listen(3000, function() {
+  console.log(&quot;✔ Express server listening on port %d in %s mode&quot;, 3000, app.get(&#39;env&#39;));
+});</code></pre>
+
+<p>If you were following the article closely you would have noticed that I left out the <code>PUT /posts/:id</code> and <code>DELETE /posts/:id</code> routes - that&#39;s your homework, implement the 2 routes to complete your API.</p>
+
+<p><a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en">Postman</a> is a great Google Chrome extension for communicating with restful APIs - install it if you don&#39;t already have it and start testing your API.</p>
+
+<p>You can download all the code used in this article and the previous one from Github: <a href="https://github.com/qawemlilo/node-mysql">github.com/qawemlilo/node-mysql</a>.</p>
+    </div>
+    
+    
+      <a href="/2014/7/21/using-nodejs-with-mysql" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+    
+    <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs';
+    var disqus_title = 'Building a simple API with Express and Bookshelf.js';
+    var disqus_url = 'http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

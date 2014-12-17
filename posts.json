@@ -369,5 +369,23 @@
             " knex"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1418715648313,
+        "title": "Building a simple API with Express and Bookshelf.js",
+        "description": "Using Bookshelf.js and Express to build a restful API",
+        "date": "2014-12-16T07:40:48.312Z",
+        "year": 2014,
+        "month": 12,
+        "day": 16,
+        "filename": "2014-12-16_building-a-simple-api-with-express-and-bookshelfjs",
+        "url": "/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs",
+        "categories": [
+            "nodejs",
+            " node",
+            " bookshelf",
+            " express"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]

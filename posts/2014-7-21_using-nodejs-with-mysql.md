@@ -207,7 +207,7 @@ Now back to `app.js` - I only use Bookshelf in data structures, i.e, in my Model
         },
 
         tags: function () {
-            return this.hasMany(Tag);
+            return this.belongsToMany(Tag);
         },
 
         author: function () {

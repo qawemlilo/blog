@@ -44,7 +44,7 @@
   </aside>
   
   <section id="content">
-    <div class="post"> 
+    <div class="post blogpost"> 
       <h1>Using Node.js with MySQL</h1>
       
       
@@ -285,7 +285,7 @@ var Post = Bookshelf.Model.extend({
     },
 
     tags: function () {
-        return this.hasMany(Tag);
+        return this.belongsToMany(Tag);
     },
 
     author: function () {
@@ -344,6 +344,8 @@ What is important to know is how Bookshelf handles these relationships under the
       <a href="/2014/6/27/using-cheerio-and-mongodb-to-scrape-a-large-website" title="Previous Post" class="pagination-arrow newer">Prev</a>
     
     
+    
+      <a href="/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs" title="Next Post" class="pagination-arrow older">Next</a>
     
     
     <div id="disqus_thread"></div>
