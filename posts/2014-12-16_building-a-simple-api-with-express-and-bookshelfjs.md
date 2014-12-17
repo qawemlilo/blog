@@ -72,9 +72,8 @@ Next we need to define our API end points - we want to be able to perform basic 
  - `GET    /posts/:id`  - fetch a single post by id
  - `PUT    /posts/:id`  - update post
  - `DELETE /posts/:id`  - delete post
-
  - `GET    /posts/category/:id` - fetch all posts from a single category
- - `GET    /posts/tags/:slug`   - fetch all posts from a single tag us
+ - `GET    /posts/tags/:slug`   - fetch all posts from a single tag
 
 
 All is set, now we can go ahead and start setting up our API routes. First up we'll create users routes, every post created will require a `user_id`.
