@@ -79,7 +79,7 @@
       
       <p><strong>This article is a continuation from the last one - <a href="/2014/7/21/using-nodejs-with-mysql">Using Node.js with MySQL</a></strong></p>
 
-<p>It&#39;s been a long time since my last post, work commitments has kept me very busy - hopefully, next year I&#39;ll be able to publish more regularly.</p>
+<p>It&#39;s been a long time since my last post, work commitments have kept me very busy - hopefully, next year I&#39;ll be able to publish more regularly.</p>
 
 <p>As promised in the previous article, today we are going to be building a simple restful API with Bookshelf.js and Express. We need to install 2 additional modules for our application, namely, <code>express</code> - for routing, and <code>body-parser</code> - for parsing request variables: </p>
 
@@ -134,7 +134,7 @@ var Tags = Bookshelf.Collection.extend({
 
 <h3>Posts</h3>
 
-<ul><li><code>GET    /posts</code>      - fetch all posts</li><li><code>POST   /posts</code>      - create a new post</li><li><code>GET    /posts/:id</code>  - fetch a single post by id</li><li><code>PUT    /posts/:id</code>  - update post</li><li><p><code>DELETE /posts/:id</code>  - delete post</p></li><li><p><code>GET    /posts/category/:id</code> - fetch all posts from a single category</p></li><li><code>GET    /posts/tags/:slug</code>   - fetch all posts from a single tag us</li></ul>
+<ul><li><code>GET    /posts</code>      - fetch all posts</li><li><code>POST   /posts</code>      - create a new post</li><li><code>GET    /posts/:id</code>  - fetch a single post by id</li><li><code>PUT    /posts/:id</code>  - update post</li><li><code>DELETE /posts/:id</code>  - delete post</li><li><code>GET    /posts/category/:id</code> - fetch all posts from a single category</li><li><code>GET    /posts/tags/:slug</code>   - fetch all posts from a single tag</li></ul>
 
 <p>All is set, now we can go ahead and start setting up our API routes. First up we&#39;ll create users routes, every post created will require a <code>user_id</code>.</p>
 

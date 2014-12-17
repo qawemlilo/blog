@@ -1,6 +1,6 @@
 **This article is a continuation from the last one - [Using Node.js with MySQL](/2014/7/21/using-nodejs-with-mysql)**
 
-It's been a long time since my last post, work commitments has kept me very busy - hopefully, next year I'll be able to publish more regularly.
+It's been a long time since my last post, work commitments have kept me very busy - hopefully, next year I'll be able to publish more regularly.
 
 As promised in the previous article, today we are going to be building a simple restful API with Bookshelf.js and Express. We need to install 2 additional modules for our application, namely, `express` - for routing, and `body-parser` - for parsing request variables: 
 
