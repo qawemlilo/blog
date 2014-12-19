@@ -1,5 +1,7 @@
 **This article is a continuation from the last one - [Using Node.js with MySQL](/2014/7/21/using-nodejs-with-mysql)**
 
+*Edit: Thanks for your feedback, added response codes*
+
 It's been a long time since my last post, work commitments have kept me very busy - hopefully, next year I'll be able to publish more regularly.
 
 As promised in the previous article, today we are going to be building a simple restful API with Bookshelf.js and Express. We need to install 2 additional modules for our application, namely, `express` - for routing, and `body-parser` - for parsing request variables: 
@@ -87,7 +89,7 @@ All is set, now we can go ahead and start setting up our API routes. First up we
           res.json({error: false, data: collection.toJSON()});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       })
 
@@ -102,27 +104,32 @@ All is set, now we can go ahead and start setting up our API routes. First up we
           res.json({error: false, data: {id: user.get('id')}});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         }); 
       });
     
     router.route('/users/:id')
       // fetch user
       .get(function (req, res) {
-        Users.forge({id: req.params.id})
+        User.forge({id: req.params.id})
         .fetch()
         .then(function (user) {
-          res.json({error: false, data: user.toJSON()});
+          if (!user) {
+            res.status(404).json({error: true, data: {}});
+          }
+          else {
+            res.json({error: false, data: user.toJSON()});
+          }
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       })
 
       // update user details
       .put(function (req, res) {
         User.forge({id: req.params.id})
-        .fetch()
+        .fetch({require: true})
         .then(function (user) {
           user.save({
             name: req.body.name || user.get('name'),
@@ -132,29 +139,29 @@ All is set, now we can go ahead and start setting up our API routes. First up we
             res.json({error: false, data: {message: 'User details updated'}});
           })
           .otherwise(function (err) {
-            res.json({error: true, data: {message: err.message}});
+            res.status(500).json({error: true, data: {message: err.message}});
           });
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       })
     
       // delete a user
       .delete(function (req, res) {
         User.forge({id: req.params.id})
-        .fetch()
+        .fetch({require: true})
         .then(function (user) {
           user.destroy()
           .then(function () {
             res.json({error: true, data: {message: 'User successfully deleted'}});
           })
           .otherwise(function (err) {
-            res.json({error: true, data: {message: err.message}});
+            res.status(500).json({error: true, data: {message: err.message}});
           });
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       });
 
@@ -172,7 +179,7 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
           res.json({error: false, data: collection.toJSON()});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       })
 
@@ -184,7 +191,7 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
           res.json({error: false, data: {id: category.get('id')}});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         }); 
       });
 
@@ -194,46 +201,51 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
         Category.forge({id: req.params.id})
         .fetch()
         .then(function (category) {
-          res.json({error: false, data: category.toJSON()});
+          if(!category) {
+            res.status(404).json({error: true, data: {}});
+          }
+          else {
+            res.json({error: false, data: category.toJSON()});
+          }
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       })   
 
       // update a category
       .put(function (req, res) {
         Category.forge({id: req.params.id})
-        .fetch()
+        .fetch({require: true})
         .then(function (category) {
           category.save({name: req.body.name || category.get('name')})
           .then(function () {
             res.json({error: false, data: {message: 'Category updated'}});
           })
           .otherwise(function (err) {
-            res.json({error: true, data: {message: err.message}});
+            res.status(500).json({error: true, data: {message: err.message}});
           });
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       })
     
       // delete a category
       .delete(function (req, res) {
         Category.forge({id: req.params.id})
-        .fetch()
+        .fetch({require: true})
         .then(function (category) {
           category.destroy()
           .then(function () {
             res.json({error: true, data: {message: 'Category successfully deleted'}});
           })
           .otherwise(function (err) {
-            res.json({error: true, data: {message: err.message}});
+            res.status(500).json({error: true, data: {message: err.message}});
           });
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       });
 
@@ -249,7 +261,7 @@ The main purpose of this application is to provide an API for creating and readi
           res.json({error: false, data: collection.toJSON()});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       });
     
@@ -259,17 +271,22 @@ The main purpose of this application is to provide an API for creating and readi
         Post.forge({id: req.params.id})
         .fetch({withRelated: ['categories', 'tags']})
         .then(function (post) {
-          res.json({error: false, data: post.toJSON()});
+          if (!post) {
+            res.status(404).json({error: true, data: {}});
+          }
+          else {
+            res.json({error: false, data: post.toJSON()});
+          }
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       });
 
 
 The above `GET` routes provide the ability to fetch all posts or a single one.
 
-Creating new posts is a bit complicated because we have update 3 tables, the `posts` table, the `tags` table, and the `posts_tags` table. 
+Creating new posts is a bit complicated because we have to update 3 tables, the `posts` table, the `tags` table, and the `posts_tags` table. 
 Here is what we are going to do - firstly, we'll collect all post variables and then parse the tags to create an array, secondly, save the post, thirdly, save the related tags, and lastly, attach the tags to the newly created post.
 
     router.route('/posts')
@@ -312,15 +329,15 @@ Here is what we are going to do - firstly, we'll collect all post variables and 
               res.json({error: false, data: {message: 'Tags saved'}});
             })
             .otherwise(function (err) {
-              res.json({error: true, data: {message: err.message}});
+              res.status(500).json({error: true, data: {message: err.message}});
             });
           })
           .otherwise(function (err) {
-            res.json({error: true, data: {message: err.message}}); 
+            res.status(500).json({error: true, data: {message: err.message}}); 
           });      
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         }); 
       });
 
@@ -391,7 +408,7 @@ The hard part is done but we would also like to query our posts using categories
           res.json({error: false, data: posts.toJSON()});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       });
     
@@ -405,7 +422,7 @@ The hard part is done but we would also like to query our posts using categories
           res.json({error: false, data: posts.toJSON()});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       });
 
