@@ -79,6 +79,8 @@
       
       <p><strong>This article is a continuation from the last one - <a href="/2014/7/21/using-nodejs-with-mysql">Using Node.js with MySQL</a></strong></p>
 
+<p><em>Edit: Thanks for your feedback, added response codes</em></p>
+
 <p>It&#39;s been a long time since my last post, work commitments have kept me very busy - hopefully, next year I&#39;ll be able to publish more regularly.</p>
 
 <p>As promised in the previous article, today we are going to be building a simple restful API with Bookshelf.js and Express. We need to install 2 additional modules for our application, namely, <code>express</code> - for routing, and <code>body-parser</code> - for parsing request variables: </p>
@@ -147,7 +149,7 @@ var Tags = Bookshelf.Collection.extend({
       res.json({error: false, data: collection.toJSON()});
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   })
 
@@ -162,27 +164,32 @@ var Tags = Bookshelf.Collection.extend({
       res.json({error: false, data: {id: user.get(&#39;id&#39;)}});
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     }); 
   });
 
 router.route(&#39;/users/:id&#39;)
   // fetch user
   .get(function (req, res) {
-    Users.forge({id: req.params.id})
+    User.forge({id: req.params.id})
     .fetch()
     .then(function (user) {
-      res.json({error: false, data: user.toJSON()});
+      if (!user) {
+        res.status(404).json({error: true, data: {}});
+      }
+      else {
+        res.json({error: false, data: user.toJSON()});
+      }
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   })
 
   // update user details
   .put(function (req, res) {
     User.forge({id: req.params.id})
-    .fetch()
+    .fetch({require: true})
     .then(function (user) {
       user.save({
         name: req.body.name || user.get(&#39;name&#39;),
@@ -192,29 +199,29 @@ router.route(&#39;/users/:id&#39;)
         res.json({error: false, data: {message: &#39;User details updated&#39;}});
       })
       .otherwise(function (err) {
-        res.json({error: true, data: {message: err.message}});
+        res.status(500).json({error: true, data: {message: err.message}});
       });
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   })
 
   // delete a user
   .delete(function (req, res) {
     User.forge({id: req.params.id})
-    .fetch()
+    .fetch({require: true})
     .then(function (user) {
       user.destroy()
       .then(function () {
         res.json({error: true, data: {message: &#39;User successfully deleted&#39;}});
       })
       .otherwise(function (err) {
-        res.json({error: true, data: {message: err.message}});
+        res.status(500).json({error: true, data: {message: err.message}});
       });
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
 
@@ -231,7 +238,7 @@ router.route(&#39;/users/:id&#39;)
       res.json({error: false, data: collection.toJSON()});
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   })
 
@@ -243,7 +250,7 @@ router.route(&#39;/users/:id&#39;)
       res.json({error: false, data: {id: category.get(&#39;id&#39;)}});
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     }); 
   });
 
@@ -253,46 +260,51 @@ router.route(&#39;/categories/:id&#39;)
     Category.forge({id: req.params.id})
     .fetch()
     .then(function (category) {
-      res.json({error: false, data: category.toJSON()});
+      if(!category) {
+        res.status(404).json({error: true, data: {}});
+      }
+      else {
+        res.json({error: false, data: category.toJSON()});
+      }
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   })   
 
   // update a category
   .put(function (req, res) {
     Category.forge({id: req.params.id})
-    .fetch()
+    .fetch({require: true})
     .then(function (category) {
       category.save({name: req.body.name || category.get(&#39;name&#39;)})
       .then(function () {
         res.json({error: false, data: {message: &#39;Category updated&#39;}});
       })
       .otherwise(function (err) {
-        res.json({error: true, data: {message: err.message}});
+        res.status(500).json({error: true, data: {message: err.message}});
       });
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   })
 
   // delete a category
   .delete(function (req, res) {
     Category.forge({id: req.params.id})
-    .fetch()
+    .fetch({require: true})
     .then(function (category) {
       category.destroy()
       .then(function () {
         res.json({error: true, data: {message: &#39;Category successfully deleted&#39;}});
       })
       .otherwise(function (err) {
-        res.json({error: true, data: {message: err.message}});
+        res.status(500).json({error: true, data: {message: err.message}});
       });
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
 
@@ -307,7 +319,7 @@ router.route(&#39;/categories/:id&#39;)
       res.json({error: false, data: collection.toJSON()});
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   });
 
@@ -317,16 +329,21 @@ router.route(&#39;/posts/:id&#39;)
     Post.forge({id: req.params.id})
     .fetch({withRelated: [&#39;categories&#39;, &#39;tags&#39;]})
     .then(function (post) {
-      res.json({error: false, data: post.toJSON()});
+      if (!post) {
+        res.status(404).json({error: true, data: {}});
+      }
+      else {
+        res.json({error: false, data: post.toJSON()});
+      }
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
 
 <p>The above <code>GET</code> routes provide the ability to fetch all posts or a single one.</p>
 
-<p>Creating new posts is a bit complicated because we have update 3 tables, the <code>posts</code> table, the <code>tags</code> table, and the <code>posts_tags</code> table. 
+<p>Creating new posts is a bit complicated because we have to update 3 tables, the <code>posts</code> table, the <code>tags</code> table, and the <code>posts_tags</code> table. 
 Here is what we are going to do - firstly, we&#39;ll collect all post variables and then parse the tags to create an array, secondly, save the post, thirdly, save the related tags, and lastly, attach the tags to the newly created post.</p>
 
 <pre><code>router.route(&#39;/posts&#39;)
@@ -369,15 +386,15 @@ Here is what we are going to do - firstly, we&#39;ll collect all post variables 
           res.json({error: false, data: {message: &#39;Tags saved&#39;}});
         })
         .otherwise(function (err) {
-          res.json({error: true, data: {message: err.message}});
+          res.status(500).json({error: true, data: {message: err.message}});
         });
       })
       .otherwise(function (err) {
-        res.json({error: true, data: {message: err.message}}); 
+        res.status(500).json({error: true, data: {message: err.message}}); 
       });      
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     }); 
   });</code></pre>
 
@@ -443,7 +460,7 @@ Here is what we are going to do - firstly, we&#39;ll collect all post variables 
       res.json({error: false, data: posts.toJSON()});
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   });
 
@@ -457,7 +474,7 @@ router.route(&#39;/posts/tag/:slug&#39;)
       res.json({error: false, data: posts.toJSON()});
     })
     .otherwise(function (err) {
-      res.json({error: true, data: {message: err.message}});
+      res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
 
