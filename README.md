@@ -2,6 +2,10 @@
 
 Node Blogger is a small blogging platform for Node.js that I created out of my frustrations with WordPress's bloatedness and never-ending updates. 
 
+## Corrections and edits for posts
+
+Create new branch prefixed with `edit-`, edit the relevant .md file, commit and send pull request. You may also re-compile the .md files with the `node bin/compile` command before committing and pushing.  
+
 ## Features
  - Super fast, loads only 5 resources and fetches posts from cache
  - Mobile Responsive
