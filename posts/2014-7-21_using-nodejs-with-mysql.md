@@ -148,10 +148,9 @@ I also copied the `createTable` function from the [Ghost](https://github.com/Try
             column.unsigned();
           }
     
-          if (Schema[tableName][key].hasOwnProperty('references') && Schema[tableName][key].hasOwnProperty('inTable')) {
+          if (Schema[tableName][key].hasOwnProperty('references')) {
             //check if table exists?
             column.references(Schema[tableName][key].references);
-            column.inTable(Schema[tableName][key].inTable);
           }
     
           if (Schema[tableName][key].hasOwnProperty('defaultTo')) {

@@ -226,10 +226,9 @@ function createTable(tableName) {
         column.unsigned();
       }
 
-      if (Schema[tableName][key].hasOwnProperty(&#39;references&#39;) &amp;&amp; Schema[tableName][key].hasOwnProperty(&#39;inTable&#39;)) {
+      if (Schema[tableName][key].hasOwnProperty(&#39;references&#39;)) {
         //check if table exists?
         column.references(Schema[tableName][key].references);
-        column.inTable(Schema[tableName][key].inTable);
       }
 
       if (Schema[tableName][key].hasOwnProperty(&#39;defaultTo&#39;)) {
