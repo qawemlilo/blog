@@ -1,6 +1,6 @@
 # Raging Flame Blog
 
-This is a git repo for my blog [Raging Flame Blog](http://ragingflameblog.herokuapp.com). It is powered by Node Blogger,  static blog generator that I created out of my frustrations with WordPress's bloatedness and never-ending updates. 
+This is a git repo for my blog [Raging Flame Blog](http://ragingflameblog.herokuapp.com). It is powered by Node Blogger, a static blog generator that I created out of my frustrations with WordPress's bloatedness and never-ending updates. 
 
 ## Corrections and edits for posts
 
