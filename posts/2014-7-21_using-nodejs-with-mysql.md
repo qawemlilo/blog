@@ -149,7 +149,6 @@ I also copied the `createTable` function from the [Ghost](https://github.com/Try
           }
     
           if (Schema[tableName][key].hasOwnProperty('references')) {
-            //check if table exists?
             column.references(Schema[tableName][key].references);
           }
     

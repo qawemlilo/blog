@@ -227,7 +227,6 @@ function createTable(tableName) {
       }
 
       if (Schema[tableName][key].hasOwnProperty(&#39;references&#39;)) {
-        //check if table exists?
         column.references(Schema[tableName][key].references);
       }
 
