@@ -1,6 +1,6 @@
 # Node Blogger
 
-Node Blogger is a small blogging platform for Node.js that I created out of my frustrations with WordPress's bloatedness and never-ending updates. 
+Node Blogger is a small static blog generator for Node.js that I created out of my frustrations with WordPress's bloatedness and never-ending updates. 
 
 ## Corrections and edits for posts
 
