@@ -4,7 +4,7 @@ This is a git repo for my blog [Raging Flame Blog](http://ragingflameblog.heroku
 
 ## Corrections and edits for posts
 
-Create new branch prefixed with `edit-`, edit the relevant `.md` file, commit and send pull request. You may also re-compile the `.md` files with the `node bin/compile` command before committing and pushing.  
+All posts are inside the `./posts` directory. Create new branch prefixed with `edit-`, edit the relevant `.md` file, commit and send pull request. You may also re-compile the `.md` files with the `node bin/compile` command before committing and pushing.  
 
 ## Contact
 qawemlilo@gmail.com
