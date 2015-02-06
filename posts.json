@@ -387,5 +387,22 @@
             " express"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1423228953515,
+        "title": "Resizing images in Node.js applications",
+        "description": "Using Gulp to minify and resize images",
+        "date": "2015-02-06T13:22:33.515Z",
+        "year": 2015,
+        "month": 2,
+        "day": 6,
+        "filename": "2015-2-6_resizing-images-in-nodejs-applications",
+        "url": "/2015/2/6/resizing-images-in-nodejs-applications",
+        "categories": [
+            "gulp",
+            " express",
+            " nodejs"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]

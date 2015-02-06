@@ -1,6 +1,6 @@
 **This article is a continuation from the last one - [Using Node.js with MySQL](/2014/7/21/using-nodejs-with-mysql)**
 
-*Edit: Thanks for your feedback, added response codes*
+*Featured in [Node Weekly: Issue 67](http://nodeweekly.com/issues/67)*
 
 It's been a long time since my last post, work commitments have kept me very busy - hopefully, next year I'll be able to publish more regularly.
 

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Resizing images in Node.js applications</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="Using Gulp to minify and resize images" />
+<meta name="generator" content="Node Blogger" />
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), a Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for corrections and edits.
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="https://github.com/qawemlilo" target="_blank">Projects</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post blogpost"> 
+      <h1>Resizing images in Node.js applications</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           6 Feb 2015
+        </div>
+         
+        
+          
+        <div class="sharep">
+            Share
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2015/2/6/resizing-images-in-nodejs-applications" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2015/2/6/resizing-images-in-nodejs-applications" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2015/2/6/resizing-images-in-nodejs-applications" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2015/2/6/resizing-images-in-nodejs-applications" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p>For the past few months I have been involved, on and off, in building <a href="https://github.com/nodeza/nodeza">NodeZA</a> - a Node.js information portal and social platform for developers in South Africa. The <a href="https://github.com/nodeza/nodeza">NodeZA</a> platform is a Node.js application built from the ground up and has CMS capabilities.</p>
+
+<p>Processing images uploaded from user-generated content was a problem I encountered while building <a href="https://github.com/nodeza/nodeza">NodeZA</a>.</p>
+
+<p>This is how I wanted to handle image uploads:</p>
+
+<ol><li>Save the original file</li><li>Compress the original file and save the compressed version</li><li>Resize the compressed version for different layouts </li></ol>
+
+<p>This turned out to be more challenging than I had imagined. Image processing is a CPU intensive operation that can block the EventLoop if not handled correctly.</p>
+
+<p>I searched the internet for days but could not find a solution that I was happy with. I have been using <code>Gulp</code> to automate image minification and resizing on my local machine with great success. However, <code>Gulp</code> is a command-line build tool, what I wanted was to process images as they were uploaded.</p>
+
+<p>The good news is that <code>Gulp</code> streams all things, a <code>Gulp</code> plugin can be used in any Node.js program without modification.</p>
+
+<h3>The Code</h3>
+
+<p><a href="https://github.com/nodeza/nodeza">NodeZA</a> uses a module called <code>multer</code> for handling image uploads, for the purposes of this tutorial I will create a very simple <code>express</code> application to demonstrate my use case.</p>
+
+<p>We are going to use 2 <code>Gulp</code> plugins for images processing, <code>gulp-image-resize</code> and <code>gulp-imagemin</code>. </p>
+
+<p>Let&#39;s create our express app
+(this requires express to be installed globally <code>npm i expresss -g</code>)</p>
+
+<pre><code>express image-processing
+
+# install express dependencies
+cd image-processing &amp;&amp; npm install
+
+# install our dependencies
+npm install gulp gulp-image-resize gulp-imagemin multer --save</code></pre>
+
+<p>Open app.js in your favourite text editor, remove all the code that we do not need, and included the multer middleware.</p>
+
+<pre><code>var express = require(&#39;express&#39;);
+var path = require(&#39;path&#39;);
+var logger = require(&#39;morgan&#39;);
+var bodyParser = require(&#39;body-parser&#39;);
+var multer = require(&#39;multer&#39;);
+var routes = require(&#39;./routes&#39;);
+
+
+var app = express();
+
+
+// view engine setup
+app.set(&#39;views&#39;, path.join(__dirname, &#39;views&#39;));
+app.set(&#39;view engine&#39;, &#39;jade&#39;);
+
+// handle image uploads
+app.use(multer({
+  dest: &#39;./public/images/uploads&#39;
+}));
+
+app.use(logger(&#39;dev&#39;));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, &#39;public&#39;)));
+
+app.use(&#39;/&#39;, routes);
+
+
+app.listen(app.get(&#39;port&#39;) || 3000, app.get(&#39;ipAddress&#39;),function() {
+  console.log(&quot;✔ Express server listening on port %d in %s mode&quot;, app.get(&#39;port&#39;) || 3000, app.get(&#39;env&#39;));
+});</code></pre>
+
+<p>Up next, open up the routes directory and edit the index.js file.</p>
+
+<pre><code>var express = require(&#39;express&#39;);
+var router = express.Router();
+var path = require(&#39;path&#39;);
+
+// require the image editing file
+var editor = path.resolve(__dirname, &#39;../editor.js&#39;);
+
+
+function compressAndResize (imageUrl) {
+
+  // We need to spawn a child process so that we do not block 
+  // the EventLoop with cpu intensive image manipulation 
+  var childProcess = require(&#39;child_process&#39;).fork(editor);
+
+  childProcess.on(&#39;message&#39;, function(message) {
+    console.log(message);
+  });
+
+  childProcess.on(&#39;error&#39;, function(error) {
+    console.error(error.stack)
+  });
+
+  childProcess.on(&#39;exit&#39;, function() {
+    console.log(&#39;process exited&#39;);
+  });
+
+  childProcess.send(imageUrl);
+}
+
+
+/* GET home page. */
+router.get(&#39;/&#39;, function(req, res, next) {
+  res.render(&#39;index&#39;, { title: &#39;Express&#39; });
+});
+
+
+router.post(&#39;/upload&#39;, function(req, res, next) {
+  if (req.files.image_url) {
+    compressAndResize(&#39;public/images/uploads/&#39; + req.files.image_url.name);
+  }
+
+  res.end(&#39;Image upload complete&#39;);
+});
+
+module.exports = router;</code></pre>
+
+<h3>Image processing</h3>
+
+<p>Once the form has been submitted and the image uploaded, we need to spawn a child process to handle CPU intensive image manipulation, this prevents us from blocking our precious EventLoop. Create editor.js in the root directory.</p>
+
+<pre><code>var gulp = require(&#39;gulp&#39;);
+var imagemin = require(&#39;gulp-imagemin&#39;);
+var imageResize = require(&#39;gulp-image-resize&#39;);
+
+
+function processImg (filesrc) {
+ return gulp.src(filesrc)
+
+  // compress and save
+  .pipe(imagemin({optimizationLevel: 5}))
+  .pipe(gulp.dest(&#39;public/images/og&#39;))
+
+  // save 300 x 200
+  .pipe(imageResize({
+    width: 300,
+    height: 200,
+    crop: true
+  }))
+  .pipe(gulp.dest(&#39;public/images/320&#39;))
+
+  // save 120 x 120
+  .pipe(imageResize({
+    width: 120,
+    height: 120,
+    crop: true
+  }))
+  .pipe(gulp.dest(&#39;public/images/120&#39;))
+
+  // save 48 x 48
+  .pipe(imageResize({
+    width: 48,
+    height: 48,
+    crop: true
+  }))
+  .pipe(gulp.dest(&#39;public/images/48&#39;));
+}
+
+
+process.on(&#39;message&#39;, function (images) {
+  console.log(&#39;Image processing started...&#39;);
+
+  var stream = processImg(images);
+
+  stream.on(&#39;end&#39;, function () {
+    process.send(&#39;Image processing complete&#39;);
+    process.exit();
+  });
+
+  stream.on(&#39;error&#39;, function (err) {
+    process.send(err);
+    process.exit(1);
+  });
+});
+
+module.exports = {};</code></pre>
+
+<p>Lastly, add form markup to the index.jade file in the views directory.</p>
+
+<pre><code>extends layout
+
+block content
+  div
+    form(method=&#39;post&#39;, action=&#39;/upload&#39;, enctype=&#39;multipart/form-data&#39;)
+      input(type=&#39;file&#39;, id=&#39;image_url&#39;, name=&#39;image_url&#39;)
+      br
+      input(type=&#39;submit&#39;, value=&#39;Upload image&#39;)</code></pre>
+
+<p>That&#39;s all. Please make sure you monitor the number of processes running at a time otherwise the app will keep on spawning new processes that could overwhelm your machine.</p>
+
+<p>All the code used in this article can be found on Github - <a href="https://github.com/qawemlilo/image-processing">Fork It</a>. </p>
+
+<p>Keep hacking! </p>
+    </div>
+    
+    
+      <a href="/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+    
+    <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2015/2/6/resizing-images-in-nodejs-applications';
+    var disqus_title = 'Resizing images in Node.js applications';
+    var disqus_url = 'http://blog.ragingflame.co.za/2015/2/6/resizing-images-in-nodejs-applications';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
