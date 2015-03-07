@@ -4,6 +4,8 @@
 [id_1]: https://github.com/qawemlilo/emitter
 [id_2]: https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png "Github"
 
+*Featured in [JavaScript Weekly: Issue 161](http://javascriptweekly.com/issues/161)*
+
 JavaScript events are very powerful, they give you the power to capture real world events in real time. For example, when a user moves their mouse in the browser or when they click. 
 
 Using JavaScript events to interact with DOM objects defined Web 2.0 and is still widely used (thanks to jQuery and similar libraries) but it has its limitations, the events are predefined and tied to the browser BOM and DOM. 

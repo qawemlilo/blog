@@ -1,4 +1,6 @@
 
+*Featured in [Node Weekly: Issue 73](http://nodeweekly.com/issues/73)*
+
 For the past few months I have been involved, on and off, in building [NodeZA](https://github.com/nodeza/nodeza) - a Node.js information portal and social platform for developers in South Africa. The [NodeZA](https://github.com/nodeza/nodeza) platform is a Node.js application built from the ground up and has CMS capabilities.
 
 Processing images uploaded from user-generated content is one of the problems I encountered while building [NodeZA](https://github.com/nodeza/nodeza).
