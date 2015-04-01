@@ -254,3 +254,7 @@ If your foreignkey and table name do not conform to the above convention you nee
 Phew, hope that makes sense, if not leave a comment.
 
 In the next post we will create a small API that uses our Models. Stay tuned.
+
+### Update
+
+[Checkout the post that uses the Models to create a small API](http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs)
