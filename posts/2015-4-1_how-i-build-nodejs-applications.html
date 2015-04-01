@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>How I build Node.js Applications</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="Node.js appliaction architacture and workflow" />
+<meta name="generator" content="Node Blogger" />
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), a Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for corrections and edits.
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="https://github.com/qawemlilo" target="_blank">Projects</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post blogpost"> 
+      <h1>How I build Node.js Applications</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           1 Apr 2015
+        </div>
+         
+        
+          
+        <div class="sharep">
+            Share
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2015/4/1/how-i-build-nodejs-applications" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2015/4/1/how-i-build-nodejs-applications" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2015/4/1/how-i-build-nodejs-applications" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2015/4/1/how-i-build-nodejs-applications" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p><em>&quot;Keep it simple, keep it modular.&quot;</em></p>
+
+<p>Today I would like to share with you how I build Node.js applications with the hope that someone else will find it useful. This article is  structured in a sequence of steps that I use in my workflow and will attempt to be as detailed as possible. </p>
+
+<h3>Development Process</h3>
+
+<p>My development process usually begins with a wireframe illustrating the project requirements. It is very important to plan how you will build your application before writing any code.
+Here is a series of steps I like to follow for each project:</p>
+
+<ol><li>Analyse project wireframe and understand domain requirements</li><li>Create README file with project documentation</li><li>Based on the wireframe, document all routes and API end points</li><li>Create a domain model</li><li>Go shopping - Select software stack and dependencies</li><li>Set up project repo and do necessary installations</li><li>Write database schema, and create database</li><li>Start Coding, Create Models and Collections</li><li>Write unit tests</li><li>Create Controllers and Library modules</li><li>Create Routes</li><li>Write integration tests</li><li>Create API</li><li>Review code and make adjustments where necessary</li></ol>
+
+<h3>Architecture</h3>
+
+<p>My applications are heavily influenced by the MVC architecture which has served me well in my short Software Development career. The MVC architecture is well suited for Node.js development because it promotes modular code and separation of concerns.</p>
+
+<p>Below is my typical directory structure.</p>
+
+<pre><code>/
+ api/
+ bin/
+ collections/
+ config/
+ controllers/
+ env/
+ lib/
+ models/
+ public/
+ routes/
+ test/
+ views/
+ .gitignore
+ .jshintrc
+ app.js
+ package.json
+ README.md</code></pre>
+
+<p>I will now zoom-in and look at each first level directory/file in the architecture, describing its role.</p>
+
+<h3>Documentation (./README.md)</h3>
+
+<p>The <code>README.md</code> is one of the most important files in my projects. I like to practice <a href="http://tom.preston-werner.com/2010/08/23/readme-driven-development.html">Readme Driven Development</a> because I find it very effective for clarity and project direction.</p>
+
+<p>My <code>README.md</code> file usually contains the following information:</p>
+
+<ol><li>Project title and description</li><li>Software requirement</li><li>Dependencies</li><li>Getting started instructions</li><li>Required configuration</li><li>Tasks commands</li><li>Style Guide</li><li>Application Architecture</li><li>Routes/API End Points</li><li>License information</li></ol>
+
+<p>The API and routes  are the entry points to the application, they give us a rough idea about its size. Below is a simple example of how I document my routes/api:</p>
+
+<pre><code>/**
+ *  Routes
+**/
+
+GET  /items     - get a collection of items
+GET  /items/:id - get one item
+POST /items     - save an item</code></pre>
+
+<h3>./models</h3>
+
+<p>Now that we are armed with some valuable information about all the requests our beloved users will be making to our application, let us create <code>models</code> to store and retrieve information. A <code>model</code> represents a set of information describing a particular database entity. In a software application, a model usually represents a single record in a database table.</p>
+
+<p><strong>Please Note:</strong> All examples in this post will use <a href="http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql">Bookshelf</a> for database interaction.</p>
+
+<p><strong>./models/mymodel.js</strong></p>
+
+<pre><code>// get config
+var config = require(&#39;../config&#39;);
+
+// connect to the database
+var Bookshelf = require(&#39;../lib/dbconnect&#39;)(config);
+
+// define model
+var myModel = Bookshelf.Model.extend({
+  tableName: &#39;items&#39;
+});
+
+// export collection module
+module.exports = myModel;</code></pre>
+
+<h3>./collections</h3>
+
+<p>We also need to be able to handle batch requests for a particular set of data. This is the job for <code>collections</code>. If you are familiar with <a href="http://backbonejs.org">backbone.js</a> then the concept of <code>collections</code> should be easy to follow. Collections represent a group of the same <code>model</code>, they come with special methods to easily query and fetch data. A <code>collection</code> usually represents a complete database table.</p>
+
+<p><strong>./collections/mycollection.js</strong></p>
+
+<pre><code>//require the model for this collection
+var myModel = require(&#39;../models/mymodel&#39;);
+
+// define collection
+var myCollection = Bookshelf.Collection.extend({
+  model: myModel
+});
+
+// export collection module
+module.exports = myCollection;</code></pre>
+
+<h3>./controllers</h3>
+
+<p>Controllers, like in any other typical MVC set up, are responsible for the business logic of the application. Our controllers process data passed by routes and then query the database using <code>models</code> and <code>collections</code>.</p>
+
+<p><strong>./controllers/items.js</strong></p>
+
+<pre><code>var myModel = require(&#39;../models/mymodel&#39;);
+var myCollection = require(&#39;../collections/mycollection&#39;);
+
+module.exports = {
+
+  // GET /items/:id
+  getItem: function(req, res, next) {
+    var id = req.params.id;
+
+    myModel.forge({id: id})
+    .fetch()
+    .then(function (model) {
+      res.json(model.toJSON());
+    })
+    .otherwise(function (error) {
+      res.status(500).json({msg: error.message});
+    });
+  },
+
+
+  // GET /items
+  getItems: function(req, res, next) {
+    var id = req.params.id;
+
+    myCollection.forge()
+    .fetch()
+    .then(function (collection) {
+      res.json(collection.toJSON());
+    })
+    .otherwise(function (error) {
+      res.status(500).json({msg: error.message});
+    });
+  },
+
+
+  // POST /items
+  // (Don&#39;t forget to validate and sanitize all user input)
+  saveItem: function(req, res, next) {
+    myModel.forge(req.body)
+    .save()
+    .then(function (model) {
+      res.json(model.toJSON());
+    })
+    .otherwise(function (error) {
+      res.status(500).json({msg: error.message});
+    });
+  }
+};</code></pre>
+
+<h3>./routes</h3>
+
+<p>Routes are responsible for handling traffic and connecting it to the appropriate controllers, for example, if a user requests for one item, the job of a router would be to direct the request to the <code>getItem</code> method of the <code>itemsController</code>.</p>
+
+<p><strong>./routes/items.js</strong></p>
+
+<pre><code>var express = require(&#39;express&#39;);
+var itemsController = require(&#39;../controllers/items&#39;);
+
+module.exports = function () {
+  var router = express.Router();
+
+  router.get(&#39;/items&#39;, itemsController.getItems);
+  router.get(&#39;/items/:id&#39;, itemsController.getItem);
+  router.post(&#39;/items&#39;, itemsController.saveItem);
+
+  return router;
+};</code></pre>
+
+<h3>./config</h3>
+
+<p>Earlier, we required the <code>config</code> module when we were creating our model. The sole purpose of the <code>config</code> directory is to check the environment mode and load the appropriate config file from the <code>env</code> directory. The <code>config</code> directory contains a single file, <code>index.js</code>.</p>
+
+<pre><code>module.exports = (function (env) {
+  var config = {};
+
+  switch (env) {
+    case &#39;production&#39;:
+      config = require(&#39;../env/production&#39;);
+      break;
+
+    case &#39;development&#39;:
+      config = require(&#39;../env/development&#39;);
+      break;
+
+    case &#39;testing&#39;:
+      config = require(&#39;../env/testing&#39;);
+      break;
+
+    case &#39;staging&#39;:
+      config = require(&#39;../env/staging&#39;);
+      break;
+
+    default:
+      console.error(&#39;NODE_ENV environment variable not set&#39;);
+      process.exit(1);
+  }
+
+  return config;
+})(process.env.NODE_ENV);</code></pre>
+
+<h3>./env</h3>
+
+<p>The <code>env</code> directory contains files representing different environment modes: <code>development.js</code>, <code>production.js</code>, <code>test.js</code>, and <code>staging.js</code>.</p>
+
+<p>Here is an example of one file:</p>
+
+<pre><code>module.exports = {
+  pg: {
+    host: &#39;127.0.0.1&#39;,
+    database: &#39;test&#39;,
+    user: &#39;test&#39;,
+    password: &#39;test&#39;,
+    charset: &#39;utf8&#39;
+  },
+  mongodb: {
+    url: &#39;mongodb://localhost:27017/test&#39;
+  },
+  sessionSecret: &#39;ninja_cat&#39;
+};</code></pre>
+
+<p><strong>Heads up:</strong> Do not include any sensitive data in your config file, instead use environment variables.</p>
+
+<h3>./api</h3>
+
+<p>The <code>api</code> directory contains the application API files. I create <code>api</code> files exactly the same way as I do <code>controllers</code>, the only difference being that controllers sometimes load a view template.</p>
+
+<h3>./lib</h3>
+
+<p>The <code>lib</code> directory is very common in most Node modules. If your application uses any special algorithms or helpers then the lib directory is the perfect destination for them. In most cases a controller will require a <code>lib</code> file to perform a certain special task.</p>
+
+<h3>./bin</h3>
+
+<p>The <code>bin</code> directory contains all my command-line scripts. Below is an example:</p>
+
+<pre><code>#!/usr/bin/env node
+console.log(&#39;I am an executable file&#39;);</code></pre>
+
+<h3>./public</h3>
+
+<p>The <code>public</code> directory contains asset files like images, css, front-end JavaScript, fonts, e.t.c.</p>
+
+<h3>./views</h3>
+
+<p>All my application templates go into the views <code>directory</code>.</p>
+
+<h3>./test</h3>
+
+<p>The <code>test</code> directory contain all test cases.</p>
+
+<h3>./.gitignore</h3>
+
+<p>The <code>.gitignore</code> is used to to inform GIT about which files to ignore and not track. Some of the file and directories that I don&#39;t track with git include <code>node_modules</code>, PSDs, and temp files.</p>
+
+<pre><code>*.zip
+*.psd
+*~
+node_modules/
+bower_components/
+build/
+temp/</code></pre>
+
+<h3>./.jshintrc</h3>
+
+<p>The <code>.jshintrc</code> is a config file for <a href="http://jshint.com">jshint</a>, it sets the rules for JavaScript quality validation.</p>
+
+<pre><code>{
+  &quot;curly&quot;: false,
+  &quot;eqeqeq&quot;: true,
+  &quot;immed&quot;: true,
+  &quot;latedef&quot;: false,
+  &quot;newcap&quot;: true,
+  &quot;noarg&quot;: true,
+  &quot;sub&quot;: true,
+  &quot;undef&quot;: true,
+  &quot;boss&quot;: true,
+  &quot;eqnull&quot;: true,
+  &quot;node&quot;: true,
+  &quot;browser&quot;: true,
+  &quot;globals&quot;: {
+    &quot;jQuery&quot;: true,
+    &quot;define&quot;: true,
+    &quot;requirejs&quot;:true,
+    &quot;require&quot;: true,
+    &quot;describe&quot;: true,
+    &quot;it&quot;: true,
+    &quot;beforeEach&quot;: true,
+    &quot;before&quot;: true
+  }
+}</code></pre>
+
+<h3>./package.json</h3>
+
+<p><code>package.json</code> is a standard npm file for listing app dependencies and metadata. While Grunt and Gulf serve their purpose, in most cases I find <code>package.json</code> scripts adequate for doing command-line tasks.</p>
+
+<p>Example:</p>
+
+<pre><code>{
+    ...
+
+    &quot;scripts&quot;: {
+      &quot;start&quot;: &quot;node app.js&quot;,
+      &quot;dev&quot;: &quot;nodemon app&quot;,
+      &quot;jshint&quot;: &quot;jshint api collections config controllers env lib models public/javascripts routes test app.js&quot;,
+      &quot;test&quot;: &quot;npm run jshint &amp;&amp; mocha test&quot;,
+      &quot;precommit&quot;: &quot;npm test&quot;,
+      &quot;prepush&quot;: &quot;npm shrinkwrap &amp;&amp; npm test&quot;,
+      &quot;postmerge&quot;: &quot;npm install&quot;
+    }
+
+    ...
+}</code></pre>
+
+<p><strong>Some of my most used modules</strong></p>
+
+<ul><li>Express - App frameworks</li><li>Bookshelf - Postgres and MySQL ORM</li><li>lodash - utility library</li><li>passport - authentication</li><li>mongoose - MongoDB ODM</li><li>when.js - promises library</li><li>moment - parsing, validating, manipulating, and formatting dates</li></ul>
+
+<h3>Conclusion</h3>
+
+<p>I have tried to cram in as much information as I can in one post but it is by no means exhaustive. Building Node.js application is constantly evolving and it is important to always be on the lookout for new and better solutions from the community.</p>
+
+<p>I have more posts lined up for this month - <a href="http://blog.ragingflame.co.za/rss">subscribe to my RSS feed</a> to stay up-to-date. </p>
+    </div>
+    
+    
+      <a href="/2015/2/6/resizing-images-in-nodejs-applications" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+    
+    <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2015/4/1/how-i-build-nodejs-applications';
+    var disqus_title = 'How I build Node.js Applications';
+    var disqus_url = 'http://blog.ragingflame.co.za/2015/4/1/how-i-build-nodejs-applications';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

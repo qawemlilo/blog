@@ -404,5 +404,22 @@
             " nodejs"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1427876605908,
+        "title": "How I build Node.js Applications",
+        "description": "Node.js appliaction architacture and workflow",
+        "date": "2015-04-01T08:23:25.908Z",
+        "year": 2015,
+        "month": 4,
+        "day": 1,
+        "filename": "2015-4-1_how-i-build-nodejs-applications",
+        "url": "/2015/4/1/how-i-build-nodejs-applications",
+        "categories": [
+            "nodejs",
+            " architecture",
+            " workflow"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
