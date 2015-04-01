@@ -319,15 +319,15 @@ What is important to know is how Bookshelf handles these relationships under the
 
 <h3>hasMany</h3>
 
-<p>The <code>hasMay</code> method tells the current model that it has a one-to-many relationship with the model contained in its arguments.</p>
+<p>The <code>hasMany</code> method tells the current model that it has a one-to-many relationship with the model contained in its arguments.</p>
 
 <h3>belongsTo</h3>
 
 <p>The <code>belongsTo</code> method  tells the current model that it has a one-to-one or one-to-many relationship with the model contained in its arguments.</p>
 
-<h3>belongsToMay</h3>
+<h3>belongsToMany</h3>
 
-<p>The <code>belongsToMay</code> method  tells the current model that it has a many-to-many relationship with the model contained in its arguments. This type of a relationship is joined through another table. In our example, the <code>Post</code> model has a many-to-many relationship with the <code>Tags</code> model. Bookshelf will assume that there is a table named <code>posts_tags</code> -  it joins the two table names with an underscore. This is all done under the hood, all you have to do is create the table and Bookshelf will do the rest.</p>
+<p>The <code>belongsToMany</code> method  tells the current model that it has a many-to-many relationship with the model contained in its arguments. This type of a relationship is joined through another table. In our example, the <code>Post</code> model has a many-to-many relationship with the <code>Tags</code> model. Bookshelf will assume that there is a table named <code>posts_tags</code> -  it joins the two table names with an underscore. This is all done under the hood, all you have to do is create the table and Bookshelf will do the rest.</p>
 
 <p>In other relationships Bookshelf assumes that table names are plurals and that the foreignkey is the singular post-fixed with <code>_id</code>. It uses the following format:<code>&lt;TableNameSingular&gt;_id</code>. In our example,  the <code>author</code> method in the <code>Post</code> model will be mapped to the <code>User</code> model (where the table name is <code>users</code>) through the foreignkey <code>user_id</code> (substring <code>user</code> is the singular of table name <code>users</code>).</p>
 
