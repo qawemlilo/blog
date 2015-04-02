@@ -239,13 +239,13 @@ What is important to know is how Bookshelf handles these relationships under the
 Defining a `hasTimestamps` property in a model and assigning a value of `true` has special effects. Upon creation or when updating, Bookshelf will automatically insert values for the `created_at` and `updated_at` columns.
 
 ### hasMany
-The `hasMay` method tells the current model that it has a one-to-many relationship with the model contained in its arguments.
+The `hasMany` method tells the current model that it has a one-to-many relationship with the model contained in its arguments.
 
 ### belongsTo
 The `belongsTo` method  tells the current model that it has a one-to-one or one-to-many relationship with the model contained in its arguments.
 
-### belongsToMay
-The `belongsToMay` method  tells the current model that it has a many-to-many relationship with the model contained in its arguments. This type of a relationship is joined through another table. In our example, the `Post` model has a many-to-many relationship with the `Tags` model. Bookshelf will assume that there is a table named `posts_tags` -  it joins the two table names with an underscore. This is all done under the hood, all you have to do is create the table and Bookshelf will do the rest.
+### belongsToMany
+The `belongsToMany` method  tells the current model that it has a many-to-many relationship with the model contained in its arguments. This type of a relationship is joined through another table. In our example, the `Post` model has a many-to-many relationship with the `Tags` model. Bookshelf will assume that there is a table named `posts_tags` -  it joins the two table names with an underscore. This is all done under the hood, all you have to do is create the table and Bookshelf will do the rest.
 
 In other relationships Bookshelf assumes that table names are plurals and that the foreignkey is the singular post-fixed with `_id`. It uses the following format:`<TableNameSingular>_id`. In our example,  the `author` method in the `Post` model will be mapped to the `User` model (where the table name is `users`) through the foreignkey `user_id` (substring `user` is the singular of table name `users`).
 
