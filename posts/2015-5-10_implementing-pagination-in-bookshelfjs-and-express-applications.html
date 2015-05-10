@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Implementing Pagination in Bookshelf.js and Express applications</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
+<meta name="description" content="Implementing Pagination in Bookshelf.js and Express applications" />
+<meta name="generator" content="Node Blogger" />
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link href="/css/style.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <aside>
+    <h1>
+      <a href="/">
+        <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+      </a>
+    </h1>
+  
+    <p class="description">
+      Hi, my name is Qawelesizwe Mlilo(or Que), a Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for corrections and edits.
+    </p>
+  
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="https://github.com/qawemlilo" target="_blank">Projects</a></li>
+      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+    </ul>
+  
+    <p class="author">
+       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
+       
+       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
+       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
+       <a href="/rss" title="RSS" class="rss"> </a>  
+    </p>
+  </aside>
+  
+  <section id="content">
+    <div class="post blogpost"> 
+      <h1>Implementing Pagination in Bookshelf.js and Express applications</h1>
+      
+      
+      <div class="date">
+        
+        <div class="dt">
+           10 May 2015
+        </div>
+         
+        
+          
+        <div class="sharep">
+            Share
+            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications" class="share-fb" title="Share on Facebook"> 
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+            </a>
+            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+            </a> 
+        </div>
+        
+        
+      </div>
+      
+      <p style="clear:both"></p>
+      
+      <p>Hi there my node curious friends. Today I would like to look at one of the most common components in application development, pagination. Almost every database driven application that you build requires some kind of pagination functionality.</p>
+
+<p>If you have read some of my <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">previous posts</a>, you would have noticed how fond I am of Bookshelf.js. In this post, I am going to show you how to implement pagination using Bookshelf.js, Express, and Jade. We are going to take code used in a previous post, <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Building a simple API with Express and Bookshelf.js</a>, modify it to be more modular, and then implement today&#39;s solution.</p>
+
+<h3>Getting started</h3>
+
+<p>This is how I am going to approach today&#39;s problem:</p>
+
+<ol><li>Clone the repo from the aforementioned post: <code>git clone git@github.com:qawemlilo/node-mysql.git pagination</code></li><li>Break it down into an mvc-like modular architecture</li><li>Install view engines, jade</li><li>Create a base collection with pagination and other collections which extend the base collection</li><li>Create some controllers for loading views</li><li>Create a seeding script to populate the database with some random data</li></ol>
+
+<h3>Creating Pagination</h3>
+
+<p>The best way to implement pagination is to have a base collection that will be extended by other collections. This will ensure that all the collections we create will have pagination therefore enforcing DRY principles.</p>
+
+<p>Before going any further, let us define what we want in our pagination:</p>
+
+<ol><li>We need to have control over how many records are returned per query</li><li>We need to have the ability to sort the data by any column</li><li>We need to be able to create queries with multiple conditions</li><li>Easy view implementation - we should be able easily render the pagination in our views</li></ol>
+
+<p>It is also important to note that we do not want to override any functionality of the Bookshelf Collection API - if someone used our collection without the full knowledge of pagination, everything should still work as expected.</p>
+
+<p>Enough with the chit-chat, let&#39;s write some code.</p>
+
+<p><strong>collections/base.js</strong></p>
+
+<pre><code>&quot;use strict&quot;;
+
+var Bookshelf = require(&#39;../dbconnect&#39;)();
+
+Bookshelf.Collection = Bookshelf.Collection.extend({
+
+  limit: 10,
+
+  currentpage: 1,  
+
+  pagination: {},
+
+  base: &#39;&#39;,
+
+  paginationLimit: 10,
+
+  queries: [],
+
+  order: &#39;desc&#39;,
+
+  /**
+   * generates pagination data
+   * @returns: {Object} - pagination data object
+  */
+  generatePagination: function (totalRecords) {
+    var self = this;
+    var totalpages = Math.ceil(totalRecords / self.limit);
+    var groups = Math.ceil(totalpages / self.paginationLimit);
+    var currentpage = self.currentpage;
+    var items = [];
+    var lastpage = totalpages;
+
+    var next = currentpage &lt; lastpage ? currentpage + 1 : 1;
+    var prev = currentpage &lt; 2 ? lastpage : currentpage - 1;
+
+    var isFirstPage = currentpage === 1;
+    var isLastPage = currentpage === lastpage;
+
+    var highestF = currentpage + 2;
+    var lowestF = currentpage - 2;
+    var counterLimit = totalpages - 2;
+
+    if (groups &gt; 1) {
+      items.push(1);
+      items.push(2);
+
+      // if our current page is higher than 3
+      if (lowestF &gt; 3) {
+        items.push(&#39;...&#39;);
+
+        //lets check if we our current page is towards the end
+        if (lastpage - currentpage &lt; 2) {
+           lowestF -=  3; // add more previous links       
+        }
+      }
+      else {
+        lowestF = 3; // lowest num to start looping from
+      }
+
+      for (var counter = lowestF; counter &lt; lowestF + 5; counter++) {
+        if (counter &gt; counterLimit) {
+          break;
+        }
+
+        items.push(counter);
+      }
+
+      // if current page not towards the end
+      if (highestF &lt; totalpages - 2) {
+        items.push(&#39;...&#39;);
+      }
+
+      items.push(lastpage - 1);
+      items.push(lastpage);
+    }
+    else {
+      // no complex pagination required
+      for (var counter2 = 1; counter2 &lt;= lastpage; counter2++) {
+        items.push(counter2);
+      }
+    }
+
+    self.pagination = {
+      items: items,
+      currentpage: currentpage,
+      base: self.base,
+      isFirstPage: isFirstPage,
+      isLastPage: isLastPage,
+      next: next,
+      prev: prev,
+      total: totalRecords,
+      limit: self.limit
+    };
+
+    return self.pagination;
+  },
+
+
+  /**
+   * Creates pagination data
+   * @returns: {Promise} - resolves with pagination object
+  */
+  paginate: function () {
+    var self = this;
+    var query = self.model.forge().query();
+    var totalpages = 0;
+
+    if (self.queries.length &gt; 1) {
+      self.queries.forEach(function (where, i) {
+        if (i === 0) {
+          query.where(where[0], where[1], where[2]);
+        }
+        else {
+          query.andWhere(where[0], where[1], where[2]);
+        }
+      });
+    }
+
+    return query.count(&#39;id AS total&#39;)
+    .then(function (results) {
+      totalpages = parseInt(results[0].total, 10);
+
+      return self.generatePagination(totalpages);
+    });
+  },
+
+  /**
+   * fetches posts ordered by {sortColumn} and creates pagination
+   * @returns: {Promise} - resolves with an Object
+  */
+  fetchBy: function (sortColumn, options, fetchOptions) {
+
+    options = options || {};
+    fetchOptions = fetchOptions || {};
+
+    var self = this;
+    var limit = parseInt(options.limit, 10) || self.limit;
+    var currentpage = parseInt(options.page, 10) || self.currentpage;
+    var order = options.order || self.order;
+
+    self.queries = options.where || [];
+
+    self.currentpage = currentpage;
+    self.limit = limit;
+    self.order = order;
+    self.base = options.base || &#39;&#39;;
+
+    function fetch() {
+      return self.constructor.forge()
+      .query(function (query) {
+        query.limit(limit);
+
+        self.queries.forEach(function (where, i) {
+          if (i === 0) {
+            query.where(where[0], where[1], where[2]);
+          }
+          else {
+            query.andWhere(where[0], where[1], where[2]);
+          }
+        });
+
+        query.offset((currentpage - 1) * limit);
+        query.orderBy(sortColumn, order);
+      })
+      .fetch(fetchOptions)
+      .then(function (collection) {
+        return {
+          collection: collection,
+          pagination: self.pagination
+        };
+      });
+    }
+
+    return self.paginate().then(fetch);
+  }
+});
+
+module.exports = Bookshelf;</code></pre>
+
+<p>This is the base collection and below is an example of how it is extended:</p>
+
+<p><strong>collections/posts.js</strong></p>
+
+<pre><code>var Base = require(&#39;./base&#39;);
+var Post = require(&#39;./models/post&#39;);
+
+var Posts = Base.Collection.extend({
+  model: Post
+});
+
+module.exports = Posts;</code></pre>
+
+<p>Whenever we want to fetch a paginated set of data we&#39;ll use the <code>.fetchBy</code> method. This method accepts 3 arguments:</p>
+
+<ol><li>The first argument is the name of the sorting column</li><li>The second argument is an object with pagination options.</li><li>The last argument is an options object typically passed to the <code>fetch</code> method</li></ol>
+
+<p>I have created a controller that handles pagination:</p>
+
+<p><strong>controllers/posts.js</strong></p>
+
+<pre><code>var Posts = require(&#39;../collections/posts&#39;);
+
+module.exports.getPosts = function (req, res) {
+  var posts = new Posts();
+  var page = parseInt(req.query.p, 10);
+  var limit = parseInt(req.query.limit, 10) || 10;
+  var currentpage = page || 1;
+  var order = req.query.order || &quot;asc&quot;;
+
+  posts.fetchBy(&#39;published_at&#39;, {
+    page: currentpage,
+    limit: limit,
+    order: order,
+    where: [
+      [&#39;user_id&#39;, &#39;=&#39;, 1],
+      [&#39;category_id&#39;, &#39;=&#39;, 3]
+    ]
+  },
+  {
+    columns: [&#39;id&#39;, &#39;slug&#39;, &#39;html&#39;, &#39;title&#39;],
+    withRelated: [&#39;category&#39;]
+  })
+  .then(function (data) {
+    res.render(&#39;posts&#39;, {
+      pagination: data.pagination,
+      posts: data.collection.toJSON()
+    });
+  })
+  .otherwise(function (error) {
+    res.status(500).send(error.message);
+  });
+};</code></pre>
+
+<p>All that is left now is to associate the <code>.getPosts</code> method with a route of your choice and create a <code>posts.jade</code> view.</p>
+
+<p>In the spirit of the DRY principle I am going to create a jade mixin that accepts the pagination object and generates the pagination html. Its always a good idea to have a <code>mixins</code> directory inside your views directory.</p>
+
+<p><strong>views/mixins/pagination.js</strong></p>
+
+<pre><code>mixin paginate(pagination)
+  if pagination.limit &lt; pagination.total
+    .row(style=&#39;text-align: center&#39;)
+      ul.pagination
+        if (pagination.isFirstPage)
+          li.disabled
+            a(href=&#39;#&#39;) &amp;laquo; Prev
+
+        else
+          li
+            a(href=&#39;?p=#{pagination.prev}&#39;) &amp;laquo; Prev
+
+        each page, i in pagination.items
+          if (page == &#39;...&#39;)
+            li.disabled
+              a(href=&quot;#&quot;) ...
+
+          else
+            if (page == pagination.currentpage)
+              li.active
+                a(href=&#39;#{pagination.base}?p=#{page}&#39;) #{page}
+            else
+              li
+                a(href=&#39;#{pagination.base}?p=#{page}&#39;) #{page}
+
+        if (pagination.isLastPage)
+          li.disabled
+            a(href=&#39;#&#39;) Next &amp;raquo;
+
+        else
+          li
+            a(href=&#39;#{pagination.base}?p=#{pagination.next}&#39;) Next &amp;raquo;</code></pre>
+
+<p>Below is an example of how you would use the mixin inside a jade view:</p>
+
+<p><strong>views/posts.jade</strong></p>
+
+<pre><code>extends layout
+
+include mixins/pagination
+
+block content
+  div(class=&quot;col-sm-8 blog-main&quot;)
+    each post, i in posts
+      dl.dl-horizontal
+        dt #{post.created_at}
+        dd
+          a(href=&quot;/posts/#{post.slug}&quot;) #{post.title}
+
+    mixin paginate(pagination)</code></pre>
+
+<p>I have created a repo, <a href="https://github.com/qawemlilo/pagination">https://github.com/qawemlilo/pagination</a>, with a fully functional demo. This is how you can run it:</p>
+
+<ol><li>Clone the repo: <code>git clone https://github.com/qawemlilo/pagination.git</code></li><li>Cd into the directory and install dependencies: <code>npm install</code></li><li>Update <code>config.js</code> with your db details</li><li>Create db tables and insert random data: <code>node migrate &amp;&amp; node seed</code></li><li>Start the server: <code>node app</code></li></ol>
+
+<p>That&#39;s all folks! Please <a href="http://twitter.com/home?status=Implementing%20Pagination%20in%20%23Bookshelfjs%20and%20%23Express%20applications%20http%3A%2F%2Fblog.ragingflame.co.za%2F2015%2F5%2F10%2Fimplementing-pagination-in-bookshelfjs-and-express-applications%20%23nodejs%20%40ragingflameblog">share on twitter</a> if you enjoyed this post :)</p>
+    </div>
+    
+    
+      <a href="/2015/4/1/how-i-build-nodejs-applications" title="Previous Post" class="pagination-arrow newer">Prev</a>
+    
+    
+    
+    
+    <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+
+<script type="text/javascript" src="/js/script-min.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications';
+    var disqus_title = 'Implementing Pagination in Bookshelf.js and Express applications';
+    var disqus_url = 'http://blog.ragingflame.co.za/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

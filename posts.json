@@ -421,5 +421,23 @@
             " workflow"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1431241077642,
+        "title": "Implementing Pagination in Bookshelf.js and Express applications",
+        "description": "Implementing Pagination in Bookshelf.js and Express applications",
+        "date": "2015-05-10T06:57:57.642Z",
+        "year": 2015,
+        "month": 5,
+        "day": 10,
+        "filename": "2015-5-10_implementing-pagination-in-bookshelfjs-and-express-applications",
+        "url": "/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications",
+        "categories": [
+            "express",
+            " bookshelf",
+            " jade",
+            " mysql"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
