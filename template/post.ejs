@@ -16,7 +16,6 @@
 
 <!-- Custom styles for this template -->
 <link href="/css/navmenu.css" rel="stylesheet">
-<link href="/css/style.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -49,18 +48,18 @@
         <li><a href="mailto:<%= author.email %>">Contact Me</a></li>
       </ul>
 
-      <ul class="list-inline">
+      <ul class="list-inline social-media">
         <li>
-          <a target="_blank" href="<%= author.githubPage %>" title="Github" class="github">Github</a> 
+          <a target="_blank" href="<%= author.githubPage %>" title="Github" class="github">&nbsp;</a> 
         </li>
         <li>
-          <a href="http://twitter.com/<%= author.twitterHandle %>">@<%= author.twitterHandle %></a>
+          <a href="http://twitter.com/<%= author.twitterHandle %>" title="Follow me on Twitter" class="twitter">&nbsp;</a>
         </li>
         <li>
-          <a href="<%= author.googlePage %>">Google+</a>
+          <a href="<%= author.googlePage %>" title="Google+" class="google">&nbsp;</a>
         </li>
         <li>
-          <a href="<%= blog.rss %>" title="RSS">RSS</a>
+          <a href="<%= blog.rss %>" title="RSS" class="rss">&nbsp;</a>
         </li>
       </ul>
     </div>
