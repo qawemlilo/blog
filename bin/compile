@@ -4,14 +4,35 @@
    This file contains the program that compiles all markdown files to html files
    bin
 */
+var fs  =  require('fs');
+
 
 function compile() {
-    var compileIndex = require('../lib/bin.compile-index'),
-        compilePosts = require('../lib/bin.compile-posts'),
-        index, posts;
+    var compileIndex = require('../lib/bin.compile-index');
+    var compilePosts = require('../lib/bin.compile-posts');
+    var scripts = require('../lib/scripts');
+    var styles = require('../lib/styles');
+    var index, posts;
+
+    var scriptsMin = 'script_v' + Date.now() + '.js';
+    var cssMin = 'style_v' + Date.now() + '.css';
     
-    index = new compileIndex();
-    posts = new compilePosts();
+    try {
+        fs.writeFileSync('./template/js/' + scriptsMin, scripts(), 'utf8'); 
+        console.log(scriptsMin + ' created! %s', '-_-'); 
+    } catch (error) {
+        throw error;
+    }
+
+    try {
+        fs.writeFileSync('./template/css/' + cssMin, styles(), 'utf8'); 
+        console.log(cssMin + ' created! %s', '-_-'); 
+    } catch (error) {
+        throw error;
+    }  
+
+    index = new compileIndex({js: scriptsMin, css: cssMin});
+    posts = new compilePosts({js: scriptsMin, css: cssMin});
     
     index.init();
     posts.init();

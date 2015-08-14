@@ -27,17 +27,20 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "ejs": "~0.8.3",
-    "markdown": "~0.4.0",
     "connect": "~2.7.8",
-    "rss": "~0.0.4",
-    "xml": "~0.0.7",
     "st": "~0.3.1"
   },
   "devDependencies": {
-    "should": "~1.2.2",
+    "clean-css": "^3.3.9",
+    "del": "^1.2.1",
+    "ejs": "~0.8.3",
     "jshint": "*",
-    "mocha": "*"
+    "markdown": "~0.4.0",
+    "mocha": "*",
+    "rss": "~0.0.4",
+    "should": "~1.2.2",
+    "uglify-js": "^2.4.24",
+    "xml": "~0.0.7"
   },
   "engines": {
     "node": "0.10.x",

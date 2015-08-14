@@ -7,7 +7,19 @@
         "postsFile": "./posts.json",
         "url": "http://blog.ragingflame.co.za",
         "rss": "/rss",
-        "rssLimit": 20
+        "rssLimit": 20,
+        "scripts": [
+           "template/js/jquery.js",
+           "template/js/bootstrap.js",
+           "template/js/jasny-bootstrap.js",
+           "template/js/prettify.js",
+           "template/js/script.js"
+        ],
+        "css": [
+           "template/css/bootstrap.css",
+           "template/css/jasny-bootstrap.css",
+           "template/css/style.css"
+        ]
     },
     "author": {
         "name": "Qawelesizwe Mlilo",
