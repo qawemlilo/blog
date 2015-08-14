@@ -1,83 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Using Node.js to join audio files</title>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no" />
-<meta name="description" content="A node.js program for manipulating audio files" />
-<meta name="generator" content="Node Blogger" />
-<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-<link href="/css/style.css" rel="stylesheet" />
-<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
-<!--[if lt IE 9]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
 
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A blog about Web and Software development using Node.js, JavaScript, and PHP!">
+<meta name="author" content="Qawelesizwe Mlilo">
+<meta name="generator" content="Node Blogger" />
+
+<title>Using Node.js to join audio files</title>
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/jasny-bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="/css/navmenu.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 <body>
-  <aside>
-    <h1>
-      <a href="/">
-        <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
-      </a>
-    </h1>
-  
-    <p class="description">
-      Hi, my name is Qawelesizwe Mlilo(or Que), a Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for corrections and edits.
-    </p>
-  
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="https://github.com/qawemlilo" target="_blank">Projects</a></li>
-      <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
-    </ul>
-  
-    <p class="author">
-       <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github"> </a> 
-       
-       <a target="_blank" href="http://twitter.com/ragingflameblog" title="Twitter" class="twitter"> </a>   
-       <a target="_blank" href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google" class="google"> </a>   
-       <a href="/rss" title="RSS" class="rss"> </a>  
-    </p>
-  </aside>
-  
-  <section id="content">
-    <div class="post blogpost"> 
-      <h1>Using Node.js to join audio files</h1>
-      
-      
-      <div class="date">
-        
-        <div class="dt">
-           31 May 2013
-        </div>
-         
-        
-          
-        <div class="sharep">
-            Share
-            <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-fb" title="Share on Facebook"> 
-               &nbsp;
-            </a>
-            <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-twitter" title="Share on Twitter">
-               &nbsp;
-            </a>
-            <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-reddit" title="Share on Reddit">
-               &nbsp;
-            </a>
-            <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-linkedin" title="Share on LinkedIn">
-               &nbsp;
-            </a> 
-        </div>
-        
-        
+    <div class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
+
+      <button type="button" style="margin-right: 10px; margin-top: 5px; color:#fff" class="close hidden-md hidden-lg pull-right" aria-label="Close" data-toggle="offcanvas" data-target=".navmenu">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+      <div class="text-center avatar">
+        <a href="/">
+          <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+        </a>
       </div>
+
+      <p class="description">
+        Hi, my name is Qawelesizwe Mlilo(or Que), a Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+      </p>
+
+      <ul class="nav navmenu-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="https://github.com/qawemlilo" target="_blank">Projects</a></li>
+        <li><a href="mailto:qawemlilo@gmail.com">Contact Me</a></li>
+      </ul>
+
+      <ul class="list-inline">
+        <li>
+          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">Github</a> 
+        </li>
+        <li>
+          <a href="http://twitter.com/ragingflameblog">@ragingflameblog</a>
+        </li>
+        <li>
+          <a href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0">Google+</a>
+        </li>
+        <li>
+          <a href="/rss" title="RSS">RSS</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top hidden-md hidden-lg">
+      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Raging Flame Blog</a>
+    </div>
+
+    <div class="container content">
+      <div class="row">
+        <div class="post blogpost"> 
+          <h1>Using Node.js to join audio files</h1>
       
-      <p style="clear:both"></p>
       
-      <p>Today I decided to clean up and organise files on my windows machine at work. This process involved deleting files I no longer have use for and grouping the rest in folders.  So I ended up with folders for audio, video, projects, ebooks, e.t.c.</p>
+          <div class="date">
+            <div class="dt">
+              31 May 2013
+            </div> 
+            <div class="sharep">
+              <ul class="list-inline list-unstyled">
+                <li>
+                  Share:
+                </li>
+
+                <li>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+              </a>                  
+                </li>
+
+                <li>
+              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+              </a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2013/5/31/using-nodejs-to-join-audio-files" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+              </a>
+                </li>
+              </ul>
+           
+            </div>
+          </div>
+      
+          <p style="clear:both"></p>
+      
+          <p>Today I decided to clean up and organise files on my windows machine at work. This process involved deleting files I no longer have use for and grouping the rest in folders.  So I ended up with folders for audio, video, projects, ebooks, e.t.c.</p>
 
 <p>One of the folders that I opened contained about 50 small mp3 files. Before deleting the files I had to play them just to make sure they didn&#39;t contain anything important. What do I know, turns out they are clips of a DHH(the RoR creator) interview - please don&#39;t ask me how they got to my computer.  He&#39;s quite an opinionated guy so I decided to keep the files. But 50 files? Wouldn&#39;t it be nice if I could glue them together into a single file? Well, being the hacker that I am I popped open my terminal and started writing a program.</p>
 
@@ -174,20 +215,25 @@ main();</code></pre>
 <pre><code>node rename.js &amp;&amp; node stream.js</code></pre>
 
 <p><strong>Note:</strong> I have included a few files in <a href="https://github.com/qawemlilo/node-streams">my repo</a> so that you can be able to try this out.</p>
+        </div>
+        <div class="pagination-container">    
+        
+          <a href="/2013/5/9/about-this-blog" title="Previous Post" class="pagination-arrow newer">Prev</a>
+        
+        
+        
+          <a href="/2013/6/8/the-state-of-node" title="Next Post" class="pagination-arrow older">Next</a>
+        
+      </div>
+        
+        <div id="disqus_thread"></div>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </div>
     </div>
-    
-    
-      <a href="/2013/5/9/about-this-blog" title="Previous Post" class="pagination-arrow newer">Prev</a>
-    
-    
-    
-      <a href="/2013/6/8/the-state-of-node" title="Next Post" class="pagination-arrow older">Next</a>
-    
-    
-    <div id="disqus_thread"></div>
-    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-  </section>
 
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jasny-bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/script-min.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';

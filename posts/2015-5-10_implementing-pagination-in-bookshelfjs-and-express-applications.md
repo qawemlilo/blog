@@ -126,7 +126,6 @@ Enough with the chit-chat, let's write some code.
     
         return self.pagination;
       },
-   
 
       /**
        * Creates pagination data
