@@ -18,6 +18,7 @@
         "css": [
            "template/css/bootstrap.css",
            "template/css/jasny-bootstrap.css",
+           "template/css/prettify.css",
            "template/css/style.css"
         ]
     },

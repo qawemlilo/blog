@@ -75,11 +75,11 @@
           <h1><%= post.title %></h1>
       
       
-          <div class="date">
-            <div class="dt">
+          <div class="row date">
+            <div class="dt col-xs-5 col-sm-5 col-md-5 col-lg-5">
               <%= post.day %> <%= post.month %> <%= post.year %>
             </div> 
-            <div class="sharep">
+            <div class="sharep col-xs-7 col-sm-7 col-md-7 col-lg-7" style="text-align:right">
               <ul class="list-inline list-unstyled">
                 <li>
                   Share:
@@ -110,8 +110,6 @@
            
             </div>
           </div>
-      
-          <p style="clear:both"></p>
       
           <%- post.content %>
         </div>
