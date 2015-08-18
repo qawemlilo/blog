@@ -7,11 +7,6 @@ body {
   color: #4f4f4f;
 }
 
-.overthrow-enabled .overthrow {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-}
-
 .navbar {
   display: block;
   text-align: center;
@@ -385,6 +380,11 @@ img.github {
   .post, .pagination-container, #disqus_thread {
     margin-right: 10px;
     margin-left: 10px;
+  }
+
+  .navmenu {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

@@ -13,7 +13,6 @@
            "template/js/bootstrap.js",
            "template/js/jasny-bootstrap.js",
            "template/js/prettify.js",
-           "template/js/overthrow.js",
            "template/js/script.js"
         ],
         "css": [
