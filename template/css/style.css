@@ -8,7 +8,7 @@ body {
 }
 
 .overthrow-enabled .overthrow {
-  overflow: scroll;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
 
