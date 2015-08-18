@@ -4,7 +4,7 @@
   "description": "A tiny Node.js blogging engine",
   "main": "app.js",
   "scripts": {
-    "test": "mocha test",
+    "test": "jshint && mocha test",
     "jshint": "jshint posts.js rss.js server.js routes.js ./lib/post.js ./lib/bin.compile-index.js ./lib/bin.compile-posts.js ./lib/bin.newpost.js"
   },
   "bin": {
@@ -39,6 +39,7 @@
     "mocha": "*",
     "rss": "~0.0.4",
     "should": "~1.2.2",
+    "slug": "^0.9.1",
     "uglify-js": "^2.4.24",
     "xml": "~0.0.7"
   },

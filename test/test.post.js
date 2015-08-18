@@ -24,7 +24,7 @@ describe('Post', function() {
     });
     
     afterEach(function(done) {
-        fs.unlink('./posts/' + post.filename + '.md', function (error) {
+        fs.unlink('./posts/md/' + post.filename + '.md', function (error) {
             if (error) {
                 throw error;
             }

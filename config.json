@@ -1,44 +1,35 @@
 {
-    "blog": {
-        "name": "Raging Flame Blog",
-        "description": "A blog about Web and Software development using Node.js, JavaScript, and PHP!",
-        "baseUrl": "/",
-        "postsFolder": "./posts",
-        "postsFile": "./posts.json",
-        "url": "http://blog.ragingflame.co.za",
-        "rss": "/rss",
-        "rssLimit": 20,
-        "scripts": [
-           "template/js/jquery.js",
-           "template/js/bootstrap.js",
-           "template/js/jasny-bootstrap.js",
-           "template/js/prettify.js",
-           "template/js/script.js"
-        ],
-        "css": [
-           "template/css/bootstrap.css",
-           "template/css/jasny-bootstrap.css",
-           "template/css/prettify.css",
-           "template/css/style.css"
-        ]
-    },
-    "author": {
-        "name": "Qawelesizwe Mlilo",
-        "autobio": "Hi, my name is Qawelesizwe Mlilo(or Que), a Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).<br><a href=\"https://github.com/qawemlilo/blog\" target=\"_blank\">Send me a pull request</a> for any corrections.",
-        "email": "qawemlilo@gmail.com",
-        "githubPage": "https://github.com/qawemlilo",
-        "twitterHandle": "ragingflameblog",
-        "website": "http://www.ragingflame.co.za",
-        "facbookPage": "#",
-        "googlePage": "https://plus.google.com/111595084798587457827/posts?hl=en&partnerid=gplp0",
-        "avatar": "/img/q-mobile.png"
-    },
-    "showDate": true,
-    "showPagination": true,
-    "showShareButtons": true,
-    "showGithubButton": true,
-    "showFacebookButton": false,
-    "showTwitterButton": true,
-    "showGoogleButton": true,
-    "showRssButton": true
+  "blog": {
+    "name": "Raging Flame Blog",
+    "description": "A blog about Web and Software development using Node.js, JavaScript, and PHP!",
+    "baseUrl": "/",
+    "postsFolder": "./posts",
+    "postsFile": "./posts.json",
+    "url": "http://blog.ragingflame.co.za",
+    "rss": "/rss",
+    "rssLimit": 20,
+    "scripts": [
+      "template/js/jquery.js",
+      "template/js/bootstrap.js",
+      "template/js/jasny-bootstrap.js",
+      "template/js/prettify.js",
+      "template/js/script.js"
+    ],
+    "css": [
+      "template/css/bootstrap.css",
+      "template/css/jasny-bootstrap.css",
+      "template/css/prettify.css",
+      "template/css/style.css"
+    ]
+  },
+  "author": {
+    "name": "Qawelesizwe Mlilo",
+    "autobio": "Hi, my name is Qawelesizwe Mlilo(or Que), a Software Developer currently based in Cape Town, S.A. This blog is about my programming (adventures || misadventures).<br><a href=\"https://github.com/qawemlilo/blog\" target=\"_blank\">Send me a pull request</a> for any corrections.",
+    "email": "qawemlilo@gmail.com",
+    "githubPage": "https://github.com/qawemlilo",
+    "twitterHandle": "ragingflameblog",
+    "website": "http://www.ragingflame.co.za",
+    "googlePage": "https://plus.google.com/111595084798587457827/posts?hl=en&partnerid=gplp0",
+    "avatar": "/img/q-mobile.png"
+  }
 }

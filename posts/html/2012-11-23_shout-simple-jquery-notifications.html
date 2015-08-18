@@ -8,10 +8,10 @@
 <meta name="author" content="Qawelesizwe Mlilo">
 <meta name="generator" content="Node Blogger" />
 
-<title>The state of Node</title>
+<title>$.Shout - Simple jQuery notifications</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1439900317524.css" rel="stylesheet">
+<link href="/css/style_v1439924238402.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -72,12 +72,12 @@
     <div class="container content">
       <div class="row">
         <div class="post blogpost"> 
-          <h1>The state of Node</h1>
+          <h1>$.Shout - Simple jQuery notifications</h1>
       
       
           <div class="row date">
             <div class="dt col-xs-5 col-sm-5 col-md-5 col-lg-5">
-              8 Jun 2013
+              23 Nov 2012
             </div> 
             <div class="sharep col-xs-7 col-sm-7 col-md-7 col-lg-7" style="text-align:right">
               <ul class="list-inline list-unstyled">
@@ -86,23 +86,23 @@
                 </li>
 
                 <li>
-                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2013/6/8/the-state-of-node" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2012/11/23/shout-simple-jquery-notifications" class="share-fb" title="Share on Facebook">&nbsp;</a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2013/6/8/the-state-of-node" class="share-twitter" title="Share on Twitter">
+              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2012/11/23/shout-simple-jquery-notifications" class="share-twitter" title="Share on Twitter">
                &nbsp;
               </a>                  
                 </li>
 
                 <li>
-              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2013/6/8/the-state-of-node" class="share-reddit" title="Share on Reddit">
+              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2012/11/23/shout-simple-jquery-notifications" class="share-reddit" title="Share on Reddit">
                &nbsp;
               </a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2013/6/8/the-state-of-node" class="share-linkedin" title="Share on LinkedIn">
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2012/11/23/shout-simple-jquery-notifications" class="share-linkedin" title="Share on LinkedIn">
                &nbsp;
               </a>
                 </li>
@@ -111,17 +111,145 @@
             </div>
           </div>
       
-          <p><em>&quot;Numbers don&#39;t lie.&quot;</em></p>
+          <p>I am in the process of building a web app for managing browser bookmarks and I would like to share some of the code. </p>
 
-<p><a href="http://strongloop.com/node-republic/node-js-infographic"><img alt="The state of Node" src="/img/nodejs_infographic.jpg"/></a></p>
+<p>Every web app needs some kind of way to give users feedback on performed tasks and actions, so I wrote this little jQuery function(and a few lines of css for formatting).</p>
+
+<p>The reason why I wrote this as a jQuery function is because I needed it to be available from anywhere within the app and not mess with my MVC-like app architecture.</p>
+
+<h3>CSS</h3>
+
+<pre><code>#appMessage {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 25px;
+  text-align: center;
+  padding: 20px 0px 20px 0px;
+  color: #fff;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  border-bottom: 1px solid;
+}
+
+#appMessage.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+
+#appMessage.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
+
+#appMessage.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+}
+
+#appMessage.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}</code></pre>
+
+<h3>JavaScript</h3>
+
+<pre><code>/*
+************************************
+Author: Qawelesizwe Mlilo
+************************************
+*/
+
+(function ($) {
+    $.shout = function (message, seconds, msgType) {
+
+      /*
+       Check if there is a notice currently displayed
+       and remove it
+      */
+
+      if ($(&quot;#appMessage&quot;).length) {
+        $(&quot;#appMessage&quot;).remove();
+      }
+
+      /*
+         Create a div element
+         and default it as an info notice
+      */
+
+      var elem = $(&#39;&lt;div&gt;&#39;, {
+        &#39;id&#39;: &#39;appMessage&#39;,
+        &#39;class&#39;: msgType || &#39;info&#39;,
+        &#39;html&#39;: message
+      });
+
+      /*
+         Attach a click event to remove notice
+      */
+
+      elem.click(function () {
+        $(this).fadeOut(function () {
+            $(this).remove();
+        }.bind(this));
+      });
+
+      /*
+         Close the notice after
+         a specified number of seconds
+      */
+
+      if (seconds) {
+        setTimeout(function () {
+            elem.click();
+        }, seconds * 1000);
+      }
+
+      /*
+         Create a slide down effect
+      */
+
+      elem.hide().appendTo(&#39;body&#39;).slideDown();
+    };
+}(jQuery));</code></pre>
+
+<h3>How to use it</h3>
+
+<p>Simply call the function with 2 or 3 arguments</p>
+
+<pre><code>/*
+  Calling it with 2 arguments will default
+  to a simple info notice
+*/
+
+$.shout(&#39;Hello there, this is just a notice&#39;, 10);
+
+/*
+  Or give an error notice
+*/
+
+$.shout(&#39;Action failed&#39;, 10, &#39;error&#39;);
+
+/*
+  Or a success notice
+*/
+
+$.shout(&#39;Action successfully executed!&#39;, 10, &#39;success&#39;);
+
+/*
+  A warning notice
+*/
+
+$.shout(&#39;Are you sure you want to do that?&#39;, 10, &#39;warning&#39;);</code></pre>
         </div>
         <div class="pagination-container">    
         
-          <a href="/2013/5/31/using-nodejs-to-join-audio-files" title="Previous Post" class="pagination-arrow newer">Prev</a>
+          <a href="/2012/11/16/creating-unique-array-keys" title="Previous Post" class="pagination-arrow newer">Prev</a>
         
         
         
-          <a href="/2013/8/23/setting-up-a-raspberry-pi" title="Next Post" class="pagination-arrow older">Next</a>
+          <a href="/2013/2/8/crushit" title="Next Post" class="pagination-arrow older">Next</a>
         
       </div>
         
@@ -130,12 +258,12 @@
       </div>
     </div>
 
-<script src="/js/script_v1439900317524.js"></script>
+<script src="/js/script_v1439924238402.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
-    var disqus_identifier = '/2013/6/8/the-state-of-node';
-    var disqus_title = 'The state of Node';
-    var disqus_url = 'http://blog.ragingflame.co.za/2013/6/8/the-state-of-node';
+    var disqus_identifier = '/2012/11/23/shout-simple-jquery-notifications';
+    var disqus_title = '$.Shout - Simple jQuery notifications';
+    var disqus_url = 'http://blog.ragingflame.co.za/2012/11/23/shout-simple-jquery-notifications';
     
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {

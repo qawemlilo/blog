@@ -1,19 +1,18 @@
+"use strict";
 
 /*
    Blog http server
 */
 
-var http = require('http'),
-    connect = require('connect'),
-    st = require('st'),
-    port = process.env.PORT || 3080,
-    routes = require('./routes'), 
-    app,
-    mount,
-    OneDay = (1000 * 60 * 60 * 24);
+var http = require('http');
+var connect = require('connect');
+var st = require('st');
+var port = process.env.PORT || 3080;
+var routes = require('./routes');
+var OneDay = (1000 * 60 * 60 * 24);
 
 
-mount = st({
+var mount = st({
     path: __dirname + '/template', // resolved against the process cwd
     
     url: '/', // defaults to '/'
@@ -42,14 +41,14 @@ mount = st({
     passthrough: true // calls next/returns instead of returning a 404 error
 });
 
-
-    
-app = connect()
+  
+var app = connect()
   .use(mount)
   .use(connect.compress())
   .use(routes);
 
 
-http.createServer(app).listen(port, function() {
-    console.log('Blog server running at port %s', port);
+http.createServer(app)
+.listen(port, function() {
+  console.log('Blog server running at port %s', port);
 });

@@ -8,10 +8,10 @@
 <meta name="author" content="Qawelesizwe Mlilo">
 <meta name="generator" content="Node Blogger" />
 
-<title>Proposing a native Event Emitter in JavaScript</title>
+<title>About this Blog</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1439900317524.css" rel="stylesheet">
+<link href="/css/style_v1439924238402.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -72,12 +72,12 @@
     <div class="container content">
       <div class="row">
         <div class="post blogpost"> 
-          <h1>Proposing a native Event Emitter in JavaScript</h1>
+          <h1>About this Blog</h1>
       
       
           <div class="row date">
             <div class="dt col-xs-5 col-sm-5 col-md-5 col-lg-5">
-              10 Dec 2013
+              9 May 2013
             </div> 
             <div class="sharep col-xs-7 col-sm-7 col-md-7 col-lg-7" style="text-align:right">
               <ul class="list-inline list-unstyled">
@@ -86,23 +86,23 @@
                 </li>
 
                 <li>
-                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2013/12/10/proposing-a-native-event-emitter-in-javascript" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2013/5/9/about-this-blog" class="share-fb" title="Share on Facebook">&nbsp;</a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2013/12/10/proposing-a-native-event-emitter-in-javascript" class="share-twitter" title="Share on Twitter">
+              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2013/5/9/about-this-blog" class="share-twitter" title="Share on Twitter">
                &nbsp;
               </a>                  
                 </li>
 
                 <li>
-              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2013/12/10/proposing-a-native-event-emitter-in-javascript" class="share-reddit" title="Share on Reddit">
+              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2013/5/9/about-this-blog" class="share-reddit" title="Share on Reddit">
                &nbsp;
               </a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2013/12/10/proposing-a-native-event-emitter-in-javascript" class="share-linkedin" title="Share on LinkedIn">
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2013/5/9/about-this-blog" class="share-linkedin" title="Share on LinkedIn">
                &nbsp;
               </a>
                 </li>
@@ -111,139 +111,90 @@
             </div>
           </div>
       
-          <p><a href="https://github.com/qawemlilo/emitter"><img alt="Fork me on GitHub" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" title="Github"/></a></p>
-
-<p><em>Featured in <a href="http://javascriptweekly.com/issues/161">JavaScript Weekly: Issue 161</a></em></p>
-
-<p>JavaScript events are very powerful, they give you the power to capture real world events in real time. For example, when a user moves their mouse in the browser or when they click. </p>
-
-<p>Using JavaScript events to interact with DOM objects defined Web 2.0 and is still widely used (thanks to jQuery and similar libraries) but it has its limitations, the events are predefined and tied to the browser BOM and DOM. </p>
-
-<p>A more powerful implementation of JavaScript Events is in Event Emitters. Most of the popular JavaScript libraries/frameworks have their own implementation of Event Emitters.  </p>
-
-<p>My framework of choice is backbone.js and it uses Backbone.Events to implement Event Emitters.  </p>
-
-<pre><code>var mySimpleObject = {
-    name: &quot;John&quot;,
-    surname: &quot;Doe&quot;,
-    gender: &quot;Male&quot;
-};
-
-// use underscore to extend mySimpleObject with Backbone.Events
-_.extend(mySimpleObject, Backbone.Events);
-
-mySimpleObject.on(&#39;customEvent&#39;, function () {
-   // do something cool
-});
-
-mySimpleObject.trigger(&#39;customEvent&#39;);</code></pre>
-
-<p>In the above example we simply extend a normal object with Backbone.Events to turn it into an Event Emitter.</p>
-
-<p>Node.js also has a powerful EventEmitter object that can be used to add some awesomeness to objects. </p>
-
-<pre><code>var util = require(&#39;util&#39;);
-var EventEmitter = require(&#39;events&#39;).EventEmitter;
-
-// here is an ordinary object representing my Dog
-var myDog = {
-    name: &#39;Spotty&#39;,
-    likes: [&#39;bones&#39;, &#39;biskuits&#39;],
-    ate: [],
-    feed: function (food) {
-        this.ate.push(food)
-    }               
-};
-
-// Add some magic to my ordinary object
-util.inherits(myDog, EventEmitter);
-
-// Now my object can listen to and emit events
-myDog.on(&#39;hungry&#39;, function () {
-    myDog.feed(&#39;bone&#39;)
-});
-
-myDog.emit(&#39;hungry&#39;);</code></pre>
-
-<p>Using Event Emitters has many advantages; you can emit events when an object&#39;s state changes, objects can eavesdrop on other objects, reduces callback nesting, e.t.c.</p>
-
-<p>The more I use event emitters the more I feel that they should become part of a future version of JavaScript </p>
-
-<h3>My proposed API</h3>
-
-<p>Creating an Event Emitter would have the same API as creating Objects in ES5.</p>
-
-<pre><code>// an empty
-var emitter1 = EventEmitter.create(null);
-
-
-var mySimpleObject = {
-    name: &quot;John&quot;,
-    surname: &quot;Doe&quot;,
-    gender: &quot;Male&quot;
-};
-
-var emitter2 = EventEmitter.create(mySimpleObject);</code></pre>
-
-<h3>Introducing Emitter.</h3>
-
-<p>Since native Event Emitters are just but a wishlist for now, I have forked Backbone Events and created a small library called Emitter. You can drop it into your project to start messing with Event Emitters.</p>
-
-<p>Emitter uses the same API as <a href="http://backbonejs.org/#Events">Backbone.Events</a>. The only difference is that I have renamed the <code>trigger</code> method to <code>emit</code>. Below is an example of how to use Emitter.</p>
-
-<pre><code>&quot;use strict&quot;;
-
-// in Node require the module
-var Emitter = require(&#39;emiter&#39;);
-
-// In the browser include the script in your html 
-// &lt;script src=&quot;dest/emitter.min.js&quot;&gt;&lt;/script&gt;
-
-
-var Dog = Emitter.extend({
-    buck: function () {
-        this.emit(&#39;buck&#39;);
-    }
-});
-
-var Person = Emitter.extend({
-    run: function () {
-        this.emit(&#39;run&#39;);
-        this.running = true;
-    }
-});
-
-var intruder = new Person();
-var myPet = new Dog();
-
-myPet.on(&#39;buck&#39;, function () {
-    console.log(&#39;My dog is bucking&#39;);
-});
-
-intruder.on(&#39;run&#39;, function () {
-    console.log(&#39;The intruder is rinning away&#39;);
-});
-
-
-intruder.listenTo(myPet, &#39;buck&#39;, intruder.run);
-
-myPet.buck();</code></pre>
+          <p>This blog is powered by <a href="https://github.com/qawemlilo/node-blogger">Node Blogger</a>, a small blogging platform for Node.js that I created out of my frustrations with WordPress&#39;s bloatedness and never-ending updates. Below is a detailed documantion on how to create your own blog using <a href="https://github.com/qawemlilo/node-blogger">Node Blogger</a>.</p>
 
 <h3>Installation</h3>
 
-<pre><code>npm install emiter</code></pre>
+<p>First you need to download the repo</p>
 
-<h3>Examples</h3>
+<pre><code>git clone https://github.com/qawemlilo/node-blogger.git</code></pre>
 
-<pre><code>npm run-script example1
+<p>Then install dependencies</p>
 
-npm run-script example2</code></pre>
+<pre><code>cd node-blogger &amp;&amp; npm install</code></pre>
 
-<h3>Testing</h3>
+<p>After installing dependencies, link the <code>bin</code> scripts to access them via the commandline</p>
 
-<pre><code>npm test</code></pre>
+<pre><code>npm link</code></pre>
 
-<h3>LICENSE</h3>
+<p>Now you need to set up the basic configs for your blog. This process will update <code>config.json</code> with your data.</p>
+
+<pre><code>setupblog </code></pre>
+
+<p><strong>Note:</strong> If this command doesn&#39;t work it means that npm linking did not work. Run the script directly: <code>node bin/setupblog</code>.</p>
+
+<h3>How it works</h3>
+
+<p>Node Blogger is super easy to use once you have installed it as shown above. When you create a new post, the data is logged in <code>posts.json</code>, which is our pseudo-database.</p>
+
+<p>Create a new post from the commandline: </p>
+
+<pre><code>newpost
+
+# prompt
+Title: My NodeJS adventures
+Categories: node.js, javascript
+Date: </code></pre>
+
+<p><strong>Note:</strong> If this command doesn&#39;t work run the script directly: <code>node bin/newpost</code>.</p>
+
+<ul><li>Title: (String) - title of your new post (required)</li><li>Categories: (String - csv) - categories for your post (optional, defaults to uncategorised)</li><li>Date: (Int - millisecs) - publishing date (optional, defaults to current time)</li></ul>
+
+<p>A new markdown file is created with some placeholding text. You can find that file in the <code>posts</code> directory, use it to write your post.</p>
+
+<p>After you have finished writing your post in markdown format, compile it to html by running the <code>compile</code> command.</p>
+
+<pre><code>compile</code></pre>
+
+<p><strong>Note:</strong> If this command doesn&#39;t work run the script directly: <code>node bin/compile</code>.</p>
+
+<p>Awesome! Now let&#39;s fire up the server.</p>
+
+<pre><code>node server.js</code></pre>
+
+<p>That&#39;s it, your blog in now up and running!</p>
+
+<h3>Dependencies</h3>
+
+<ul><li>EJS -  for templating</li><li>markdown-js - for parsing markdown files.</li><li>connect - for serving static files for the template</li><li>rss - blog rss feed</li></ul>
+
+<h3>Customisation</h3>
+
+<p>You can customise your blog by editing files in the <code>template</code> directory. Node blogger uses EJS for templating, <code>template/index.ejs</code> holds the template for the home page and <code>template/post.ejs</code> holds the template for posts. </p>
+
+<h3>Routing</h3>
+
+<p>The <code>routes.js</code> file contains the connect middleware for handling http requests.</p>
+
+<h3>Commands</h3>
+
+<ul><li><code>setupblog</code> - (bin/setupblog) the setupblog command sets up configuration for a new blog </li><li><code>newpost</code> - (bin/newpost) the newpost command creates the markdown file that will contain the new post. It also logs the new post in <code>posts.json</code>, our pseudo-database.</li><li><code>compile</code> - (bin/compile) the compile command generates the html files that are served by our http server. This command is intelligent because it only compiles files that have been modified or are new. If you modify any of the templates it will also know this and make changes accordingly when you compile.</li></ul>
+
+<h3>Server</h3>
+
+<p><code>server.js</code> contains our http server which makes our blog posts available and accessible via a browser.</p>
+
+<h2>Contributing</h2>
+
+<p>Fork and send me a pull request. Do not develop on the master branch.</p>
+
+<ul><li>For bugs and tweaks create new branch prefixed by <code>hotfix-</code>.</li><li>For new features create a new branch prefixed by <code>feature-</code>.</li></ul>
+
+<h3>Credits</h3>
+
+<p>Node blogger was inspired by <a href="http://tutorialzine.com/2013/03/simple-php-blogging-system">this post</a> on http://tutorialzine.com.</p>
+
+<h2>License</h2>
 
 <p>(MIT License)</p>
 
@@ -257,11 +208,11 @@ npm run-script example2</code></pre>
         </div>
         <div class="pagination-container">    
         
-          <a href="/2013/10/22/gruntjs-a-look-at-gruntexec" title="Previous Post" class="pagination-arrow newer">Prev</a>
+          <a href="/2013/3/24/advocating-for-native-modules" title="Previous Post" class="pagination-arrow newer">Prev</a>
         
         
         
-          <a href="/2014/6/27/using-cheerio-and-mongodb-to-scrape-a-large-website" title="Next Post" class="pagination-arrow older">Next</a>
+          <a href="/2013/5/31/using-nodejs-to-join-audio-files" title="Next Post" class="pagination-arrow older">Next</a>
         
       </div>
         
@@ -270,12 +221,12 @@ npm run-script example2</code></pre>
       </div>
     </div>
 
-<script src="/js/script_v1439900317524.js"></script>
+<script src="/js/script_v1439924238402.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
-    var disqus_identifier = '/2013/12/10/proposing-a-native-event-emitter-in-javascript';
-    var disqus_title = 'Proposing a native Event Emitter in JavaScript';
-    var disqus_url = 'http://blog.ragingflame.co.za/2013/12/10/proposing-a-native-event-emitter-in-javascript';
+    var disqus_identifier = '/2013/5/9/about-this-blog';
+    var disqus_title = 'About this Blog';
+    var disqus_url = 'http://blog.ragingflame.co.za/2013/5/9/about-this-blog';
     
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {

@@ -5,7 +5,10 @@ var should = require('should'),
 describe('Compile', function() {
     "use strict";
     
-    var compile = new Compile();
+    var compile = new Compile({
+        css: '',
+        js: ''
+    });
     
     describe('#getNext()', function() {
         it('should return the url of the next blog post', function() {

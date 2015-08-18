@@ -4,13 +4,16 @@ var should = require('should'),
 describe('Compile', function() {
     "use strict";
     
-    var compile = new Compile();
+    var compile = new Compile({
+        css: '',
+        js: ''
+    });
 
     describe('#toHtml()', function() {
         it('should convert markdown to html', function() {
             var html = compile.toHtml();
             
-            html.should.include('<ul class="allposts">');
+            html.should.include('<dl class="dl-horizontal">');
         });
     });
     
