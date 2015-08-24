@@ -4,10 +4,14 @@
    This file responds to different http requests
 */
 
+var _ = require('lodash');
 var url = require('url');
 var fs = require('fs');
 var path = require('path');
 var Posts = require('./posts');
+var postsDB = require('./posts.json');
+var DynamicPage = require('./lib/dynamic-page');
+var config = require('./config');
 var RSS = require('./rss');
 var OneDay = (1000 * 60 * 60 * 24 * 365);
 var favicon = fs.readFileSync(path.resolve(__dirname, './template/img/favicon.ico'));
@@ -15,6 +19,11 @@ var favicon = fs.readFileSync(path.resolve(__dirname, './template/img/favicon.ic
 
 var rss = new RSS();
 var myblog = new Posts();
+
+var dynamicPage = new DynamicPage({
+  js: config.blog.scriptMin,
+  css: config.blog.cssMin
+});
 
 
 
@@ -68,6 +77,35 @@ function loadPage (filename, res) {
 
 
 
+
+/*
+    Fetches and loads a page containing a post and passes it to a response method 
+    
+    @param: (String) filename - name of a file containing a postHtmlContent
+    @param: (Object) res - http response object
+*/
+function loadDynamicPage (posts, res) {
+    var page = dynamicPage.init({
+      posts: posts
+    });
+    var expires = new Date().getTime() + OneDay;
+    
+    if (!page) {
+      res.writeHead(404);
+      res.end('DynamicPage Page not found :(');
+    }
+    else {
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Expires': new Date(expires).toUTCString()
+      }); 
+      
+      res.end(page);   
+    }
+}
+
+
+
 /*
     Loads the rss feed
 
@@ -89,36 +127,63 @@ function loadRSS (res) {
 /*
    Expose our routes to the Global module object
 */
-module.exports = function (req, res) {
-  var path = url.parse(req.url).pathname;
-  var filename; 
+module.exports = function (app) {
   
-  switch (path) {
-    
-    case '/':
-      loadPage('index', res);
-    break;
-    
-    case '/rss':
-      loadRSS(res);
-    break;
-    
-    case '/about':
-      filename = parseFilename('/2013/5/9/about-this-blog');
-      loadPage(filename, res);
-    break; 
+  app.get('/', function(req, res) {
+    loadPage('index', res);
+  });
 
-    case '/favicon.ico':
-      res.writeHead(200, {'Content-Type': 'image/x-icon'} );
-      res.end(favicon);
-    break;                 
-    
-    default:
-      if (path === '/2014/6/27/using-cheerio-and-mongodb-to-scrap-a-large-website') {
-        path = '/2014/6/27/using-cheerio-and-mongodb-to-scrape-a-large-website';
-      }
+  app.get('/favicon.ico', function(req, res) {
+    res.writeHead(200, {'Content-Type': 'image/x-icon'} );
+    res.end(favicon);
+  });
 
-      filename = parseFilename(path);
-      loadPage(filename, res);
-  }
+  app.get('/rss', function(req, res) {
+    loadRSS(res);
+  });
+
+  app.get('/about', function(req, res) {
+    var filename = parseFilename('/2013/5/9/about-this-blog');
+    
+    loadPage(filename, res);
+  });
+
+  app.get('/:year', function(req, res) {
+
+    var posts = _.filter(postsDB, function (post) {
+      return post.year === parseInt(req.params.year, 10);
+    });
+
+    loadDynamicPage(posts, res);
+  });
+
+  app.get('/tags/:tag', function(req, res) {
+
+    var posts = _.filter(postsDB, function (post) {
+      return post.categories.indexOf(req.params.tag) > -1;
+    });
+
+    loadDynamicPage(posts, res);
+  });
+
+  app.get('/:year/:month', function(req, res) {
+
+    var posts = _.filter(postsDB, function (post) {
+      return post.year === parseInt(req.params.year, 10) && post.month === parseInt(req.params.month, 10);
+    });
+
+    loadDynamicPage(posts, res);
+  });
+
+  app.get('/:year/:mon/:day/:title', function(req, res) {
+    var title = req.params.title;
+
+    if (title === 'using-cheerio-and-mongodb-to-scrap-a-large-website') {
+      title = 'using-cheerio-and-mongodb-to-scrape-a-large-website';
+    }
+
+    var filename = parseFilename('/' + req.params.year + '/' + req.params.mon + '/' + req.params.day + '/' + title);
+    
+    loadPage(filename, res);
+  });
 };

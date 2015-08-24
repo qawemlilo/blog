@@ -12,11 +12,27 @@ function compile() {
     var compilePosts = require('../lib/bin.compile-posts');
     var scripts = require('../lib/scripts');
     var styles = require('../lib/styles');
+    var config = require('../config');
     var index, posts;
 
     var scriptsMin = 'script_v' + Date.now() + '.js';
     var cssMin = 'style_v' + Date.now() + '.css';
-    
+ 
+    try {
+        config.blog.scriptMin = scriptsMin;
+        config.blog.cssMin = cssMin;
+        
+        // delete current config file
+        fs.unlinkSync('./config.json');
+        
+        // save new config file
+        fs.writeFileSync('./config.json', JSON.stringify(config, null, 4), 'utf8'); 
+
+        console.log('config updated!'); 
+    } catch (error) {
+        throw error;
+    }
+
     try {
         fs.writeFileSync('./template/js/' + scriptsMin, scripts(), 'utf8'); 
         console.log(scriptsMin + ' created! %s', '-_-'); 

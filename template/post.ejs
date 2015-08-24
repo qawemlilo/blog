@@ -38,10 +38,18 @@
       </p>
 
       <ul class="nav navmenu-nav">
-        <li><a href="<%= blog.baseUrl %>">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="https://github.com/qawemlilo" target="_blank">Projects</a></li>
-        <li><a href="mailto:<%= author.email %>">Contact Me</a></li>
+        <li>
+          <a href="<%= blog.baseUrl %>">Home</a>
+        </li>
+        <li <% if(post.url == '/2013/5/9/about-this-blog') { %>class="active"<% } %>>
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="https://github.com/qawemlilo" target="_blank">Projects</a>
+        </li>
+        <li>
+          <a href="mailto:<%= author.email %>">Contact Me</a>
+        </li>
       </ul>
 
       <ul class="list-inline social-media">
@@ -74,17 +82,23 @@
         <div class="post blogpost"> 
           <h1><%= post.title %></h1>
       
-      
           <div class="row date">
-            <div class="dt col-xs-5 col-sm-5 col-md-5 col-lg-5">
-              <%= post.day %> <%= post.month %> <%= post.year %>
-            </div> 
-            <div class="sharep col-xs-7 col-sm-7 col-md-7 col-lg-7" style="text-align:right">
+            <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
+              <span style="margin-right:10px">
+                <%= post.day %> 
+                <%= post.month %> 
+                <a href="/<%= post.year %>"><%= post.year %></a>
+              </span>
+              
+              <% post.categories.forEach(function (tag) { %>
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/<%= tag %>"><%= tag %></a>
+                  </span> 
+              <% }); %>
+            </div>
+            <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
               <ul class="list-inline list-unstyled">
-                <li>
-                  Share:
-                </li>
-
                 <li>
                   <a target="_blank" href="http://www.facebook.com/share.php?u=<%= blog.url + post.url %>" class="share-fb" title="Share on Facebook">&nbsp;</a>
                 </li>

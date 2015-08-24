@@ -94,10 +94,6 @@ h1 a, h2 a{
 	Content & Posts
 -----------------------------*/
 
-.content p,
-.content ul{
-  margin-bottom:25px;
-}
 
 .content p img {
   width: 100%;
@@ -107,6 +103,10 @@ h1 a, h2 a{
 
 dt, dl {
 	line-height: 1.5;
+}
+
+.dt {
+  margin-bottom: 10px;
 }
 
 .content div.actions{
@@ -140,7 +140,7 @@ dt, dl {
 	font: bold 12px 'Open Sans Condensed', sans-serif;
 	text-transform: uppercase;
 	color: #a7a7a7;
-	margin: 24px 0 0px 20px;
+	margin: 24px 0 20px 20px;
 	position: relative;
 }
 
@@ -433,4 +433,13 @@ background-image: url('/img/icons.png');
 dl a:hover {
   text-decoration: underline;
   color: #389dc1;
+}
+
+.label a {
+  color: #fff;
+}
+
+.label a:hover {
+  color: #fff;
+  text-decoration: underline;
 }

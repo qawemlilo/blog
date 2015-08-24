@@ -6,6 +6,7 @@
 
 var http = require('http');
 var connect = require('connect');
+var connectRouter = require('connect-route');
 var st = require('st');
 var port = process.env.PORT || 3080;
 var routes = require('./routes');
@@ -45,7 +46,9 @@ var mount = st({
 var app = connect()
   .use(mount)
   .use(connect.compress())
-  .use(routes);
+  .use(connectRouter(function (router) {
+    routes(router);
+  }));
 
 
 http.createServer(app)

@@ -11,7 +11,7 @@
         "url": "/2011/8/15/content-slider",
         "categories": [
             "jquery",
-            " javascript"
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo(Que)"
     },
@@ -27,7 +27,7 @@
         "url": "/2011/8/15/lets-build-an-html5-app",
         "categories": [
             "html5",
-            " javascript"
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo(Que)"
     },
@@ -42,7 +42,8 @@
         "filename": "2011-12-8_stone-age-tribe",
         "url": "/2011/12/8/stone-age-tribe",
         "categories": [
-            "uncategorised"
+            "uncategorised",
+            "humour"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -72,8 +73,9 @@
         "filename": "2012-6-7_running-nodejs-in-production-my-first-app",
         "url": "/2012/6/7/running-nodejs-in-production-my-first-app",
         "categories": [
-            "node.js",
-            " javascript"
+            "nodejs",
+            "node",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -88,9 +90,10 @@
         "filename": "2012-6-28_simple-form-handling-with-express-and-nodemailer",
         "url": "/2012/6/28/simple-form-handling-with-express-and-nodemailer",
         "categories": [
-            "node.js",
-            " javascript",
-            " express"
+            "nodejs",
+            "node",
+            "javascript",
+            "express"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -121,7 +124,7 @@
         "url": "/2012/11/15/joomla-using-jrequest",
         "categories": [
             "joomla",
-            " php"
+            "php"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -152,7 +155,7 @@
         "url": "/2012/11/23/shout-simple-jquery-notifications",
         "categories": [
             "javascript",
-            " jquery"
+            "jquery"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -167,8 +170,9 @@
         "filename": "2013-2-8_crushit",
         "url": "/2013/2/8/crushit",
         "categories": [
-            "node.js",
-            " javascript"
+            "nodejs",
+            "node",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -182,8 +186,9 @@
         "filename": "2013-2-14_roll-out-your-own-uptime-monitor-with-nodejs",
         "url": "/2013/2/14/roll-out-your-own-uptime-monitor-with-nodejs",
         "categories": [
-            "node.js",
-            " javascript"
+            "nodejs",
+            "node",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -198,7 +203,9 @@
         "filename": "2013-3-24_advocating-for-native-modules",
         "url": "/2013/3/24/advocating-for-native-modules",
         "categories": [
-            "node.js"
+            "nodejs",
+            "node",
+            "modules"
         ],
         "author": "Qawelesizwe Mlilo (Que)"
     },
@@ -213,8 +220,9 @@
         "filename": "2013-5-9_about-this-blog",
         "url": "/2013/5/9/about-this-blog",
         "categories": [
-            "node.js",
-            " javascript"
+            "nodejs",
+            "node",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -229,8 +237,9 @@
         "filename": "2013-5-31_using-nodejs-to-join-audio-files",
         "url": "/2013/5/31/using-nodejs-to-join-audio-files",
         "categories": [
-            "node.js",
-            " javascript"
+            "nodejs",
+            "node",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -245,8 +254,9 @@
         "filename": "2013-6-8_the-state-of-node",
         "url": "/2013/6/8/the-state-of-node",
         "categories": [
-            "node.js",
-            " javascript"
+            "nodejs",
+            "node",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -261,8 +271,8 @@
         "filename": "2013-8-23_setting-up-a-raspberry-pi",
         "url": "/2013/8/23/setting-up-a-raspberry-pi",
         "categories": [
-            "raspberry pi",
-            " hacking"
+            "raspberrypi",
+            "hacking"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -278,9 +288,10 @@
         "url": "/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions",
         "categories": [
             "joomla",
-            " gruntjs",
-            " node.js",
-            " javascript"
+            "grunt",
+            "node",
+            "nodejs",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -296,8 +307,9 @@
         "url": "/2013/10/2/simple-cli-prompt-for-node",
         "categories": [
             "node",
-            " javascript",
-            " modules"
+            "nodejs",
+            "javascript",
+            "modules"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -313,8 +325,9 @@
         "url": "/2013/10/22/gruntjs-a-look-at-gruntexec",
         "categories": [
             "nodejs",
-            " javascript",
-            " gruntjs"
+            "node",
+            "javascript",
+            "gruntjs"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -329,9 +342,8 @@
         "filename": "2013-12-10_proposing-a-native-event-emitter-in-javascript",
         "url": "/2013/12/10/proposing-a-native-event-emitter-in-javascript",
         "categories": [
-            "node.js",
-            " events",
-            " javascript"
+            "events",
+            "javascript"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -346,9 +358,11 @@
         "filename": "2014-6-27_using-cheerio-and-mongodb-to-scrape-a-large-website",
         "url": "/2014/6/27/using-cheerio-and-mongodb-to-scrape-a-large-website",
         "categories": [
+            "nodejs",
+            "node",
             "cheerio",
-            " mongodb",
-            " scrapping"
+            "mongodb",
+            "scrapping"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -364,9 +378,10 @@
         "url": "/2014/7/21/using-nodejs-with-mysql",
         "categories": [
             "nodejs",
-            " mysql",
-            " bookshelf.js",
-            " knex"
+            "node",
+            "mysql",
+            "bookshelf",
+            "knex"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -382,9 +397,11 @@
         "url": "/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs",
         "categories": [
             "nodejs",
-            " node",
-            " bookshelf",
-            " express"
+            "node",
+            "bookshelf",
+            "mysql",
+            "knex",
+            "express"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -399,9 +416,10 @@
         "filename": "2015-2-6_resizing-images-in-nodejs-applications",
         "url": "/2015/2/6/resizing-images-in-nodejs-applications",
         "categories": [
+            "nodejs",
+            "node",
             "gulp",
-            " express",
-            " nodejs"
+            "express"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -417,8 +435,9 @@
         "url": "/2015/4/1/how-i-build-nodejs-applications",
         "categories": [
             "nodejs",
-            " architecture",
-            " workflow"
+            "node",
+            "architecture",
+            "workflow"
         ],
         "author": "Qawelesizwe Mlilo"
     },
@@ -433,10 +452,13 @@
         "filename": "2015-5-10_implementing-pagination-in-bookshelfjs-and-express-applications",
         "url": "/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications",
         "categories": [
+            "nodejs",
+            "node",
             "express",
-            " bookshelf",
-            " jade",
-            " mysql"
+            "bookshelf",
+            "knex",
+            "jade",
+            "mysql"
         ],
         "author": "Qawelesizwe Mlilo"
     }
