@@ -88,7 +88,7 @@ All is set, now we can go ahead and start setting up our API routes. First up we
         .then(function (collection) {
           res.json({error: false, data: collection.toJSON()});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       })
@@ -103,7 +103,7 @@ All is set, now we can go ahead and start setting up our API routes. First up we
         .then(function (user) {
           res.json({error: false, data: {id: user.get('id')}});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         }); 
       });
@@ -121,7 +121,7 @@ All is set, now we can go ahead and start setting up our API routes. First up we
             res.json({error: false, data: user.toJSON()});
           }
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       })
@@ -138,11 +138,11 @@ All is set, now we can go ahead and start setting up our API routes. First up we
           .then(function () {
             res.json({error: false, data: {message: 'User details updated'}});
           })
-          .otherwise(function (err) {
+          .catch(function (err) {
             res.status(500).json({error: true, data: {message: err.message}});
           });
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       })
@@ -156,11 +156,11 @@ All is set, now we can go ahead and start setting up our API routes. First up we
           .then(function () {
             res.json({error: true, data: {message: 'User successfully deleted'}});
           })
-          .otherwise(function (err) {
+          .catch(function (err) {
             res.status(500).json({error: true, data: {message: err.message}});
           });
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       });
@@ -178,7 +178,7 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
         .then(function (collection) {
           res.json({error: false, data: collection.toJSON()});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       })
@@ -190,7 +190,7 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
         .then(function (category) {
           res.json({error: false, data: {id: category.get('id')}});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         }); 
       });
@@ -208,7 +208,7 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
             res.json({error: false, data: category.toJSON()});
           }
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       })   
@@ -222,11 +222,11 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
           .then(function () {
             res.json({error: false, data: {message: 'Category updated'}});
           })
-          .otherwise(function (err) {
+          .catch(function (err) {
             res.status(500).json({error: true, data: {message: err.message}});
           });
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       })
@@ -240,11 +240,11 @@ Categories have a one-to-many relation with posts so it is also a good idea to d
           .then(function () {
             res.json({error: true, data: {message: 'Category successfully deleted'}});
           })
-          .otherwise(function (err) {
+          .catch(function (err) {
             res.status(500).json({error: true, data: {message: err.message}});
           });
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       });
@@ -260,7 +260,7 @@ The main purpose of this application is to provide an API for creating and readi
         .then(function (collection) {
           res.json({error: false, data: collection.toJSON()});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       });
@@ -269,7 +269,7 @@ The main purpose of this application is to provide an API for creating and readi
       // fetch a post by id
       .get(function (req, res) {
         Post.forge({id: req.params.id})
-        .fetch({withRelated: ['categories', 'tags']})
+        .fetch({withRelated: ['category', 'tags']})
         .then(function (post) {
           if (!post) {
             res.status(404).json({error: true, data: {}});
@@ -278,7 +278,7 @@ The main purpose of this application is to provide an API for creating and readi
             res.json({error: false, data: post.toJSON()});
           }
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       });
@@ -328,15 +328,15 @@ Here is what we are going to do - firstly, we'll collect all post variables and 
     
               res.json({error: false, data: {message: 'Tags saved'}});
             })
-            .otherwise(function (err) {
+            .catch(function (err) {
               res.status(500).json({error: true, data: {message: err.message}});
             });
           })
-          .otherwise(function (err) {
+          .catch(function (err) {
             res.status(500).json({error: true, data: {message: err.message}}); 
           });      
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         }); 
       });
@@ -407,7 +407,7 @@ The hard part is done but we would also like to query our posts using categories
     
           res.json({error: false, data: posts.toJSON()});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       });
@@ -421,7 +421,7 @@ The hard part is done but we would also like to query our posts using categories
     
           res.json({error: false, data: posts.toJSON()});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       });

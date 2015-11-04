@@ -261,7 +261,7 @@ I have created a controller that handles pagination:
           posts: data.collection.toJSON()
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         res.status(500).send(error.message);
       });
     };

@@ -179,7 +179,7 @@ I also copied the `createTable` function from the [Ghost](https://github.com/Try
       console.log('Tables created!!');
       process.exit(0);
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       throw error;
     });
 

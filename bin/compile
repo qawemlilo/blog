@@ -8,8 +8,8 @@ var fs  =  require('fs');
 
 
 function compile() {
-    var compileIndex = require('../lib/bin.compile-index');
-    var compilePosts = require('../lib/bin.compile-posts');
+    var CompileIndex = require('../lib/homepage');
+    var CompilePosts = require('../lib/postpage');
     var scripts = require('../lib/scripts');
     var styles = require('../lib/styles');
     var config = require('../config');
@@ -47,8 +47,8 @@ function compile() {
         throw error;
     }  
 
-    index = new compileIndex({js: scriptsMin, css: cssMin});
-    posts = new compilePosts({js: scriptsMin, css: cssMin});
+    index = new CompileIndex({js: scriptsMin, css: cssMin});
+    posts = new CompilePosts({js: scriptsMin, css: cssMin});
     
     index.init();
     posts.init();

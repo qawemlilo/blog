@@ -11,7 +11,7 @@
 <title>Building a simple API with Express and Bookshelf.js</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1440415474736.css" rel="stylesheet">
+<link href="/css/style_v1446621048127.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -221,7 +221,7 @@ var Tags = Bookshelf.Collection.extend({
     .then(function (collection) {
       res.json({error: false, data: collection.toJSON()});
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   })
@@ -236,7 +236,7 @@ var Tags = Bookshelf.Collection.extend({
     .then(function (user) {
       res.json({error: false, data: {id: user.get(&#39;id&#39;)}});
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     }); 
   });
@@ -254,7 +254,7 @@ router.route(&#39;/users/:id&#39;)
         res.json({error: false, data: user.toJSON()});
       }
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   })
@@ -271,11 +271,11 @@ router.route(&#39;/users/:id&#39;)
       .then(function () {
         res.json({error: false, data: {message: &#39;User details updated&#39;}});
       })
-      .otherwise(function (err) {
+      .catch(function (err) {
         res.status(500).json({error: true, data: {message: err.message}});
       });
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   })
@@ -289,11 +289,11 @@ router.route(&#39;/users/:id&#39;)
       .then(function () {
         res.json({error: true, data: {message: &#39;User successfully deleted&#39;}});
       })
-      .otherwise(function (err) {
+      .catch(function (err) {
         res.status(500).json({error: true, data: {message: err.message}});
       });
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
@@ -310,7 +310,7 @@ router.route(&#39;/users/:id&#39;)
     .then(function (collection) {
       res.json({error: false, data: collection.toJSON()});
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   })
@@ -322,7 +322,7 @@ router.route(&#39;/users/:id&#39;)
     .then(function (category) {
       res.json({error: false, data: {id: category.get(&#39;id&#39;)}});
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     }); 
   });
@@ -340,7 +340,7 @@ router.route(&#39;/categories/:id&#39;)
         res.json({error: false, data: category.toJSON()});
       }
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   })   
@@ -354,11 +354,11 @@ router.route(&#39;/categories/:id&#39;)
       .then(function () {
         res.json({error: false, data: {message: &#39;Category updated&#39;}});
       })
-      .otherwise(function (err) {
+      .catch(function (err) {
         res.status(500).json({error: true, data: {message: err.message}});
       });
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   })
@@ -372,11 +372,11 @@ router.route(&#39;/categories/:id&#39;)
       .then(function () {
         res.json({error: true, data: {message: &#39;Category successfully deleted&#39;}});
       })
-      .otherwise(function (err) {
+      .catch(function (err) {
         res.status(500).json({error: true, data: {message: err.message}});
       });
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
@@ -391,7 +391,7 @@ router.route(&#39;/categories/:id&#39;)
     .then(function (collection) {
       res.json({error: false, data: collection.toJSON()});
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   });
@@ -400,7 +400,7 @@ router.route(&#39;/posts/:id&#39;)
   // fetch a post by id
   .get(function (req, res) {
     Post.forge({id: req.params.id})
-    .fetch({withRelated: [&#39;categories&#39;, &#39;tags&#39;]})
+    .fetch({withRelated: [&#39;category&#39;, &#39;tags&#39;]})
     .then(function (post) {
       if (!post) {
         res.status(404).json({error: true, data: {}});
@@ -409,7 +409,7 @@ router.route(&#39;/posts/:id&#39;)
         res.json({error: false, data: post.toJSON()});
       }
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
@@ -458,15 +458,15 @@ Here is what we are going to do - firstly, we&#39;ll collect all post variables 
 
           res.json({error: false, data: {message: &#39;Tags saved&#39;}});
         })
-        .otherwise(function (err) {
+        .catch(function (err) {
           res.status(500).json({error: true, data: {message: err.message}});
         });
       })
-      .otherwise(function (err) {
+      .catch(function (err) {
         res.status(500).json({error: true, data: {message: err.message}}); 
       });      
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     }); 
   });</code></pre>
@@ -532,7 +532,7 @@ Here is what we are going to do - firstly, we&#39;ll collect all post variables 
 
       res.json({error: false, data: posts.toJSON()});
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   });
@@ -546,7 +546,7 @@ router.route(&#39;/posts/tag/:slug&#39;)
 
       res.json({error: false, data: posts.toJSON()});
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       res.status(500).json({error: true, data: {message: err.message}});
     });
   });</code></pre>
@@ -582,7 +582,7 @@ app.listen(3000, function() {
       </div>
     </div>
 
-<script src="/js/script_v1440415474736.js"></script>
+<script src="/js/script_v1446621048127.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs';

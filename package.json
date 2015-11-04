@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "jshint && mocha test",
-    "jshint": "jshint posts.js rss.js server.js routes.js ./lib/post.js ./lib/bin.compile-index.js ./lib/bin.compile-posts.js ./lib/bin.newpost.js"
+    "jshint": "jshint posts.js rss.js server.js routes.js ./lib/post.js ./lib/bin.compile-index.js ./lib/bin.compile-posts.js ./lib/bin.newpost.js",
+    "compile": "node bin/compile",
+    "setupblog": "node bin/setupblog",
+    "newpost": "node bin/newpost"
   },
   "bin": {
     "newpost": "bin/newpost",
