@@ -219,7 +219,7 @@ Now back to `app.js` - I only use Bookshelf in data structures, i.e, in my Model
         tableName: 'categories',
     
         posts: function () {
-           return this.belongsToMany(Post, 'category_id');
+           return this.hasMany(Post, 'category_id');
         }
     });
 
