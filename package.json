@@ -1,6 +1,6 @@
 {
   "name": "node-blogger",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Raging Flame Blog",
   "main": "server.js",
   "scripts": {
@@ -49,7 +49,7 @@
     "xml": "~0.0.7"
   },
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.3.x"
+    "node": "0.14.x",
+    "npm": "2.14.x"
   }
 }
