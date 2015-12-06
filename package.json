@@ -34,7 +34,9 @@
     "connect-route": "^0.1.5",
     "ejs": "^2.3.4",
     "lodash": "^3.10.1",
-    "st": "~0.3.1"
+    "rss": "^1.2.1",
+    "st": "~0.3.1",
+    "xml": "^1.0.0"
   },
   "devDependencies": {
     "clean-css": "^3.3.9",
