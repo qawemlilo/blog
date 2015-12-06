@@ -461,5 +461,22 @@
             "mysql"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1449389432774,
+        "title": "How I built my static blog engine",
+        "description": "How I built my static blog engine with Node.js",
+        "date": "2015-12-06T08:10:32.773Z",
+        "year": 2015,
+        "month": 12,
+        "day": 6,
+        "filename": "2015-12-6_how-i-built-my-static-blog-engine",
+        "url": "/2015/12/6/how-i-built-my-static-blog-engine",
+        "categories": [
+            "nodejs",
+            "node",
+            "connect"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]

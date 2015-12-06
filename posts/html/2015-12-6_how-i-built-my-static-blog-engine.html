@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A blog about Web and Software development using Node.js, JavaScript, and PHP!">
+<meta name="author" content="Qawelesizwe Mlilo">
+<meta name="generator" content="Node Blogger" />
+
+<title>How I built my static blog engine</title>
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link href="/css/style_v1449389748006.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet" />
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+    <div class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
+
+      <button type="button" style="margin-right: 10px; margin-top: 5px; color:#fff" class="close hidden-md hidden-lg pull-right" aria-label="Close" data-toggle="offcanvas" data-target=".navmenu">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+      <div class="text-center avatar">
+        <a href="/">
+          <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+        </a>
+      </div>
+
+      <p class="description">
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+      </p>
+
+      <ul class="nav navmenu-nav">
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li >
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="https://github.com/qawemlilo" target="_blank">Projects</a>
+        </li>
+        <li>
+          <a href="mailto:qawemlilo@gmail.com">Contact Me</a>
+        </li>
+      </ul>
+
+      <ul class="list-inline social-media">
+        <li>
+          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">&nbsp;</a> 
+        </li>
+        <li>
+          <a href="http://twitter.com/ragingflameblog" title="Follow me on Twitter" class="twitter">&nbsp;</a>
+        </li>
+        <li>
+          <a href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google+" class="google">&nbsp;</a>
+        </li>
+        <li>
+          <a href="/rss" title="RSS" class="rss">&nbsp;</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top hidden-md hidden-lg">
+      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Raging Flame Blog</a>
+    </div>
+
+    <div class="container content">
+      <div class="row">
+        <div class="post blogpost"> 
+          <h1>How I built my static blog engine</h1>
+      
+          <div class="row date">
+            <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
+              <span style="margin-right:10px">
+                6 
+                Dec 
+                <a href="/2015">2015</a>
+              </span>
+              
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/nodejs">nodejs</a>
+                  </span> 
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/node">node</a>
+                  </span> 
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/connect">connect</a>
+                  </span> 
+              
+            </div>
+            <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
+              <ul class="list-inline list-unstyled">
+                <li>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2015/12/6/how-i-built-my-static-blog-engine" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2015/12/6/how-i-built-my-static-blog-engine" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+              </a>                  
+                </li>
+
+                <li>
+              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2015/12/6/how-i-built-my-static-blog-engine" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+              </a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2015/12/6/how-i-built-my-static-blog-engine" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+              </a>
+                </li>
+              </ul>
+           
+            </div>
+          </div>
+      
+          <p>About 2 years ago, after getting frustrated with the bloat in WordPress, I decided to roll out my own static blog generator. That static blog generator, named [Node Blogger](), still powers my blog today. In this post I would like to share with you how I built it and how it works.</p>
+
+<p>The idea that I had was that I would write a post in a markdown file, convert it to a html file, then serve the html file through a Node.js web server.
+To get started I listed all my requirements:</p>
+
+<ol><li>Home page with my profile, a main menu, social media menu, and a list of all my posts ordered by date.</li><li>RSS feed</li><li>Sitemap</li><li>Tags filter</li><li>Social media sharing buttons</li><li>SEO friendly urls</li><li>Good meta tags (title, description, and keywords)</li><li>Social media sharing buttons</li><li>Comments</li><li>Fast, clean, easy to maintain, and fun to work with</li></ol>
+
+<p>With this information in hand I started doing some research which led me to come up with the following algorithm:</p>
+
+<ol><li>Create a record of a new post that contains time of creation, title and other metadata and save it</li><li>Generate a markdown file associated the record</li><li>Write your post in the markdown file</li><li>Generate a html file from the markdown file and update your blog links in the index file</li><li>Generate sitemap by reading posts records</li><li>For RSS, create a script that converts posts records to RSS xml and serve it through a route</li><li>Spin up a web server that serves the files and your blog is complete.</li></ol>
+
+<h3>Running commands</h3>
+
+<p>From the onset I decided that everything would run from the terminal because of its simple interface which meant I would not spend a lot of time designing the UI.</p>
+
+<p>For capturing data I wrote a small module called <a href="https://www.npmjs.com/package/simple-prompt">simple-prompt</a> which is a simplified commandline prompt.</p>
+
+<h3>Storing records</h3>
+
+<p>Since this was going to be a static blog generator the best place to store data was in a json file. <code>posts.json</code> became the pseudo database. The script that generates html files loops through <code>posts.json</code> to find the corresponding markdown files. It is also used determine the order of posts.</p>
+
+<p>I recently added a dynamic tags filter which reads <code>posts.json</code> and only brings up posts that contain the filtered tag.</p>
+
+<h3>Converting markdown files to html</h3>
+
+<p>I used a module called <code>markdown</code> to convert the markdown posts to html. The process is pretty simple - the <code>posts.json</code> file contains metadata for each post including the markdown file path. Once I have opened the markdown file I convert the contents to html using the <code>markdown</code> module and load them into the <code>post.ejs</code> template. The EJS template is then converted to html and saved as a html file.</p>
+
+<h3>Index and Post EJS templates</h3>
+
+<p>The blog required 2 templates, one for the index page and the other for the posts page. I decided to write the templates in EJS because of its simplicity.</p>
+
+<p>The index templates outputs generic blog content and links for all posts ordered by date. The post template also outputs the generic blog content and the post content which included social sharing buttons and a Disqus comments script.</p>
+
+<h3>Sitemap and RSS</h3>
+
+<p>The idea for the sitemap was that it would be created/updated every time a new post was created. So every time the command for creating html files is run it also executes the sitemap script which reads the <code>posts.json</code> file to get records of all posts and then convert them into a sitemap.</p>
+
+<h3>RSS</h3>
+
+<p>Like the sitemap script, the rss script reads the <code>posts.json</code> file to get records of all posts. The records are then converted into xml feed format and served through a connect route. The script use the <code>rss</code> module.</p>
+
+<h3>Serving the blog</h3>
+
+<p>Finally, all that was left was to create a web server that serves my html files. For the first version I used the <code>native node http module</code> but later switched to <code>connect</code> because it handles routing better and has a number of useful middleware modules.</p>
+
+<h3>Last words</h3>
+
+<p>My blog is hosted on Heroku, I&#39;m using their free tier which provides 5 free Dynos. I&#39;m a much happier blogger now that I have moved away from WordPress - I get to hack on blogging engine wherever I am not writing. </p>
+
+<p>My blogging engine is opensource so feel free to [fork it]() and do whatever you want with it. The documentation is a bit out of date but will update when I get some free time.</p>
+
+<p>Keep hacking and blogging :)</p>
+        </div>
+        <div class="pagination-container">    
+        
+          <a href="/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications" title="Previous Post" class="pagination-arrow newer">Prev</a>
+        
+        
+        
+      </div>
+        
+        <div id="disqus_thread"></div>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </div>
+    </div>
+
+<script src="/js/script_v1449389748006.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2015/12/6/how-i-built-my-static-blog-engine';
+    var disqus_title = 'How I built my static blog engine';
+    var disqus_url = 'http://blog.ragingflame.co.za/2015/12/6/how-i-built-my-static-blog-engine';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
