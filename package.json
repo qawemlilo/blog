@@ -1,7 +1,7 @@
 {
   "name": "node-blogger",
   "version": "0.1.4",
-  "description": "A tiny Node.js blogging engine",
+  "description": "Raging Flame Blog",
   "main": "server.js",
   "scripts": {
     "test": "jshint && mocha test",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/qawemlilo/node-blogger.git"
+    "url": "https://github.com/qawemlilo/blog.git"
   },
   "keywords": [
     "Node",
