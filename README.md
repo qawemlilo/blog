@@ -2,11 +2,21 @@
 
 This is a git repo for my blog [Raging Flame Blog](http://ragingflameblog.herokuapp.com). It is powered by Node Blogger, a static blog generator that I created out of my frustrations with WordPress's bloatedness and never-ending updates. 
 
-## Corrections and edits for posts
+### Corrections and edits for posts
 
 All posts are inside the `./posts` directory. Create new branch prefixed with `edit-`, edit the relevant `.md` file, commit and send pull request. You may also re-compile the `.md` files with the `node bin/compile` command before committing and pushing.  
 
-## Contact
+### Creating a new post
+```
+npm run newpost
+```
+
+### Converting markdown into html
+```
+npm run compile
+```
+
+### Contact
 qawemlilo@gmail.com
 
 
