@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1449413903713.css" rel="stylesheet">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +35,7 @@
       </div>
 
       <p class="description">
-        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
       </p>
 
       <ul class="nav navmenu-nav">
@@ -137,63 +137,60 @@
           </div>
       
           <p>About 2 years ago, after getting frustrated with the bloat in WordPress, I decided to roll out my own static blog generator. That static blog generator, named <a href="https://github.com/qawemlilo/node-blogger">Node Blogger</a>, still powers my blog today. In this post I would like to share with you how I built it and how it works.</p>
-
 <p>The idea that I had was that I would write a post in a markdown file, convert it into a html file, then serve the html file through a Node.js web server.
 To get started I listed all my requirements:</p>
-
-<ul><li>Home page with my profile, a main menu, social media menu, and a list of all my posts ordered by date.</li><li>RSS feed</li><li>Sitemap</li><li>Tags filter</li><li>Social media sharing buttons</li><li>SEO friendly urls</li><li>Good meta tags (title, description, and keywords)</li><li>Social media sharing buttons</li><li>Comments</li><li>Fast, clean, easy to maintain, and fun to work with</li></ul>
-
+<ul>
+<li>Home page with my profile, a main menu, social media menu, and a list of all my posts ordered by date.</li>
+<li>RSS feed</li>
+<li>Sitemap</li>
+<li>Tags filter</li>
+<li>Social media sharing buttons</li>
+<li>SEO friendly urls</li>
+<li>Good meta tags (title, description, and keywords)</li>
+<li>Social media sharing buttons</li>
+<li>Comments</li>
+<li>Fast, clean, easy to maintain, and fun to work with</li>
+</ul>
 <p>With this information in hand I started doing some research which led me to come up with the following algorithm:</p>
-
-<ol><li>Create a record of a new post that contains time of creation, title and other metadata and save it</li><li>Generate a markdown file associated the record</li><li>Write your post in the markdown file</li><li>Generate a html file from the markdown file and update your blog links in the index file</li><li>Generate sitemap by reading posts records</li><li>For RSS, create a script that converts posts records to RSS xml and serve it through a route</li><li>Spin up a web server that serves the files and your blog is complete.</li></ol>
-
+<ol>
+<li>Create a record of a new post that contains time of creation, title and other metadata and save it</li>
+<li>Generate a markdown file associated the record</li>
+<li>Write your post in the markdown file</li>
+<li>Generate a html file from the markdown file and update your blog links in the index file</li>
+<li>Generate sitemap by reading posts records</li>
+<li>For RSS, create a script that converts posts records to RSS xml and serve it through a route</li>
+<li>Spin up a web server that serves the files and your blog is complete.</li>
+</ol>
 <h3>Running commands</h3>
-
 <p>From the onset I decided that everything would run from the terminal because of its simple interface which meant I would not spend a lot of time designing the UI.</p>
-
 <p>For capturing data I wrote a small module called <a href="https://www.npmjs.com/package/simple-prompt">simple-prompt</a> which is a simplified commandline prompt.</p>
-
 <h3>Storing records</h3>
-
 <p>Since this was going to be a static blog generator the best place to store data was in a json file. <code>posts.json</code> became my pseudo database. The script that generates html files loops through <code>posts.json</code> to find the corresponding markdown files. It is also used determine the order of posts.</p>
-
 <p>I recently added a dynamic tags filter which reads <code>posts.json</code> and only brings up posts that contain the filtered tag.</p>
-
 <h3>Converting markdown files into html</h3>
-
 <p>I used a module called <code>markdown</code> to convert the markdown posts into html. The process is pretty simple - the <code>posts.json</code> file contains metadata for each post including the markdown file path. Once I have opened the markdown file I convert the contents to html using the <code>markdown</code> module and load them into the <code>post.ejs</code> template. The EJS template is then compiled to html and saved as a html file.</p>
-
 <h3>Index and Post EJS templates</h3>
-
 <p>The blog required 2 templates, one for the index page and the other one for the posts. I decided to write the templates in EJS because of its simplicity.</p>
-
 <p>The index template outputs generic blog content and links for all posts ordered by date. The post template also outputs the generic blog content and the post content which includes social media sharing buttons and a Disqus comments script.</p>
-
 <h3>Sitemap and RSS</h3>
-
 <p>The idea for the sitemap was that it would be created/updated every time a new post was created. So when you run the command for creating html files also executes the sitemap script which reads the <code>posts.json</code> file to get records of all posts and converts them into a sitemap.</p>
-
 <h3>RSS</h3>
-
 <p>Like the sitemap script, the rss script reads the <code>posts.json</code> file to get records of all posts. The records are then converted into xml feed format and served through a <code>connect</code> route. The script use the <code>rss</code> module.</p>
-
 <h3>Serving the blog</h3>
-
 <p>Finally, all that was left to do was to create a web server that serves my html files. For the first version I used the <code>native node http module</code> but later switched to <code>connect</code> because it handles routing better and has a number of useful middleware modules.</p>
-
 <h3>Last words</h3>
-
-<p>My blog is hosted on Heroku, I&#39;m using their free tier which provides 5 free Dynos. I&#39;m a much happier blogger now that I have moved away from WordPress - I get to hack on my blogging engine wherever I am not writing. </p>
-
+<p>My blog is hosted on Heroku, I'm using their free tier which provides 5 free Dynos. I'm a much happier blogger now that I have moved away from WordPress - I get to hack on my blogging engine wherever I am not writing.</p>
 <p>My blogging engine is opensource so feel free to <a href="https://github.com/qawemlilo/blog">fork it: https://github.com/qawemlilo/blog</a> and do whatever you want with it. The documentation is a bit out of date but will update it when I get some free time.</p>
-
 <p>Keep hacking and blogging :)</p>
+
         </div>
         <div class="pagination-container">    
         
           <a href="/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications" title="Previous Post" class="pagination-arrow newer">Prev</a>
         
         
+        
+          <a href="/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" title="Next Post" class="pagination-arrow older">Next</a>
         
       </div>
         
@@ -202,7 +199,7 @@ To get started I listed all my requirements:</p>
       </div>
     </div>
 
-<script src="/js/script_v1449413903713.js"></script>
+<script src="/js/script_v1475470041773.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2015/12/6/how-i-built-my-static-blog-engine';

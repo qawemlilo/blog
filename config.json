@@ -21,12 +21,12 @@
             "template/css/prettify.css",
             "template/css/style.css"
         ],
-        "scriptMin": "script_v1449413903713.js",
-        "cssMin": "style_v1449413903713.css"
+        "scriptMin": "script_v1475470041773.js",
+        "cssMin": "style_v1475470041774.css"
     },
     "author": {
         "name": "Qawelesizwe Mlilo",
-        "autobio": "Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href=\"https://github.com/qawemlilo/blog\" target=\"_blank\">Send me a pull request</a> for any corrections.",
+        "autobio": "Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href=\"https://github.com/qawemlilo/blog\" target=\"_blank\">Please send me a pull request for any corrections.</a>",
         "email": "qawemlilo@gmail.com",
         "githubPage": "https://github.com/qawemlilo",
         "twitterHandle": "ragingflameblog",

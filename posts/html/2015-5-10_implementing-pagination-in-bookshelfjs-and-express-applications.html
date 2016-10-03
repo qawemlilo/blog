@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1449413903713.css" rel="stylesheet">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +35,7 @@
       </div>
 
       <p class="description">
-        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
       </p>
 
       <ul class="nav navmenu-nav">
@@ -157,32 +157,32 @@
           </div>
       
           <p>Hi there my node curious friends. Today I would like to look at one of the most common components in application development, pagination. Almost every database driven application that you build requires some kind of pagination functionality.</p>
-
-<p>If you have read some of my <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">previous posts</a>, you would have noticed how fond I am of Bookshelf.js. In this post, I am going to show you how to implement pagination using Bookshelf.js, Express, and Jade. We are going to take code used in a previous post, <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Building a simple API with Express and Bookshelf.js</a>, modify it to be more modular, and then implement today&#39;s solution.</p>
-
+<p>If you have read some of my <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">previous posts</a>, you would have noticed how fond I am of Bookshelf.js. In this post, I am going to show you how to implement pagination using Bookshelf.js, Express, and Jade. We are going to take code used in a previous post, <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Building a simple API with Express and Bookshelf.js</a>, modify it to be more modular, and then implement today's solution.</p>
 <h3>Getting started</h3>
-
-<p>This is how I am going to approach today&#39;s problem:</p>
-
-<ol><li>Clone the repo from the aforementioned post: <code>git clone git@github.com:qawemlilo/node-mysql.git pagination</code></li><li>Break it down into an mvc-like modular architecture</li><li>Install view engines, jade</li><li>Create a base collection with pagination and other collections which extend the base collection</li><li>Create some controllers for loading views</li><li>Create a seeding script to populate the database with some random data</li></ol>
-
+<p>This is how I am going to approach today's problem:</p>
+<ol>
+<li>Clone the repo from the aforementioned post: <code>git clone git@github.com:qawemlilo/node-mysql.git pagination</code></li>
+<li>Break it down into an mvc-like modular architecture</li>
+<li>Install view engines, jade</li>
+<li>Create a base collection with pagination and other collections which extend the base collection</li>
+<li>Create some controllers for loading views</li>
+<li>Create a seeding script to populate the database with some random data</li>
+</ol>
 <h3>Creating Pagination</h3>
-
 <p>The best way to implement pagination is to have a base collection that will be extended by other collections. This will ensure that all the collections we create will have pagination therefore enforcing DRY principles.</p>
-
 <p>Before going any further, let us define what we want in our pagination:</p>
-
-<ol><li>We need to have control over how many records are returned per query</li><li>We need to have the ability to sort the data by any column</li><li>We need to be able to create queries with multiple conditions</li><li>Easy view implementation - we should be able easily render the pagination in our views</li></ol>
-
+<ol>
+<li>We need to have control over how many records are returned per query</li>
+<li>We need to have the ability to sort the data by any column</li>
+<li>We need to be able to create queries with multiple conditions</li>
+<li>Easy view implementation - we should be able easily render the pagination in our views</li>
+</ol>
 <p>It is also important to note that we do not want to override any functionality of the Bookshelf Collection API - if someone used our collection without the full knowledge of pagination, everything should still work as expected.</p>
-
-<p>Enough with the chit-chat, let&#39;s write some code.</p>
-
+<p>Enough with the chit-chat, let's write some code.</p>
 <p><strong>collections/base.js</strong></p>
-
 <pre><code>&quot;use strict&quot;;
 
-var Bookshelf = require(&#39;../dbconnect&#39;)();
+var Bookshelf = require('../dbconnect')();
 
 Bookshelf.Collection = Bookshelf.Collection.extend({
 
@@ -192,13 +192,13 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
 
   pagination: {},
 
-  base: &#39;&#39;,
+  base: '',
 
   paginationLimit: 10,
 
   queries: [],
 
-  order: &#39;desc&#39;,
+  order: 'desc',
 
   /**
    * generates pagination data
@@ -225,10 +225,10 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     if (groups &gt; 1) {
       items.push(1);
       items.push(2);
-
+      
       // if our current page is higher than 3
       if (lowestF &gt; 3) {
-        items.push(&#39;...&#39;);
+        items.push('...');
 
         //lets check if we our current page is towards the end
         if (lastpage - currentpage &lt; 2) {
@@ -246,10 +246,10 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
 
         items.push(counter);
       }
-
+        
       // if current page not towards the end
       if (highestF &lt; totalpages - 2) {
-        items.push(&#39;...&#39;);
+        items.push('...');
       }
 
       items.push(lastpage - 1);
@@ -261,7 +261,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
         items.push(counter2);
       }
     }
-
+   
     self.pagination = {
       items: items,
       currentpage: currentpage,
@@ -296,21 +296,21 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
         }
       });
     }
-
-    return query.count(&#39;id AS total&#39;)
+    
+    return query.count('id AS total')
     .then(function (results) {
       totalpages = parseInt(results[0].total, 10);
 
       return self.generatePagination(totalpages);
     });
   },
-
+  
   /**
    * fetches posts ordered by {sortColumn} and creates pagination
    * @returns: {Promise} - resolves with an Object
   */
   fetchBy: function (sortColumn, options, fetchOptions) {
-
+    
     options = options || {};
     fetchOptions = fetchOptions || {};
 
@@ -324,13 +324,13 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     self.currentpage = currentpage;
     self.limit = limit;
     self.order = order;
-    self.base = options.base || &#39;&#39;;
-
+    self.base = options.base || '';
+    
     function fetch() {
       return self.constructor.forge()
       .query(function (query) {
         query.limit(limit);
-
+        
         self.queries.forEach(function (where, i) {
           if (i === 0) {
             query.where(where[0], where[1], where[2]);
@@ -356,30 +356,28 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
   }
 });
 
-module.exports = Bookshelf;</code></pre>
-
+module.exports = Bookshelf;
+</code></pre>
 <p>This is the base collection and below is an example of how it is extended:</p>
-
 <p><strong>collections/posts.js</strong></p>
-
-<pre><code>var Base = require(&#39;./base&#39;);
-var Post = require(&#39;./models/post&#39;);
+<pre><code>var Base = require('./base');
+var Post = require('./models/post');
 
 var Posts = Base.Collection.extend({
   model: Post
 });
 
-module.exports = Posts;</code></pre>
-
-<p>Whenever we want to fetch a paginated set of data we&#39;ll use the <code>.fetchBy</code> method. This method accepts 3 arguments:</p>
-
-<ol><li>The first argument is the name of the sorting column</li><li>The second argument is an object with pagination options.</li><li>The last argument is an options object typically passed to the <code>fetch</code> method</li></ol>
-
+module.exports = Posts;
+</code></pre>
+<p>Whenever we want to fetch a paginated set of data we'll use the <code>.fetchBy</code> method. This method accepts 3 arguments:</p>
+<ol>
+<li>The first argument is the name of the sorting column</li>
+<li>The second argument is an object with pagination options.</li>
+<li>The last argument is an options object typically passed to the <code>fetch</code> method</li>
+</ol>
 <p>I have created a controller that handles pagination:</p>
-
 <p><strong>controllers/posts.js</strong></p>
-
-<pre><code>var Posts = require(&#39;../collections/posts&#39;);
+<pre><code>var Posts = require('../collections/posts');
 
 module.exports.getPosts = function (req, res) {
   var posts = new Posts();
@@ -388,21 +386,21 @@ module.exports.getPosts = function (req, res) {
   var currentpage = page || 1;
   var order = req.query.order || &quot;asc&quot;;
 
-  posts.fetchBy(&#39;published_at&#39;, {
+  posts.fetchBy('published_at', {
     page: currentpage,
     limit: limit,
     order: order,
     where: [
-      [&#39;user_id&#39;, &#39;=&#39;, 1],
-      [&#39;category_id&#39;, &#39;=&#39;, 3]
+      ['user_id', '=', 1],
+      ['category_id', '=', 3]
     ]
   },
   {
-    columns: [&#39;id&#39;, &#39;slug&#39;, &#39;html&#39;, &#39;title&#39;],
-    withRelated: [&#39;category&#39;]
+    columns: ['id', 'slug', 'html', 'title'],
+    withRelated: ['category']
   })
   .then(function (data) {
-    res.render(&#39;posts&#39;, {
+    res.render('posts', {
       pagination: data.pagination,
       posts: data.collection.toJSON()
     });
@@ -410,51 +408,46 @@ module.exports.getPosts = function (req, res) {
   .catch(function (error) {
     res.status(500).send(error.message);
   });
-};</code></pre>
-
+};
+</code></pre>
 <p>All that is left now is to associate the <code>.getPosts</code> method with a route of your choice and create a <code>posts.jade</code> view.</p>
-
 <p>In the spirit of the DRY principle I am going to create a jade mixin that accepts the pagination object and generates the pagination html. Its always a good idea to have a <code>mixins</code> directory inside your views directory.</p>
-
 <p><strong>views/mixins/pagination.js</strong></p>
-
 <pre><code>mixin paginate(pagination)
   if pagination.limit &lt; pagination.total
-    .row(style=&#39;text-align: center&#39;)
+    .row(style='text-align: center')
       ul.pagination
         if (pagination.isFirstPage)
           li.disabled
-            a(href=&#39;#&#39;) &amp;laquo; Prev
-
+            a(href='#') &amp;laquo; Prev
+   
         else
           li
-            a(href=&#39;?p=#{pagination.prev}&#39;) &amp;laquo; Prev
-
+            a(href='?p=#{pagination.prev}') &amp;laquo; Prev
+   
         each page, i in pagination.items
-          if (page == &#39;...&#39;)
+          if (page == '...')
             li.disabled
               a(href=&quot;#&quot;) ...
-
+    
           else
             if (page == pagination.currentpage)
               li.active
-                a(href=&#39;#{pagination.base}?p=#{page}&#39;) #{page}
+                a(href='#{pagination.base}?p=#{page}') #{page}
             else
               li
-                a(href=&#39;#{pagination.base}?p=#{page}&#39;) #{page}
-
+                a(href='#{pagination.base}?p=#{page}') #{page}
+   
         if (pagination.isLastPage)
           li.disabled
-            a(href=&#39;#&#39;) Next &amp;raquo;
-
+            a(href='#') Next &amp;raquo;
+   
         else
           li
-            a(href=&#39;#{pagination.base}?p=#{pagination.next}&#39;) Next &amp;raquo;</code></pre>
-
+            a(href='#{pagination.base}?p=#{pagination.next}') Next &amp;raquo;
+</code></pre>
 <p>Below is an example of how you would use the mixin inside a jade view:</p>
-
 <p><strong>views/posts.jade</strong></p>
-
 <pre><code>extends layout
 
 include mixins/pagination
@@ -467,13 +460,18 @@ block content
         dd
           a(href=&quot;/posts/#{post.slug}&quot;) #{post.title}
 
-    mixin paginate(pagination)</code></pre>
-
+    mixin paginate(pagination)
+</code></pre>
 <p>I have created a repo, <a href="https://github.com/qawemlilo/pagination">https://github.com/qawemlilo/pagination</a>, with a fully functional demo. This is how you can run it:</p>
+<ol>
+<li>Clone the repo: <code>git clone https://github.com/qawemlilo/pagination.git</code></li>
+<li>Cd into the directory and install dependencies: <code>npm install</code></li>
+<li>Update <code>config.js</code> with your db details</li>
+<li>Create db tables and insert random data: <code>node migrate &amp;&amp; node seed</code></li>
+<li>Start the server: <code>node app</code></li>
+</ol>
+<p>That's all folks! Please <a href="http://twitter.com/home?status=Implementing%20Pagination%20in%20%23Bookshelfjs%20and%20%23Express%20applications%20http%3A%2F%2Fblog.ragingflame.co.za%2F2015%2F5%2F10%2Fimplementing-pagination-in-bookshelfjs-and-express-applications%20%23nodejs%20%40ragingflameblog">share on twitter</a> if you enjoyed this post :)</p>
 
-<ol><li>Clone the repo: <code>git clone https://github.com/qawemlilo/pagination.git</code></li><li>Cd into the directory and install dependencies: <code>npm install</code></li><li>Update <code>config.js</code> with your db details</li><li>Create db tables and insert random data: <code>node migrate &amp;&amp; node seed</code></li><li>Start the server: <code>node app</code></li></ol>
-
-<p>That&#39;s all folks! Please <a href="http://twitter.com/home?status=Implementing%20Pagination%20in%20%23Bookshelfjs%20and%20%23Express%20applications%20http%3A%2F%2Fblog.ragingflame.co.za%2F2015%2F5%2F10%2Fimplementing-pagination-in-bookshelfjs-and-express-applications%20%23nodejs%20%40ragingflameblog">share on twitter</a> if you enjoyed this post :)</p>
         </div>
         <div class="pagination-container">    
         
@@ -490,7 +488,7 @@ block content
       </div>
     </div>
 
-<script src="/js/script_v1449413903713.js"></script>
+<script src="/js/script_v1475470041773.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2015/5/10/implementing-pagination-in-bookshelfjs-and-express-applications';

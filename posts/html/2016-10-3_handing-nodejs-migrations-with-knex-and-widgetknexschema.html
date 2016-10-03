@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A blog about Web and Software development using Node.js, JavaScript, and PHP!">
+<meta name="author" content="Qawelesizwe Mlilo">
+<meta name="generator" content="Node Blogger" />
+
+<title>Handing Node.js migrations with knex and widget-knex-schema</title>
+
+<link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+    <div class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
+
+      <button type="button" style="margin-right: 10px; margin-top: 5px; color:#fff" class="close hidden-md hidden-lg pull-right" aria-label="Close" data-toggle="offcanvas" data-target=".navmenu">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+      <div class="text-center avatar">
+        <a href="/">
+          <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+        </a>
+      </div>
+
+      <p class="description">
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
+      </p>
+
+      <ul class="nav navmenu-nav">
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li >
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="https://github.com/qawemlilo" target="_blank">Projects</a>
+        </li>
+        <li>
+          <a href="mailto:qawemlilo@gmail.com">Contact Me</a>
+        </li>
+      </ul>
+
+      <ul class="list-inline social-media">
+        <li>
+          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">&nbsp;</a> 
+        </li>
+        <li>
+          <a href="http://twitter.com/ragingflameblog" title="Follow me on Twitter" class="twitter">&nbsp;</a>
+        </li>
+        <li>
+          <a href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google+" class="google">&nbsp;</a>
+        </li>
+        <li>
+          <a href="/rss" title="RSS" class="rss">&nbsp;</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top hidden-md hidden-lg">
+      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Raging Flame Blog</a>
+    </div>
+
+    <div class="container content">
+      <div class="row">
+        <div class="post blogpost"> 
+          <h1>Handing Node.js migrations with knex and widget-knex-schema</h1>
+      
+          <div class="row date">
+            <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
+              <span style="margin-right:10px">
+                3 
+                Oct 
+                <a href="/2016">2016</a>
+              </span>
+              
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/nodejs">nodejs</a>
+                  </span> 
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/ migrations"> migrations</a>
+                  </span> 
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/ knex"> knex</a>
+                  </span> 
+              
+            </div>
+            <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
+              <ul class="list-inline list-unstyled">
+                <li>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+              </a>                  
+                </li>
+
+                <li>
+              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+              </a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+              </a>
+                </li>
+              </ul>
+           
+            </div>
+          </div>
+      
+          <p>Hi guys, it feels great to finally get some time to write my first post for this year - parenting and my day job has kept me quite busy.</p>
+<p>Migrations in the Node.js ecosystem is one of those things that still doesn't have an agreed upon go-to solution. Personally, I have been using <a href="http://bookshelfjs.org">Bookshelf.js</a> as my ORM of choice when dealing with SQL databases. Through <a href="http://bookshelfjs.org">Bookshelk.js</a> I got introduced to <a href="http://knexjs.org">knex</a>, which is an amazing SQL query builder that comes with migrations. Being the lazy developer that I am means that I'm always looking for ways to get more done with less effort. Node.js' module based system is perfect for that because you can store pieces of reusable code in <code>npm</code>. I recently published a module called <a href="https://www.npmjs.com/package/widget-knex-schema">widget-knex-schema</a> which can be used to easily create database tables through a simple JS/JSON object schema.</p>
+<p>To demonstrate how <code>widget-knex-schema</code> works, we're going to take code from a previous post, <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Building a simple API with Express and Bookshelf.js</a>, and create it's migrations. We'll split the <a href="https://github.com/qawemlilo/node-mysql/blob/master/schema.js">schema.js</a> file to different files so that each table schema has it's own file and save them in the <code>db/schemas</code> directory.</p>
+<h3>Dependencies</h3>
+<p><code>widget-knex-schema</code> at it's best is a <code>knex</code> helper therefore we'll need <code>knex</code> as a dependency. We'll also use <code>sqlite</code> as our database.</p>
+<p><code>npm i widget-knex-schema knex sqlite3</code></p>
+<p>Let's not forget to install <code>knex</code> globally: <code>npm i knex -g</code></p>
+<p>The project we're building on top of also had a few dependencies, let's install those:</p>
+<p><code>npm i body-parser bookshelf express lodash --save</code></p>
+<p>In the <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Building a simple API with Express and Bookshelf.js</a> post we had 4 models: User, Post, Category, and Tag. This means we'll need to create 4 tables plus a mapping table for the many-to-many relationship between the posts and tags. Before we can create our migration files we need to initialise <code>knex</code> and update the config settings:</p>
+<p><code>knex init</code></p>
+<p>Update the created knexfile.js file - we'll store all migration files in <code>db/migrates</code> and all schema files in <code>db/schemas</code>.</p>
+<pre><code class="language-javascript">&quot;use strict&quot;;
+
+module.exports = {
+
+  development: {
+    client: 'sqlite3',
+    connection: {
+      filename: './db.sqlite'
+    },
+    useNullAsDefault: true,
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: __dirname + '/db/migrations'
+    }
+  }
+
+};
+
+</code></pre>
+<p>With <code>knex</code> configured, we're ready to start creating our migrations. Firstly, let's create the users migration file.</p>
+<pre><code>knex migrate:make creating_users_table
+</code></pre>
+<p>Find the file in <code>db/migrations</code> and use <code>widget-knex-schema</code> to create the users table.</p>
+<pre><code class="language-javascript">&quot;use strict&quot;;
+
+const migrate = require('widget-knex-schema');
+const usersSchema = require('../schemas/users');
+
+
+exports.up = function(knex, Promise) {
+  return migrate.createTable(knex, 'users', usersSchema, true);
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('users');
+};
+</code></pre>
+<p>Next, let's create the categories migration file.</p>
+<pre><code>knex migrate:make creating_categories_table
+</code></pre>
+<pre><code class="language-javascript">&quot;use strict&quot;;
+
+const migrate = require('widget-knex-schema');
+const categoriesSchema = require('../schemas/categories');
+
+
+exports.up = function(knex, Promise) {
+  return migrate.createTable(knex, 'categories', categoriesSchema, true);
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('categories');
+};
+</code></pre>
+<p>Then the tags migration file.</p>
+<pre><code class="language-javascript">knex migrate:make creating_tags_table
+</code></pre>
+<pre><code class="language-javascript">&quot;use strict&quot;;
+
+const migrate = require('widget-knex-schema');
+const tagsSchema = require('../schemas/tags');
+
+
+exports.up = function(knex, Promise) {
+  return migrate.createTable(knex, 'tags', tagsSchema, true);
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('tags');
+};
+</code></pre>
+<p>Then the posts migration file.</p>
+<pre><code class="language-javascript">knex migrate:make creating_posts_table
+</code></pre>
+<pre><code class="language-javascript">&quot;use strict&quot;;
+
+const migrate = require('widget-knex-schema');
+const postsSchema = require('../schemas/posts');
+
+
+exports.up = function(knex, Promise) {
+  return migrate.createTable(knex, 'posts', postsSchema, true);
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('posts');
+};
+</code></pre>
+<p>Lastly, create the posts_tags migration file.</p>
+<pre><code>knex migrate:make creating_posts_tags_table
+</code></pre>
+<pre><code class="language-javascript">&quot;use strict&quot;;
+
+const migrate = require('widget-knex-schema');
+const postsTagsSchema = require('../schemas/posts_tags');
+
+
+exports.up = function(knex, Promise) {
+  return migrate.createTable(knex, 'posts_tags', postsTagsSchema, true);
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('posts_tags');
+};
+</code></pre>
+<p>The proof is the pudding - let's run our migrations.</p>
+<pre><code>knex migrate:latest
+</code></pre>
+<h3>Conclusion</h3>
+<p>This is only the first version of <code>widget-knex-schema</code>, I would appreciate some feedback and contributions. In future versions I would like add more functionality to support column alterations.</p>
+<p>All the code in this post can be found on Github: <a href="https://github.com/qawemlilo/handling_migrations">https://github.com/qawemlilo/handling_migrations</a>.</p>
+<p>That's all for now - happy coding!</p>
+
+        </div>
+        <div class="pagination-container">    
+        
+          <a href="/2015/12/6/how-i-built-my-static-blog-engine" title="Previous Post" class="pagination-arrow newer">Prev</a>
+        
+        
+        
+      </div>
+        
+        <div id="disqus_thread"></div>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </div>
+    </div>
+
+<script src="/js/script_v1475470041773.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema';
+    var disqus_title = 'Handing Node.js migrations with knex and widget-knex-schema';
+    var disqus_url = 'http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

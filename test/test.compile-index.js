@@ -1,5 +1,5 @@
 var should = require('should'),
-    Compile = require('../lib/bin.compile-index');
+    Compile = require('../lib/homepage');
 
 describe('Compile', function() {
     "use strict";
@@ -33,7 +33,7 @@ describe('Compile', function() {
         it('should return an object of a full post', function() {
             var data = compile.compileTemplateData('<h1>Hello World</h1>');
             
-            data.blog.title.should.be.eql('Raging Flame Blog');
+            data.blog.title.should.be.eql('Your blog title');
         });
     });
 });

@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1449413903713.css" rel="stylesheet">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +35,7 @@
       </div>
 
       <p class="description">
-        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
       </p>
 
       <ul class="nav navmenu-nav">
@@ -146,116 +146,103 @@
             </div>
           </div>
       
-          <p>So you have been playing around with Node.js writing pretty little programs and marvelling at how awesome it is. You have finally wrapped your brain around this async stuff and feel confident that you can go to callback hell and still find your way back. But then you realise, your newly acquired wizardry isn&#39;t that much fun if you cannot collect data, store it in a database, and do something useful with it. So you jump on your broom and start surfing the interwebs in search of a solution.</p>
-
-<p>When you search the internet for a Node.js database solution you will quickly notice how popular NoSQL databases are. As someone who is new to Node.js it is easy to start believing that it only speaks to NoSQL databases or that it doesn&#39;t work well with SQL databases. I held this perception for quite a long time. Sometimes a SQL database may be a better solution for you, it is a good fit if you are dealing with a lot of relational data that requires complex queries. Node.js prides itself at being very efficient in performing IO intensive tasks - that includes communicating with both SQL and NoSQL databases. <a href="https://github.com/TryGhost/Ghost">Ghost</a>, one of the most prominent opensource Node projects, uses SQL databases. Today I will share with you how I use MySQL in my Node.js projects.</p>
-
+          <p>So you have been playing around with Node.js writing pretty little programs and marvelling at how awesome it is. You have finally wrapped your brain around this async stuff and feel confident that you can go to callback hell and still find your way back. But then you realise, your newly acquired wizardry isn't that much fun if you cannot collect data, store it in a database, and do something useful with it. So you jump on your broom and start surfing the interwebs in search of a solution.</p>
+<p>When you search the internet for a Node.js database solution you will quickly notice how popular NoSQL databases are. As someone who is new to Node.js it is easy to start believing that it only speaks to NoSQL databases or that it doesn't work well with SQL databases. I held this perception for quite a long time. Sometimes a SQL database may be a better solution for you, it is a good fit if you are dealing with a lot of relational data that requires complex queries. Node.js prides itself at being very efficient in performing IO intensive tasks - that includes communicating with both SQL and NoSQL databases. <a href="https://github.com/TryGhost/Ghost">Ghost</a>, one of the most prominent opensource Node projects, uses SQL databases. Today I will share with you how I use MySQL in my Node.js projects.</p>
 <h3>Choosing an ORM</h3>
-
 <p>The standard way of connecting to a database in most platforms is through an ORM, it provides a nice API to interact with your programs. After doing some research I came across Bookshelf.js, it is described as a JavaScript ORM for Node.js, built on the Knex SQL query builder and designed to work well with PostgreSQL, MySQL, and SQLite3.</p>
-
 <p>My decision to pick <a href="http://bookshelfjs.org">Bookshelf.js</a> was influenced by the following reasons:</p>
-
-<ul><li>It has good documentation</li><li>It extends the Model and Collection patterns of Backbone.js - which I was already familiar with.</li><li>It is used by the <a href="https://github.com/TryGhost/Ghost">Ghost</a> project - while reading the project&#39;s code base I found it quite intuitive.</li><li>It uses promises which makes handling callbacks less painful</li><li>It has a large community following and is actively maintained</li></ul>
-
+<ul>
+<li>It has good documentation</li>
+<li>It extends the Model and Collection patterns of Backbone.js - which I was already familiar with.</li>
+<li>It is used by the <a href="https://github.com/TryGhost/Ghost">Ghost</a> project - while reading the project's code base I found it quite intuitive.</li>
+<li>It uses promises which makes handling callbacks less painful</li>
+<li>It has a large community following and is actively maintained</li>
+</ul>
 <h3>Getting started</h3>
-
 <p>To get up and running you need to install <a href="http://bookshelfjs.org">Bookshelf.js</a> and its dependencies.</p>
-
-<pre><code>npm install bookshelf mysql knex --save</code></pre>
-
-<p>Making a database connection is pretty straight forward, let&#39;s do it in <code>app.js</code>:</p>
-
+<pre><code>npm install bookshelf mysql knex --save
+</code></pre>
+<p>Making a database connection is pretty straight forward, let's do it in <code>app.js</code>:</p>
 <h3>app.js</h3>
-
-<pre><code>var knex = require(&#39;knex&#39;)({
-    client: &#39;mysql&#39;,
+<pre><code>var knex = require('knex')({
+    client: 'mysql',
     connection: {
-        host     : &#39;127.0.0.1&#39;,
-        user     : &#39;your_database_user&#39;,
-        password : &#39;your_database_password&#39;,
-        database : &#39;myapp_test&#39;,
-        charset  : &#39;utf8&#39;
+        host     : '127.0.0.1',
+        user     : 'your_database_user',
+        password : 'your_database_password',
+        database : 'myapp_test',
+        charset  : 'utf8'
   }
 });
 
-var Bookshelf = require(&#39;bookshelf&#39;)(knex);</code></pre>
-
+var Bookshelf = require('bookshelf')(knex);
+</code></pre>
 <p>We need to be able to reuse the same connection throughout our application, make sure it is accessible globally.</p>
-
 <h3>Using Bookshelf</h3>
-
 <p>The example that I am going to use to demonstrate how Bookshelf works is that of a blog post. We will create a blog post that includes author, category, and tags metadata.</p>
-
-<p>Firstly, we need to create database tables, let&#39;s create a separate file and name it <code>schema.js</code>. This file contains the schema for our database tables.</p>
-
+<p>Firstly, we need to create database tables, let's create a separate file and name it <code>schema.js</code>. This file contains the schema for our database tables.</p>
 <h3>schema.js</h3>
-
 <pre><code>var Schema = {
   users: {
-    id: {type: &#39;increments&#39;, nullable: false, primary: true},
-    email: {type: &#39;string&#39;, maxlength: 254, nullable: false, unique: true},
-    name: {type: &#39;string&#39;, maxlength: 150, nullable: false}
+    id: {type: 'increments', nullable: false, primary: true},
+    email: {type: 'string', maxlength: 254, nullable: false, unique: true},
+    name: {type: 'string', maxlength: 150, nullable: false}
   },
 
 
   categories: {
-    id: {type: &#39;increments&#39;, nullable: false, primary: true},
-    name: {type: &#39;string&#39;, maxlength: 150, nullable: false}
+    id: {type: 'increments', nullable: false, primary: true},
+    name: {type: 'string', maxlength: 150, nullable: false}
   },
 
   posts: {
-    id: {type: &#39;increments&#39;, nullable: false, primary: true},
-    user_id: {type: &#39;integer&#39;, nullable: false, unsigned: true},
-    category_id: {type: &#39;integer&#39;, nullable: false, unsigned: true},
-    title: {type: &#39;string&#39;, maxlength: 150, nullable: false},
-    slug: {type: &#39;string&#39;, maxlength: 150, nullable: false, unique: true},
-    html: {type: &#39;text&#39;, maxlength: 16777215, fieldtype: &#39;medium&#39;, nullable: false},
-    created_at: {type: &#39;dateTime&#39;, nullable: false},
-    updated_at: {type: &#39;dateTime&#39;, nullable: true}
+    id: {type: 'increments', nullable: false, primary: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
+    category_id: {type: 'integer', nullable: false, unsigned: true},
+    title: {type: 'string', maxlength: 150, nullable: false},
+    slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
+    html: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: false},
+    created_at: {type: 'dateTime', nullable: false},
+    updated_at: {type: 'dateTime', nullable: true}
   },
-
-
+  
+  
   tags: {
-    id: {type: &#39;increments&#39;, nullable: false, primary: true},
-    slug: {type: &#39;string&#39;, maxlength: 150, nullable: false, unique: true},
-    name: {type: &#39;string&#39;, maxlength: 150, nullable: false}
+    id: {type: 'increments', nullable: false, primary: true},
+    slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
+    name: {type: 'string', maxlength: 150, nullable: false}
   },
-
-
+  
+  
   posts_tags: {
-    id: {type: &#39;increments&#39;, nullable: false, primary: true},
-    post_id: {type: &#39;integer&#39;, nullable: false, unsigned: true},
-    tag_id: {type: &#39;integer&#39;, nullable: false, unsigned: true}
+    id: {type: 'increments', nullable: false, primary: true},
+    post_id: {type: 'integer', nullable: false, unsigned: true},
+    tag_id: {type: 'integer', nullable: false, unsigned: true}
   }
 };
 
-module.exports = Schema;</code></pre>
-
+module.exports = Schema;
+</code></pre>
 <p><strong>Pro Tip:</strong> Promises will save you a lot of time and headaches when dealing with databases in Node, my preferred flavour is <a href="https://github.com/cujojs/when">when</a>. Also install a utility library for doing common tasks, <code>lodash</code> is one of the best.</p>
-
-<pre><code>npm install when lodash --save</code></pre>
-
-<p>We need another file for the code that creates our tables, let&#39;s call it <code>migrate.js</code>. It requires <code>knex</code> so let&#39;s copy the code that we wrote earlier and place it at the beginning of the file.</p>
-
+<pre><code>npm install when lodash --save
+</code></pre>
+<p>We need another file for the code that creates our tables, let's call it <code>migrate.js</code>. It requires <code>knex</code> so let's copy the code that we wrote earlier and place it at the beginning of the file.</p>
 <h3>migrate.js</h3>
-
 <p>I also copied the <code>createTable</code> function from the <a href="https://github.com/TryGhost/Ghost">Ghost</a> project, it accepts a <code>tableName</code> string and returns a promise.</p>
-
-<pre><code>var knex = require(&#39;knex&#39;)({
-    client: &#39;mysql&#39;,
+<pre><code>var knex = require('knex')({
+    client: 'mysql',
     connection: {
-        host     : &#39;localhost&#39;,
-        user     : &#39;your_database_user&#39;,
-        password : &#39;your_database_password&#39;,
-        database : &#39;myapp_test&#39;,
-        charset  : &#39;utf8&#39;
+        host     : 'localhost',
+        user     : 'your_database_user',
+        password : 'your_database_password',
+        database : 'myapp_test',
+        charset  : 'utf8'
   }
 });
 
-var Schema = require(&#39;./schema&#39;);
-var sequence = require(&#39;when/sequence&#39;);
-var _ = require(&#39;lodash&#39;);
+var Schema = require('./schema');
+var sequence = require('when/sequence');
+var _ = require('lodash');
 
 
 function createTable(tableName) {
@@ -266,40 +253,40 @@ function createTable(tableName) {
     var columnKeys = _.keys(Schema[tableName]);
 
     _.each(columnKeys, function (key) {
-      if (Schema[tableName][key].type === &#39;text&#39; &amp;&amp; Schema[tableName][key].hasOwnProperty(&#39;fieldtype&#39;)) {
+      if (Schema[tableName][key].type === 'text' &amp;&amp; Schema[tableName][key].hasOwnProperty('fieldtype')) {
         column = table[Schema[tableName][key].type](key, Schema[tableName][key].fieldtype);
       }
-      else if (Schema[tableName][key].type === &#39;string&#39; &amp;&amp; Schema[tableName][key].hasOwnProperty(&#39;maxlength&#39;)) {
+      else if (Schema[tableName][key].type === 'string' &amp;&amp; Schema[tableName][key].hasOwnProperty('maxlength')) {
         column = table[Schema[tableName][key].type](key, Schema[tableName][key].maxlength);
       }
       else {
         column = table[Schema[tableName][key].type](key);
       }
 
-      if (Schema[tableName][key].hasOwnProperty(&#39;nullable&#39;) &amp;&amp; Schema[tableName][key].nullable === true) {
+      if (Schema[tableName][key].hasOwnProperty('nullable') &amp;&amp; Schema[tableName][key].nullable === true) {
         column.nullable();
       }
       else {
         column.notNullable();
       }
 
-      if (Schema[tableName][key].hasOwnProperty(&#39;primary&#39;) &amp;&amp; Schema[tableName][key].primary === true) {
+      if (Schema[tableName][key].hasOwnProperty('primary') &amp;&amp; Schema[tableName][key].primary === true) {
         column.primary();
       }
 
-      if (Schema[tableName][key].hasOwnProperty(&#39;unique&#39;) &amp;&amp; Schema[tableName][key].unique) {
+      if (Schema[tableName][key].hasOwnProperty('unique') &amp;&amp; Schema[tableName][key].unique) {
         column.unique();
       }
 
-      if (Schema[tableName][key].hasOwnProperty(&#39;unsigned&#39;) &amp;&amp; Schema[tableName][key].unsigned) {
+      if (Schema[tableName][key].hasOwnProperty('unsigned') &amp;&amp; Schema[tableName][key].unsigned) {
         column.unsigned();
       }
 
-      if (Schema[tableName][key].hasOwnProperty(&#39;references&#39;)) {
+      if (Schema[tableName][key].hasOwnProperty('references')) {
         column.references(Schema[tableName][key].references);
       }
 
-      if (Schema[tableName][key].hasOwnProperty(&#39;defaultTo&#39;)) {
+      if (Schema[tableName][key].hasOwnProperty('defaultTo')) {
         column.defaultTo(Schema[tableName][key].defaultTo);
       }
     });
@@ -323,32 +310,29 @@ function createTables () {
 
 createTables()
 .then(function() {
-  console.log(&#39;Tables created!!&#39;);
+  console.log('Tables created!!');
   process.exit(0);
 })
 .catch(function (error) {
   throw error;
-});</code></pre>
-
+});
+</code></pre>
 <p>Run the file from the command-line <code>node migrate</code>. If everything went well you will see the text <code>Tables created!!</code>.</p>
-
 <p><strong>Another Pro Tip:</strong> <a href="https://github.com/TryGhost/Ghost">Ghost</a> is an amazing piece of software, its code is clean and well written. When you get stuck with Bookshelf and cannot find an answer on Google, just dig through the code base and look at how Bookshelf is used. I find myself constantly referring to it for solutions.</p>
-
-<p>Now back to <code>app.js</code> - I only use Bookshelf in data structures, i.e, in my Models and Collections. Let&#39;s go ahead and create a few Models:</p>
-
+<p>Now back to <code>app.js</code> - I only use Bookshelf in data structures, i.e, in my Models and Collections. Let's go ahead and create a few Models:</p>
 <pre><code>// User model
 var User = Bookshelf.Model.extend({
-    tableName: &#39;users&#39;
+    tableName: 'users'
 });
 
 // Post model
 var Post = Bookshelf.Model.extend({
-    tableName: &#39;posts&#39;,
+    tableName: 'posts',
 
     hasTimestamps: true,
 
     category: function () {
-      return this.belongsTo(Category, &#39;category_id&#39;);
+      return this.belongsTo(Category, 'category_id');
     },
 
     tags: function () {
@@ -363,52 +347,39 @@ var Post = Bookshelf.Model.extend({
 // Category model
 var Category = Bookshelf.Model.extend({
 
-    tableName: &#39;categories&#39;,
+    tableName: 'categories',
 
     posts: function () {
-       return this.hasMany(Post, &#39;category_id&#39;);
+       return this.hasMany(Post, 'category_id');
     }
 });
 
 // Tag model
 var Tag = Bookshelf.Model.extend({
-    tableName: &#39;tags&#39;,
+    tableName: 'tags',
 
     posts: function () {
        return this.belongsToMany(Post);
     }
-});</code></pre>
-
+});
+</code></pre>
 <p>Bookshelf is heavily influenced by Eloquent ORM and handles one-to-one, one-to-many, and many-to-many associations by defining relationships on Models.
 What is important to know is how Bookshelf handles these relationships under the hood. Let us look at some of the special properties and methods.</p>
-
 <h3>hasTimestamps</h3>
-
 <p>Defining a <code>hasTimestamps</code> property in a model and assigning a value of <code>true</code> has special effects. Upon creation or when updating, Bookshelf will automatically insert values for the <code>created_at</code> and <code>updated_at</code> columns.</p>
-
 <h3>hasMany</h3>
-
 <p>The <code>hasMany</code> method tells the current model that it has a one-to-many relationship with the model contained in its arguments.</p>
-
 <h3>belongsTo</h3>
-
 <p>The <code>belongsTo</code> method  tells the current model that it has a one-to-one or one-to-many relationship with the model contained in its arguments.</p>
-
 <h3>belongsToMany</h3>
-
 <p>The <code>belongsToMany</code> method  tells the current model that it has a many-to-many relationship with the model contained in its arguments. This type of a relationship is joined through another table. In our example, the <code>Post</code> model has a many-to-many relationship with the <code>Tags</code> model. Bookshelf will assume that there is a table named <code>posts_tags</code> -  it joins the two table names with an underscore. This is all done under the hood, all you have to do is create the table and Bookshelf will do the rest.</p>
-
 <p>In other relationships Bookshelf assumes that table names are plurals and that the foreignkey is the singular post-fixed with <code>_id</code>. It uses the following format:<code>&lt;TableNameSingular&gt;_id</code>. In our example,  the <code>author</code> method in the <code>Post</code> model will be mapped to the <code>User</code> model (where the table name is <code>users</code>) through the foreignkey <code>user_id</code> (substring <code>user</code> is the singular of table name <code>users</code>).</p>
-
 <p>If your foreignkey and table name do not conform to the above convention you need to specify the foreignkey as a second argument like we did for the relationship between <code>Posts</code> and <code>Categories</code>.</p>
-
 <p>Phew, hope that makes sense, if not leave a comment.</p>
-
 <p>In the next post we will create a small API that uses our Models. Stay tuned.</p>
-
 <h3>Update</h3>
-
 <p><a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Checkout the post that uses the Models to create a small API</a></p>
+
         </div>
         <div class="pagination-container">    
         
@@ -425,7 +396,7 @@ What is important to know is how Bookshelf handles these relationships under the
       </div>
     </div>
 
-<script src="/js/script_v1449413903713.js"></script>
+<script src="/js/script_v1475470041773.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2014/7/21/using-nodejs-with-mysql';

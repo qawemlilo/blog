@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1449413903713.css" rel="stylesheet">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +35,7 @@
       </div>
 
       <p class="description">
-        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
       </p>
 
       <ul class="nav navmenu-nav">
@@ -142,70 +142,62 @@
           </div>
       
           <p>Lately, Grunt has completely taken over my development process. In one of my previous posts I explained <a href="http://blog.ragingflame.co.za/2013/9/30/how-i-use-gruntjs-to-build-joomla-extensions">how I use Gruntjs to develop Joomla! extenstions</a>.</p>
-
 <p>Today I would like to take a closer look at one Gruntjs plugin that I have been using, <a href="https://github.com/jharding/grunt-exec">grunt-exec</a>. <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> is a plugin for executing shell commands. I have 2 shell commands that I use the most when working on a project:</p>
-
 <p>The first one removes the backup files created by text editors. It filters all files ending with the charecter <code>~</code> in the current working directory and sub-directories. I run this command everytime I perform a clean up.</p>
-
-<pre><code>find . -type f -name &quot;*~&quot; -exec rm -f {} \;</code></pre>
-
+<pre><code>find . -type f -name &quot;*~&quot; -exec rm -f {} \;
+</code></pre>
 <p>I use the second command in my PHP projects to check for syntax errors in php files.  I run this command just before packaging my project into a zip file.</p>
-
-<pre><code>find . -type f -name &#39;*.php&#39; -exec php -l {} \;</code></pre>
-
+<pre><code>find . -type f -name '*.php' -exec php -l {} \;
+</code></pre>
 <p>Below is how my Gruntfile for executing these commands looks like.</p>
-
 <pre><code>module.exports = function(grunt) {
     grunt.initConfig({
         exec: {
           test: {
-            cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,
-
+            cmd: &quot;find . -type f -name '*.php' -exec php -l {} ;&quot;,
+            
             callback: function (error, stdout, stderr) {
-                grunt.log.write(&#39;stdout: &#39; + stdout);
-                grunt.log.write(&#39;stderr: &#39; + stderr);
-
+                grunt.log.write('stdout: ' + stdout);
+                grunt.log.write('stderr: ' + stderr);
+                
                 if (error !== null) {
-                    grunt.log.error(&#39;exec error: &#39; + error);
+                    grunt.log.error('exec error: ' + error);
                 }
             }
           },
-
+          
           clean: {
-            cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
+            cmd: 'find . -type f -name &quot;*~&quot; -exec rm -f {} ;'
           }
         },
-
+    
         compress: {
           project: {
             options: {
-              archive: &#39;./com_project.zip&#39;
+              archive: './com_project.zip'
             },
-
+          
             files: [
-              {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;}
+              {cwd: 'component/', src: ['**/*'], expand: true, dest: ''}
             ]
           }
         }
     });
-
-    grunt.loadNpmTasks(&#39;grunt-exec&#39;);
-    grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);
-    grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);
-};  </code></pre>
-
+    
+    grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.registerTask('default', ['exec', 'compress']);
+};  
+</code></pre>
 <p>The problem that I encountered with <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> is that it buffers output, which is inconvenient if you want to check each operation output individually. What I wanted was the ability to exit the Node process if any php file had syntax errors and prevent the zip file from being created.</p>
-
-<p>So I dived into the <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> code to see if I could solve the problem. <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> uses the <code>exec</code> method of the <a href="http://nodejs.org/api/child_process.html">Child Process</a> module to execute commands. When the <code>exec</code> method is called it returns the <code>ChildProcess object</code> which is an event emitter. Bingo! All I needed to do was pass functions that accept the data event emitted by <code>ChildProcess object</code>&#39;s <code>stdout</code> and <code>stderr</code> streams. I then replaced the callback option with 2 ondata event handlers.</p>
-
+<p>So I dived into the <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> code to see if I could solve the problem. <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> uses the <code>exec</code> method of the <a href="http://nodejs.org/api/child_process.html">Child Process</a> module to execute commands. When the <code>exec</code> method is called it returns the <code>ChildProcess object</code> which is an event emitter. Bingo! All I needed to do was pass functions that accept the data event emitted by <code>ChildProcess object</code>'s <code>stdout</code> and <code>stderr</code> streams. I then replaced the callback option with 2 ondata event handlers.</p>
 <p>What the 2 functions do is check if the emitted data contains error reports, if so, exit the Node process.</p>
-
 <pre><code>module.exports = function(grunt) {
     grunt.initConfig({
         exec: {
             test: {
-                cmd: &quot;find . -type f -name &#39;*.php&#39; -exec php -l {} ;&quot;,
-
+                cmd: &quot;find . -type f -name '*.php' -exec php -l {} ;&quot;,
+                
                 onOutData: function (data) {
                   if (data.match(/Errors parsing|PHP Parse error/g)) {
                     grunt.log.error(data);
@@ -215,7 +207,7 @@
                     grunt.log.write(data);
                   }
                 },
-
+                
                 onErrData: function (data) {
                   if (data.match(/Errors parsing|PHP Parse error/g)) {
                     grunt.log.error(data);
@@ -226,35 +218,33 @@
                   }
                 }
             },
-
+            
             clean: {
-                cmd: &#39;find . -type f -name &quot;*~&quot; -exec rm -f {} ;&#39;
+                cmd: 'find . -type f -name &quot;*~&quot; -exec rm -f {} ;'
             }
         },
-
+        
         compress: {
             project: {
                 options: {
-                  archive: &#39;./com_project.zip&#39;
+                  archive: './com_project.zip'
                 },
-
+                
                 files: [
-                  {cwd: &#39;component/&#39;, src: [&#39;**/*&#39;], expand: true, dest: &#39;&#39;},
+                  {cwd: 'component/', src: ['**/*'], expand: true, dest: ''},
                 ]
             }
         }
     });
-
-    grunt.loadNpmTasks(&#39;grunt-exec&#39;);
-    grunt.loadNpmTasks(&#39;grunt-contrib-compress&#39;);
-
-    grunt.registerTask(&#39;default&#39;, [&#39;exec&#39;, &#39;compress&#39;]);
-};  </code></pre>
-
+    
+    grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    
+    grunt.registerTask('default', ['exec', 'compress']);
+};  
+</code></pre>
 <p>I submitted <a href="https://github.com/qawemlilo/grunt-exec/commit/2d97c3c71c4f12cb3509c018d55801a92d7ec50e">a pull request</a> which has not yet been merged, so for now I am using <a href="https://github.com/qawemlilo/grunt-exec/releases/tag/v0.4.3">my own fork</a>.</p>
-
 <p>If you are using <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> and you need more control over the output you can replace the <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> version value in your <code>package.json</code> file with the url to <a href="git+ssh://git@github.com:qawemlilo/grunt-exec.git#v0.4.3">my fork</a> or create your own fork.</p>
-
 <pre><code>----
     &quot;devDependencies&quot;: {
         &quot;grunt&quot;: &quot;~0.4.1&quot;,
@@ -262,8 +252,8 @@
         &quot;grunt-exec&quot;: &quot;git+ssh://git@github.com:qawemlilo/grunt-exec.git#v0.4.3&quot;
     }
 ---
-
 </code></pre>
+
         </div>
         <div class="pagination-container">    
         
@@ -280,7 +270,7 @@
       </div>
     </div>
 
-<script src="/js/script_v1449413903713.js"></script>
+<script src="/js/script_v1475470041773.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2013/10/22/gruntjs-a-look-at-gruntexec';

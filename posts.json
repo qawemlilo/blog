@@ -478,5 +478,22 @@
             "connect"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1475469558797,
+        "title": "Handing Node.js migrations with knex and widget-knex-schema",
+        "description": "Handling Node.js migrations with knex and widget-knex-schema",
+        "date": "2016-10-03T04:39:18.797Z",
+        "year": 2016,
+        "month": 10,
+        "day": 3,
+        "filename": "2016-10-3_handing-nodejs-migrations-with-knex-and-widgetknexschema",
+        "url": "/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema",
+        "categories": [
+            "nodejs",
+            " migrations",
+            " knex"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]

@@ -1,5 +1,5 @@
 var should = require('should'),
-    Compile = require('../lib/bin.compile-posts');
+    Compile = require('../lib/postpage');
 
 
 describe('Compile', function() {
@@ -14,7 +14,7 @@ describe('Compile', function() {
         it('should return the url of the next blog post', function() {
             var next = compile.getNext();
             
-            next.should.be.eql('/2011/8/15/lets-build-an-html5-app');
+            next.should.be.false;
         });
     });
     

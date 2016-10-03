@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1449413903713.css" rel="stylesheet">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +35,7 @@
       </div>
 
       <p class="description">
-        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
       </p>
 
       <ul class="nav navmenu-nav">
@@ -131,14 +131,10 @@
             </div>
           </div>
       
-          <p>I am in the process of building a web app for managing browser bookmarks and I would like to share some of the code. </p>
-
+          <p>I am in the process of building a web app for managing browser bookmarks and I would like to share some of the code.</p>
 <p>Every web app needs some kind of way to give users feedback on performed tasks and actions, so I wrote this little jQuery function(and a few lines of css for formatting).</p>
-
 <p>The reason why I wrote this as a jQuery function is because I needed it to be available from anywhere within the app and not mess with my MVC-like app architecture.</p>
-
 <h3>CSS</h3>
-
 <pre><code>#appMessage {
   width: 100%;
   position: fixed;
@@ -172,10 +168,9 @@
 #appMessage.warning {
   color: #9F6000;
   background-color: #FEEFB3;
-}</code></pre>
-
+}
+</code></pre>
 <h3>JavaScript</h3>
-
 <pre><code>/*
 ************************************
 Author: Qawelesizwe Mlilo
@@ -199,10 +194,10 @@ Author: Qawelesizwe Mlilo
          and default it as an info notice
       */
 
-      var elem = $(&#39;&lt;div&gt;&#39;, {
-        &#39;id&#39;: &#39;appMessage&#39;,
-        &#39;class&#39;: msgType || &#39;info&#39;,
-        &#39;html&#39;: message
+      var elem = $('&lt;div&gt;', {
+        'id': 'appMessage',
+        'class': msgType || 'info',
+        'html': message
       });
 
       /*
@@ -230,38 +225,38 @@ Author: Qawelesizwe Mlilo
          Create a slide down effect
       */
 
-      elem.hide().appendTo(&#39;body&#39;).slideDown();
+      elem.hide().appendTo('body').slideDown();
     };
-}(jQuery));</code></pre>
-
+}(jQuery));
+</code></pre>
 <h3>How to use it</h3>
-
 <p>Simply call the function with 2 or 3 arguments</p>
-
 <pre><code>/*
   Calling it with 2 arguments will default
   to a simple info notice
 */
 
-$.shout(&#39;Hello there, this is just a notice&#39;, 10);
+$.shout('Hello there, this is just a notice', 10);
 
 /*
   Or give an error notice
 */
 
-$.shout(&#39;Action failed&#39;, 10, &#39;error&#39;);
+$.shout('Action failed', 10, 'error');
 
 /*
   Or a success notice
 */
 
-$.shout(&#39;Action successfully executed!&#39;, 10, &#39;success&#39;);
+$.shout('Action successfully executed!', 10, 'success');
 
 /*
   A warning notice
 */
 
-$.shout(&#39;Are you sure you want to do that?&#39;, 10, &#39;warning&#39;);</code></pre>
+$.shout('Are you sure you want to do that?', 10, 'warning');
+</code></pre>
+
         </div>
         <div class="pagination-container">    
         
@@ -278,7 +273,7 @@ $.shout(&#39;Are you sure you want to do that?&#39;, 10, &#39;warning&#39;);</co
       </div>
     </div>
 
-<script src="/js/script_v1449413903713.js"></script>
+<script src="/js/script_v1475470041773.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2012/11/23/shout-simple-jquery-notifications';

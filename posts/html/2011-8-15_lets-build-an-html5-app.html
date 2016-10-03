@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1449413903713.css" rel="stylesheet">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +35,7 @@
       </div>
 
       <p class="description">
-        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
       </p>
 
       <ul class="nav navmenu-nav">
@@ -132,15 +132,12 @@
           </div>
       
           <p>HTML5 rocks! Today we are going to build a simple JavaScript/HTML5 application that uses the canvas api to convert colour images to black and white. This application includes a php hack that solves the canvas api same origin policy which prevents manipulation of images from a different domain.</p>
-
 <h3>Backend: Our php hack - fetch_image.php</h3>
-
 <p>Fetches the image file and loads it as a local resource (Remember to sanitize all input).</p>
-
 <pre><code>&lt;?php
-if (isset($_GET[&#39;url&#39;]) &amp;&amp; !empty($_GET[&#39;url&#39;]))
+if (isset($_GET['url']) &amp;&amp; !empty($_GET['url']))
 {
-    $url = $_GET[&#39;url&#39;];
+    $url = $_GET['url'];
     $file_format = pathinfo($url, PATHINFO_EXTENSION);
     try
     {
@@ -159,13 +156,11 @@ if (isset($_GET[&#39;url&#39;]) &amp;&amp; !empty($_GET[&#39;url&#39;]))
     }
 }
 else
-    die(&#39;Unknown request&#39;);
-?&gt;</code></pre>
-
+    die('Unknown request');
+?&gt;
+</code></pre>
 <h3>Front-end: index.html</h3>
-
 <p>This is our basic html front-end, we will not worry too much about the css because it is not the focus of this article, however the file will be included in the demo files.</p>
-
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -175,32 +170,30 @@ else
 &lt;/head&gt;
 &lt;body&gt;
   &lt;h1&gt;RGB to Grayscale&lt;/h1&gt;
-
+  
   &lt;form action=&quot;#&quot; method=&quot;GET&quot; id=&quot;webimage&quot;&gt;
     &lt;input name=&quot;url&quot; id=&quot;url&quot; type=&quot;text&quot; placeholder=&quot;Enter image url&quot; /&gt;
     &lt;input value=&quot;Grayscale&quot;  id=&quot;submit&quot; name=&quot;Submit&quot; type=&quot;button&quot;&gt;
   &lt;/form&gt;
-
+  
   &lt;div id=&quot;container&quot;&gt;
     &lt;div id=&quot;mainloader&quot; class=&quot;loader waiting&quot; &gt;
     &lt;/div&gt;
     &lt;div id=&quot;sideloader&quot; class=&quot;loader waiting&quot;&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-
+  
   &lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js&quot;&gt;&lt;/script&gt;
   &lt;script type=&quot;text/javascript&quot; src=&quot;app.js&quot;&gt;&lt;/script&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-
+&lt;/html&gt;
+</code></pre>
 <h3>Front-end: JavaScript - app.js</h3>
-
 <p>Firstly we need some functions to handle the basic tasks for the application.</p>
-
 <pre><code>//Function for outputting messages
 function showMSG(msg) {
-    var elem=$(&#39;&lt;div&gt;&#39;,{
-        id:&#39;errorMessage&#39;,
+    var elem=$('&lt;div&gt;',{
+        id:'errorMessage',
         html:msg
     });
     elem.click(function () {
@@ -211,27 +204,26 @@ function showMSG(msg) {
     setTimeout(function () {
       elem.click();
     }, 5000);
-    elem.hide().appendTo(&#39;body&#39;).slideDown();
+    elem.hide().appendTo('body').slideDown();
 }
 
 //Function for testing if canvas is supported
 function isCanvasSupported() {
-    var elem = document.createElement(&#39;canvas&#39;);
-    return !!(elem.getContext &amp;&amp; elem.getContext(&#39;2d&#39;));
+    var elem = document.createElement('canvas');
+    return !!(elem.getContext &amp;&amp; elem.getContext('2d'));
 }
 
 //Grayscale algorithm
 function toGreyScale(r, g, b) {
     return r * 0.2989 + g * 0.5870 + b * 0.1140;
-}</code></pre>
-
+}
+</code></pre>
 <p>The next function performs the core task of our application and it takes two parameters - an image object and a div ID. The image object is rendered on canvas and manipulated to black and white.</p>
-
 <pre><code>function editImage(img, targetDiv) {
     var id = &quot;canvasID&quot;,
         canvasContainer = document.getElementById(targetDiv),
         imgCanvas, ctx, imageData, px, len, i, redPx, greenPx, bluePx, greyscale;
-
+    
     //create canvas element and give it attributes
     imgCanvas = document.createElement(&quot;canvas&quot;);
     imgCanvas.id = id;
@@ -258,10 +250,10 @@ function toGreyScale(r, g, b) {
         redPx = px[i];
         greenPx = px[i + 1];
         bluePx = px[i + 2];
-
+    
         //convert RGB to grayscale
         greyscale =  toGreyScale(redPx, greenPx, bluePx);
-
+    
         //store the greyscale values
         px[i] = greyscale;
         px[i + 1] = greyscale;
@@ -270,60 +262,61 @@ function toGreyScale(r, g, b) {
 
     //Clear the canvas
     ctx.clearRect(0, 0, img.width, img.height);
-
+    
     //Draw the new image
     ctx.putImageData(imageData, 0, 0);
-}</code></pre>
-
+}
+</code></pre>
 <p>Lastly we use jQuery to handle interaction with the interface.</p>
-
 <pre><code>$(function () {
     var canvas_support = isCanvasSupported();
-
+    
     if (!canvas_support) {
         showMSG(&quot;Your browser does not support HTML5 Canvas&quot;);
         return;
     }
 
-    $(&#39;#url&#39;).focus(function () {
-        $(this).val(&#39;&#39;);
+    $('#url').focus(function () {
+        $(this).val('');
     });
 
-    $(&#39;#submit&#39;).click(function () {
-        var img = new Image(), url = $(&#39;#url&#39;).val(), loader = $(&#39;.loader&#39;);
-
+    $('#submit').click(function () {
+        var img = new Image(), url = $('#url').val(), loader = $('.loader');
+    
         $(&quot;#mainloader, #sideloader&quot;).empty()
-          .fadeIn(&#39;slow&#39;)
-          .removeClass(&#39;waiting&#39;)
-          .removeClass(&#39;broken&#39;)
-          .addClass(&#39;loading&#39;);
-
+          .fadeIn('slow')
+          .removeClass('waiting')
+          .removeClass('broken')
+          .addClass('loading');
+        
         $(img).load(function () {
             var $this = this, w = $this.width, h = $this.height;
-
+        
             $(&quot;#sideloader&quot;).animate({&quot;width&quot;: w, &quot;height&quot;: h}, 500);
-            $(&#39;#mainloader&#39;).removeClass(&#39;loading&#39;)
+            $('#mainloader').removeClass('loading')
             .animate({&quot;width&quot;: w, &quot;height&quot;: h}, 500, function () {
-                $(&#39;#mainloader&#39;).append($this);
+                $('#mainloader').append($this);
                 $($this).fadeIn();
-
+                
                 setTimeout(function () {
-                    $(&#39;#sideloader&#39;).removeClass(&#39;loading&#39;);
-                    editImage(img, &#39;sideloader&#39;);
+                    $('#sideloader').removeClass('loading');
+                    editImage(img, 'sideloader');
                 }, 1000);
             });
         })
         .error(function () {
-            $(&#39;#mainloader, #sideloader&#39;)
-              .removeClass(&#39;waiting&#39;)
+            $('#mainloader, #sideloader')
+              .removeClass('waiting')
               .empty()
-              .addClass(&#39;broken&#39;);
-
+              .addClass('broken');
+            
             showMSG(&quot;Errror in loading image&quot;);
         })
-        .attr(&#39;src&#39;, &#39;fetch_image.php?url=&#39; + url);
+        .attr('src', 'fetch_image.php?url=' + url);
     });
-});</code></pre>
+});
+</code></pre>
+
         </div>
         <div class="pagination-container">    
         
@@ -340,7 +333,7 @@ function toGreyScale(r, g, b) {
       </div>
     </div>
 
-<script src="/js/script_v1449413903713.js"></script>
+<script src="/js/script_v1475470041773.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2011/8/15/lets-build-an-html5-app';

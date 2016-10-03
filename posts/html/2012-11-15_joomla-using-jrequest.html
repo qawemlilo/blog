@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1449413903713.css" rel="stylesheet">
+<link href="/css/style_v1475470041774.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +35,7 @@
       </div>
 
       <p class="description">
-        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><a href="https://github.com/qawemlilo/blog" target="_blank">Send me a pull request</a> for any corrections.
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer for a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
       </p>
 
       <ul class="nav navmenu-nav">
@@ -132,65 +132,60 @@
           </div>
       
           <p>Joomla! CMS is my weapon of choice when creating web apps, this means that I get to write a lot of Joomla! extensions. Along the way I have discovered a number of invaluable Classes and methods provided by the Joomla! framework, JRequest is one of them.</p>
-
 <p>When dealing with user input, one of the first and most import things to do is sanitizing it. The JRequest Class provides a number of flexible methods that you can use to clean up request variables, for this post I will use getVar - it accepts a number of options to configure how it behaves.</p>
-
 <h3>Examples</h3>
-
 <pre><code>&lt;?php
 /*
   Fetching a variable from any request method
   Will accept $_GET, $_POST, or $_REQUEST
 */
-$name = JRequest::getVar(&#39;name&#39;);
+$name = JRequest::getVar('name');
 
 /*
   Fetching a variable from a $_GET request method
   Will accept only $_GET request variables
 */
-$name = JRequest::getVar(&#39;name&#39;, &#39;&#39;, &#39;GET&#39;);
+$name = JRequest::getVar('name', '', 'GET');
 
 /*
   Fetching a variable from a $_POST request method
   Will accept only $_POST request variables
 */
-$name = JRequest::getVar(&#39;name&#39;, &#39;&#39;, &#39;POST&#39;);
-?&gt;</code></pre>
-
+$name = JRequest::getVar('name', '', 'POST');
+?&gt;
+</code></pre>
 <p>So far I have used 3 arguments when calling the getVar method. The first first argument is the name of the variable that you want to fetch, the second one is the value that you want to assign as a default and the third is the type of request.</p>
-
 <p>The above examples will simply capture any type of data contained in the variable, you can go further and filter the type of data that you expect fetched. There are several data types that getVar accepts:
 <code>INT, INTEGER, FLOAT, DOUBLE, BOOL, BOOLEAN, WORD,</code> <code>ALNUM, CMD, BASE64, STRING, ARRAY, PATH, USERNAME</code></p>
-
 <pre><code>&lt;?php
 /*
   Filtering only a string data type or a single word from request variables
 */
-$name = JRequest::getVar(&#39;name&#39;, &#39;&#39;, &#39;GET&#39;, &#39;WORD&#39;);
-$name = JRequest::getVar(&#39;name&#39;, &#39;&#39;, &#39;POST&#39;, &#39;STRING&#39;);
+$name = JRequest::getVar('name', '', 'GET', 'WORD');
+$name = JRequest::getVar('name', '', 'POST', 'STRING');
 
 /*
   There is also an alternative method to achieving the above
 */
-$name = JRequest::getWord(&#39;name&#39;, &#39;&#39;, &#39;GET&#39;);
-$name = JRequest::getString(&#39;name&#39;, &#39;&#39;, &#39;POST&#39;);
+$name = JRequest::getWord('name', '', 'GET');
+$name = JRequest::getString('name', '', 'POST');
 
 /*
   Filtering only numeric data types from request variables
 */
-$age = JRequest::getVar(&#39;age&#39;, 0, &#39;GET&#39;, &#39;INT&#39;);
-$age = JRequest::getVar(&#39;age&#39;, 0, &#39;POST&#39;, &#39;INTEGER&#39;);
-$avarage = JRequest::getVar(&#39;age&#39;, 0, &#39;POST&#39;, &#39;DOUBLE&#39;);
+$age = JRequest::getVar('age', 0, 'GET', 'INT');
+$age = JRequest::getVar('age', 0, 'POST', 'INTEGER');
+$avarage = JRequest::getVar('age', 0, 'POST', 'DOUBLE');
 
 /*
    Even with numbers you can use an alternative method
 */
-$age = JRequest::getInt(&#39;age&#39;, 0, &#39;GET&#39;);
-?&gt;</code></pre>
-
+$age = JRequest::getInt('age', 0, 'GET');
+?&gt;
+</code></pre>
 <p>The JRequest Class has really made handling user input less stressful and more secure. Happy coding!</p>
-
 <p><strong>NOTE:</strong> <em>JRequest methods are not SQL aware, please use the Joomla Database object to clean up your variables for possible SQL injections</em>.</p>
+
         </div>
         <div class="pagination-container">    
         
@@ -207,7 +202,7 @@ $age = JRequest::getInt(&#39;age&#39;, 0, &#39;GET&#39;);
       </div>
     </div>
 
-<script src="/js/script_v1449413903713.js"></script>
+<script src="/js/script_v1475470041773.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2012/11/15/joomla-using-jrequest';
