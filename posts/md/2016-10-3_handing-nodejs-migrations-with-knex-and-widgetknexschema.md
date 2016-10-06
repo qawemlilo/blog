@@ -163,7 +163,7 @@ knex migrate:latest
 
 ### Conclusion
 
-This is only the first version of `widget-knex-schema`, I would appreciate some feedback and contributions. In future versions I would like add more functionality to support column alterations.
+This is only the first version of `widget-knex-schema`, I would appreciate some feedback and contributions. In future versions I would like to add more functionality to support column alterations.
 
 All the code in this post can be found on Github: [https://github.com/qawemlilo/handling_migrations](https://github.com/qawemlilo/handling_migrations).
 
