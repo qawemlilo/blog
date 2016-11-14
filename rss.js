@@ -5,10 +5,10 @@
 */
 
 
-var Feed = require('rss');
-var config = require('./config.json');
+const Feed = require('rss');
+const config = require('./config.json');
 
-var feed = new Feed({
+const feed = new Feed({
     title: config.blog.name,
     description: config.blog.description,
     feed_url: config.blog.url + config.blog.rss,
@@ -23,8 +23,8 @@ var feed = new Feed({
 */
 function RSS() {
     this.xml = false;
-    
-    return this; 
+
+    return this;
 }
 
 
@@ -35,31 +35,30 @@ RSS.prototype.getFeed = function () {
   if (this.xml) {
     return this.xml;
   }
-  
-  var posts = require('./posts.json');
-  var xml;
-  var i;
-  var limit = config.blog.rssLimit > posts.length ? posts.length : config.blog.rssLimit;
-  
+
+  let posts = require('./posts.json');
+  let xml;
+  let i;
+  let limit = config.blog.rssLimit > posts.length ? posts.length : config.blog.rssLimit;
+
   // latest posts first
   posts.reverse();
 
   for (i = 0; i < limit; i++) {
     feed.item({
-      title: posts[i].title, 
+      title: posts[i].title,
       description: posts[i].description,
-      url: config.blog.url + posts[i].url, 
+      url: config.blog.url + posts[i].url,
       guid: posts[i].id,
       author: posts[i].author,
       date: posts[i].date
-    });    
+    });
   }
-  
+
   this.xml = feed.xml();
-  
+
   return this.xml;
 };
 
 
 module.exports = RSS;
-

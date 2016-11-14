@@ -4,7 +4,7 @@
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="<%= blog.description %>">
+<meta name="description" content="<%= post.description %>">
 <meta name="author" content="<%= author.name %>">
 <meta name="generator" content="Node Blogger" />
 
@@ -55,7 +55,7 @@
 
       <ul class="list-inline social-media">
         <li>
-          <a target="_blank" href="<%= author.githubPage %>" title="Github" class="github">&nbsp;</a> 
+          <a target="_blank" href="<%= author.githubPage %>" title="Github" class="github">&nbsp;</a>
         </li>
         <li>
           <a href="http://twitter.com/<%= author.twitterHandle %>" title="Follow me on Twitter" class="twitter">&nbsp;</a>
@@ -80,22 +80,22 @@
 
     <div class="container content">
       <div class="row">
-        <div class="post blogpost"> 
+        <div class="post blogpost">
           <h1><%= post.title %></h1>
-      
+
           <div class="row date">
             <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
               <span style="margin-right:10px">
-                <%= post.day %> 
-                <%= post.month %> 
+                <%= post.day %>
+                <%= post.month %>
                 <a href="/<%= post.year %>"><%= post.year %></a>
               </span>
-              
+
               <% post.categories.forEach(function (tag) { %>
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/<%= tag %>"><%= tag %></a>
-                  </span> 
+                  </span>
               <% }); %>
             </div>
             <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
@@ -107,7 +107,7 @@
                 <li>
               <a target="_blank" href="http://twitter.com/home?status=<%= blog.url + post.url %>" class="share-twitter" title="Share on Twitter">
                &nbsp;
-              </a>                  
+              </a>
                 </li>
 
                 <li>
@@ -122,22 +122,22 @@
               </a>
                 </li>
               </ul>
-           
+
             </div>
           </div>
-      
+
           <%- post.content %>
         </div>
-        <div class="pagination-container">    
+        <div class="pagination-container">
         <% if(pagination.prev) { %>
           <a href="<%= pagination.prev %>" title="Previous Post" class="pagination-arrow newer">Prev</a>
         <% } %>
-        
+
         <% if(pagination.next) { %>
           <a href="<%= pagination.next %>" title="Next Post" class="pagination-arrow older">Next</a>
         <% } %>
       </div>
-        
+
         <div id="disqus_thread"></div>
         <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
       </div>
@@ -149,7 +149,7 @@
     var disqus_identifier = '<%= post.url %>';
     var disqus_title = '<%= post.title %>';
     var disqus_url = 'http://blog.ragingflame.co.za<%= post.url %>';
-    
+
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -4,7 +4,7 @@
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A blog about Web and Software development using Node.js, JavaScript, and PHP!">
+<meta name="description" content="A tutorial about how to connect to MySQL in Node.js applications">
 <meta name="author" content="Qawelesizwe Mlilo">
 <meta name="generator" content="Node Blogger" />
 
@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1475776547249.css" rel="stylesheet">
+<link href="/css/style_v1479116328833.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -55,7 +55,7 @@
 
       <ul class="list-inline social-media">
         <li>
-          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">&nbsp;</a> 
+          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">&nbsp;</a>
         </li>
         <li>
           <a href="http://twitter.com/ragingflameblog" title="Follow me on Twitter" class="twitter">&nbsp;</a>
@@ -80,72 +80,72 @@
 
     <div class="container content">
       <div class="row">
-        <div class="post blogpost"> 
+        <div class="post blogpost">
           <h1>Using Node.js with MySQL</h1>
-      
+
           <div class="row date">
             <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
               <span style="margin-right:10px">
-                21 
-                Jul 
+                21
+                Jul
                 <a href="/2014">2014</a>
               </span>
-              
+
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/nodejs">nodejs</a>
-                  </span> 
+                  </span>
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/node">node</a>
-                  </span> 
+                  </span>
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/mysql">mysql</a>
-                  </span> 
+                  </span>
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/bookshelf">bookshelf</a>
-                  </span> 
+                  </span>
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/knex">knex</a>
-                  </span> 
+                  </span>
               
             </div>
             <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
               <ul class="list-inline list-unstyled">
                 <li>
-                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=https://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-fb" title="Share on Facebook">&nbsp;</a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-twitter" title="Share on Twitter">
-               &nbsp;
-              </a>                  
-                </li>
-
-                <li>
-              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-reddit" title="Share on Reddit">
+              <a target="_blank" href="http://twitter.com/home?status=https://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-twitter" title="Share on Twitter">
                &nbsp;
               </a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-linkedin" title="Share on LinkedIn">
+              <a target="_blank" href="http://reddit.com/submit?url=https://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+              </a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=https://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql" class="share-linkedin" title="Share on LinkedIn">
                &nbsp;
               </a>
                 </li>
               </ul>
-           
+
             </div>
           </div>
-      
+
           <p>So you have been playing around with Node.js writing pretty little programs and marvelling at how awesome it is. You have finally wrapped your brain around this async stuff and feel confident that you can go to callback hell and still find your way back. But then you realise, your newly acquired wizardry isn't that much fun if you cannot collect data, store it in a database, and do something useful with it. So you jump on your broom and start surfing the interwebs in search of a solution.</p>
 <p>When you search the internet for a Node.js database solution you will quickly notice how popular NoSQL databases are. As someone who is new to Node.js it is easy to start believing that it only speaks to NoSQL databases or that it doesn't work well with SQL databases. I held this perception for quite a long time. Sometimes a SQL database may be a better solution for you, it is a good fit if you are dealing with a lot of relational data that requires complex queries. Node.js prides itself at being very efficient in performing IO intensive tasks - that includes communicating with both SQL and NoSQL databases. <a href="https://github.com/TryGhost/Ghost">Ghost</a>, one of the most prominent opensource Node projects, uses SQL databases. Today I will share with you how I use MySQL in my Node.js projects.</p>
 <h3>Choosing an ORM</h3>
@@ -381,28 +381,28 @@ What is important to know is how Bookshelf handles these relationships under the
 <p><a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Checkout the post that uses the Models to create a small API</a></p>
 
         </div>
-        <div class="pagination-container">    
+        <div class="pagination-container">
         
           <a href="/2014/6/27/using-cheerio-and-mongodb-to-scrape-a-large-website" title="Previous Post" class="pagination-arrow newer">Prev</a>
         
-        
+
         
           <a href="/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs" title="Next Post" class="pagination-arrow older">Next</a>
         
       </div>
-        
+
         <div id="disqus_thread"></div>
         <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
       </div>
     </div>
 
-<script src="/js/script_v1475776547249.js"></script>
+<script src="/js/script_v1479116328833.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2014/7/21/using-nodejs-with-mysql';
     var disqus_title = 'Using Node.js with MySQL';
     var disqus_url = 'http://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql';
-    
+
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

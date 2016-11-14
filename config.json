@@ -5,7 +5,7 @@
         "baseUrl": "/",
         "postsFolder": "./posts",
         "postsFile": "./posts.json",
-        "url": "http://blog.ragingflame.co.za",
+        "url": "https://blog.ragingflame.co.za",
         "rss": "/rss",
         "rssLimit": 20,
         "scripts": [
@@ -21,8 +21,8 @@
             "template/css/prettify.css",
             "template/css/style.css"
         ],
-        "scriptMin": "script_v1475776547249.js",
-        "cssMin": "style_v1475776547249.css"
+        "scriptMin": "script_v1479116328833.js",
+        "cssMin": "style_v1479116328833.css"
     },
     "author": {
         "name": "Qawelesizwe Mlilo",
@@ -30,7 +30,7 @@
         "email": "qawemlilo@gmail.com",
         "githubPage": "https://github.com/qawemlilo",
         "twitterHandle": "ragingflameblog",
-        "website": "http://www.ragingflame.co.za",
+        "website": "https://www.ragingflame.co.za",
         "googlePage": "https://plus.google.com/111595084798587457827/posts?hl=en&partnerid=gplp0",
         "avatar": "/img/q-mobile.png"
     }

@@ -4,7 +4,7 @@
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A blog about Web and Software development using Node.js, JavaScript, and PHP!">
+<meta name="description" content="Handling Node.js migrations with knex and widget-knex-schema">
 <meta name="author" content="Qawelesizwe Mlilo">
 <meta name="generator" content="Node Blogger" />
 
@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1475776547249.css" rel="stylesheet">
+<link href="/css/style_v1479116328833.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -55,7 +55,7 @@
 
       <ul class="list-inline social-media">
         <li>
-          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">&nbsp;</a> 
+          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">&nbsp;</a>
         </li>
         <li>
           <a href="http://twitter.com/ragingflameblog" title="Follow me on Twitter" class="twitter">&nbsp;</a>
@@ -80,62 +80,62 @@
 
     <div class="container content">
       <div class="row">
-        <div class="post blogpost"> 
+        <div class="post blogpost">
           <h1>Handling Node.js migrations with knex and widget-knex-schema</h1>
-      
+
           <div class="row date">
             <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
               <span style="margin-right:10px">
-                3 
-                Oct 
+                3
+                Oct
                 <a href="/2016">2016</a>
               </span>
-              
+
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/nodejs">nodejs</a>
-                  </span> 
+                  </span>
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/ migrations"> migrations</a>
-                  </span> 
+                  </span>
               
                   &nbsp;
                   <span class="label label-default">
                     <a href="/tags/ knex"> knex</a>
-                  </span> 
+                  </span>
               
             </div>
             <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
               <ul class="list-inline list-unstyled">
                 <li>
-                  <a target="_blank" href="http://www.facebook.com/share.php?u=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=https://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-fb" title="Share on Facebook">&nbsp;</a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://twitter.com/home?status=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-twitter" title="Share on Twitter">
-               &nbsp;
-              </a>                  
-                </li>
-
-                <li>
-              <a target="_blank" href="http://reddit.com/submit?url=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-reddit" title="Share on Reddit">
+              <a target="_blank" href="http://twitter.com/home?status=https://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-twitter" title="Share on Twitter">
                &nbsp;
               </a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-linkedin" title="Share on LinkedIn">
+              <a target="_blank" href="http://reddit.com/submit?url=https://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+              </a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=https://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" class="share-linkedin" title="Share on LinkedIn">
                &nbsp;
               </a>
                 </li>
               </ul>
-           
+
             </div>
           </div>
-      
+
           <p>Hi guys, it feels great to finally get some time to write my first post for this year - parenting and my day job has kept me quite busy.</p>
 <p>Migrations in the Node.js ecosystem is one of those things that still doesn't have an agreed upon go-to solution. Personally, I have been using <a href="http://bookshelfjs.org">Bookshelf.js</a> as my ORM of choice when dealing with SQL databases. Through <a href="http://bookshelfjs.org">Bookshelk.js</a> I got introduced to <a href="http://knexjs.org">knex</a>, which is an amazing SQL query builder that comes with migrations. Being the lazy developer that I am means that I'm always looking for ways to get more done with less effort. Node.js' module based system is perfect for that because you can store pieces of reusable code in <code>npm</code>. I recently published a module called <a href="https://www.npmjs.com/package/widget-knex-schema">widget-knex-schema</a> which can be used to easily create database tables through a simple JS/JSON object schema.</p>
 <p>To demonstrate how <code>widget-knex-schema</code> works, we're going to take code from a previous post, <a href="http://blog.ragingflame.co.za/2014/12/16/building-a-simple-api-with-express-and-bookshelfjs">Building a simple API with Express and Bookshelf.js</a>, and create it's migrations. We'll split the <a href="https://github.com/qawemlilo/node-mysql/blob/master/schema.js">schema.js</a> file to different files so that each table schema has it's own file and save them in the <code>db/schemas</code> directory.</p>
@@ -262,26 +262,26 @@ exports.down = function(knex, Promise) {
 <p>That's all for now - happy coding!</p>
 
         </div>
-        <div class="pagination-container">    
+        <div class="pagination-container">
         
           <a href="/2015/12/6/how-i-built-my-static-blog-engine" title="Previous Post" class="pagination-arrow newer">Prev</a>
         
-        
+
         
       </div>
-        
+
         <div id="disqus_thread"></div>
         <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
       </div>
     </div>
 
-<script src="/js/script_v1475776547249.js"></script>
+<script src="/js/script_v1479116328833.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema';
     var disqus_title = 'Handling Node.js migrations with knex and widget-knex-schema';
     var disqus_url = 'http://blog.ragingflame.co.za/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema';
-    
+
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
