@@ -25,7 +25,7 @@ function Sitemap () {
 Sitemap.prototype.add = function (post) {
   this.json[0].urlset.push({
     url: [
-      {loc: post.url},
+      {loc: 'https://blog.ragingflame.co.za' + post.url},
       {lastmod: (new Date(post.lastmod)).toISOString().substring(0, 10)},
       {changefreq: 'weekly'}
     ]
