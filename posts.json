@@ -495,5 +495,23 @@
             " knex"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1521441600693,
+        "title": "Building a twitter bot for posting the latest package releases on Github",
+        "description": "How to build a twitter bot that uses the Github API",
+        "date": "2018-03-19T06:40:00.692Z",
+        "year": 2018,
+        "month": 3,
+        "day": 19,
+        "filename": "2018-3-19_building-a-twitter-bot-for-posting-the-latest-package-releases-on-github",
+        "url": "/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github",
+        "categories": [
+            "bots",
+            " twitter",
+            " github",
+            " api"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]

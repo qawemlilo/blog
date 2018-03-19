@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="How to build a twitter bot that uses the Github API">
+<meta name="author" content="Qawelesizwe Mlilo">
+<meta name="generator" content="Node Blogger" />
+
+<title>Building a twitter bot for posting the latest package releases on Github</title>
+
+<link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link href="/css/style_v1521449150155.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+    <div class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
+
+      <button type="button" style="margin-right: 10px; margin-top: 5px; color:#fff" class="close hidden-md hidden-lg pull-right" aria-label="Close" data-toggle="offcanvas" data-target=".navmenu">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+      <div class="text-center avatar">
+        <a href="/">
+          <img src="/img/q-mobile.png" class="img-circle desktop" title="Qawelesizwe Mlilo" alt="Qawelesizwe Mlilo" />
+        </a>
+      </div>
+
+      <p class="description">
+        Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer at a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href="https://github.com/qawemlilo/blog" target="_blank">Please send me a pull request for any corrections.</a>
+      </p>
+
+      <ul class="nav navmenu-nav">
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li >
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="https://github.com/qawemlilo" target="_blank">Projects</a>
+        </li>
+        <li>
+          <a href="mailto:qawemlilo@gmail.com">Contact Me</a>
+        </li>
+      </ul>
+
+      <ul class="list-inline social-media">
+        <li>
+          <a target="_blank" href="https://github.com/qawemlilo" title="Github" class="github">&nbsp;</a>
+        </li>
+        <li>
+          <a href="http://twitter.com/ragingflameblog" title="Follow me on Twitter" class="twitter">&nbsp;</a>
+        </li>
+        <li>
+          <a href="https://plus.google.com/111595084798587457827/posts?hl=en&amp;partnerid=gplp0" title="Google+" class="google">&nbsp;</a>
+        </li>
+        <li>
+          <a href="/rss" title="RSS" class="rss">&nbsp;</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top hidden-md hidden-lg">
+      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Raging Flame Blog</a>
+    </div>
+
+    <div class="container content">
+      <div class="row">
+        <div class="post blogpost">
+          <h1>Building a twitter bot for posting the latest package releases on Github</h1>
+
+          <div class="row date">
+            <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
+              <span style="margin-right:10px">
+                19
+                Mar
+                <a href="/2018">2018</a>
+              </span>
+
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/bots">bots</a>
+                  </span>
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/ twitter"> twitter</a>
+                  </span>
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/ github"> github</a>
+                  </span>
+              
+                  &nbsp;
+                  <span class="label label-default">
+                    <a href="/tags/ api"> api</a>
+                  </span>
+              
+            </div>
+            <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
+              <ul class="list-inline list-unstyled">
+                <li>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://twitter.com/home?status=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-twitter" title="Share on Twitter">
+               &nbsp;
+              </a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://reddit.com/submit?url=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-reddit" title="Share on Reddit">
+               &nbsp;
+              </a>
+                </li>
+
+                <li>
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-linkedin" title="Share on LinkedIn">
+               &nbsp;
+              </a>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+
+          <h3>Motivation</h3>
+<p>You are a busy guy/girl, you have a regular 9 to 5 job and a demanding family life. You have a few side projects that each have their own Twitter account. Balancing your busy life and   keeping your audiences engaged is an almost impossible task. Then it hits you! We're living in the automation era, why work hard when a robot can do all the work for you?</p>
+<p>Like you, I have a few side projects with Twitter accounts that I don't always have time to create content for.</p>
+<p>Today we're going to build a bot for <a href="https://nodeza.co.za">NodeZA</a>, a social platform for Node.js developers in South Africa. Our bot is going to use the Github API to post the latest package releases for Node and Express (we could add more if we like).</p>
+<h3>Requirements</h3>
+<p>This project requires 3 external node.js modules:</p>
+<ol>
+<li><code>twit</code> - a Twitter API client</li>
+<li><code>axios</code> - http client (you can replace it with <code>request</code> if you like)</li>
+<li><code>moment</code> - date/time operations</li>
+</ol>
+<p>I am using the latest Node LTS version - v8.9.4.</p>
+<h3>Getting started</h3>
+<p>Create your project folder and init npm:</p>
+<pre><code>
+mkdir twitbot &amp;&amp; npm init
+
+</code></pre>
+<p>Next install your dependencies:</p>
+<pre><code>npm install twit axios moment --save
+</code></pre>
+<p>Once your modules have been installed, you need to go to Twitter Apps and create a new app. Create a new file, <code>.env.js</code>, where you'll store your API Keys:</p>
+<pre><code class="language-javascript">
+module.exports = {
+  TWITTER_BOT_KEY: '',
+  TWITTER_BOT_SECRET: '',
+  TWITTER_BOT_TOKEN_KEY: '',
+  TWITTER_BOT_TOKEN_SECRET: '',
+};
+
+</code></pre>
+<h3>The main program: bot.js</h3>
+<p>Now we're ready to write the main program, this is how it's going to work:</p>
+<ol>
+<li>Fetch a repo's releases through Github API using <code>axios</code>.</li>
+<li>Use <code>moment</code> to determine how long ago each release was published, if it's within the last 24 hours, tweet the release using the <code>twit</code> module.</li>
+</ol>
+<pre><code>
+&quot;use strict&quot;;
+
+const Twitter = require('twit');
+const axios = require('axios');
+const moment = require('moment');
+const config = require('./.env');
+
+
+const client = new Twitter({
+  consumer_key: config.TWITTER_BOT_KEY,
+  consumer_secret: config.TWITTER_BOT_SECRET,
+  access_token: config.TWITTER_BOT_TOKEN_KEY,
+  access_token_secret: config.TWITTER_BOT_TOKEN_SECRET
+});
+
+
+console.log();
+console.log(' &gt; Checking for new packages releases');
+console.log();
+
+
+async function findAndTweetNewReleases(name, url) {
+  try {
+    let res = await axios.get(url);
+    let releases = res.data;
+
+    if (releases &amp;&amp; releases.length) {
+      releases.forEach(function (release) {
+        let hoursAgo = moment().diff(moment(release.published_at), 'hours');
+
+        if (hoursAgo &lt; 24) {
+        let tweet = `New #${name} release: ${release.tag_name} - ${release.html_url}`;
+
+          tweeterClient.post('statuses/update', { status: tweet }, function(err, data, response) {
+            if (error) {
+              console.error(error)
+            }
+          });
+        }
+      });
+    }
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+
+// nodejs
+findAndTweetNewReleases('nodejs', 'https://api.github.com/repos/nodejs/node/releases');
+
+// express
+findAndTweetNewReleases('express', 'https://api.github.com/repos/expressjs/express/releases');
+
+// add your own....
+
+</code></pre>
+<h3>Running the bot</h3>
+<p>The bot will run as a cronjob once a day at 9am.</p>
+<pre><code>
+0  9  *  *  *    /usr/bin/env node /var/www/staging.nodeza.co.za/bots/tweet-package-releases.js
+
+</code></pre>
+<p>That's all folks, you're now on your way to building your own Skynet that'll one day take over the world.</p>
+<p>Happy hacking!</p>
+<p>P.S. &quot;I'll Be Back&quot;.</p>
+
+        </div>
+        <div class="pagination-container">
+        
+          <a href="/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" title="Previous Post" class="pagination-arrow newer">Prev</a>
+        
+
+        
+      </div>
+
+        <div id="disqus_thread"></div>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </div>
+    </div>
+
+<script src="/js/script_v1521449150155.js"></script>
+<script type="text/javascript">
+    var disqus_shortname = 'ragingflameblog';
+    var disqus_identifier = '/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github';
+    var disqus_title = 'Building a twitter bot for posting the latest package releases on Github';
+    var disqus_url = 'http://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41105756-1', 'ragingflame.co.za');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
