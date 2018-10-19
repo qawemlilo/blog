@@ -21,17 +21,17 @@
             "template/css/prettify.css",
             "template/css/style.css"
         ],
-        "scriptMin": "script_v1521449150155.js",
-        "cssMin": "style_v1521449150155.css"
+        "scriptMin": "script_v1539948211615.js",
+        "cssMin": "style_v1539948211615.css"
     },
     "author": {
         "name": "Qawelesizwe Mlilo",
-        "autobio": "Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer at a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).<br><br><a href=\"https://github.com/qawemlilo/blog\" target=\"_blank\">Please send me a pull request for any corrections.</a>",
+        "autobio": "Hi, my name is Qawelesizwe Mlilo (or Que). I'm a Lead Developer at a UK based Startup working remotely. This blog is about my programming (adventures || misadventures).",
         "email": "qawemlilo@gmail.com",
         "githubPage": "https://github.com/qawemlilo",
         "twitterHandle": "ragingflameblog",
         "website": "https://www.ragingflame.co.za",
         "googlePage": "https://plus.google.com/111595084798587457827/posts?hl=en&partnerid=gplp0",
-        "avatar": "/img/q-mobile.png"
+        "avatar": "/img/image_1533109857550.jpeg"
     }
 }

@@ -99,7 +99,7 @@ h1 a, h2 a{
   width: 100%;
 }
 
- 
+
 
 dt, dl {
 	line-height: 1.5;
@@ -255,6 +255,11 @@ p.description{
 	color:#787878;
 }
 
+p.coffee {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 
 
 /*----------------------------
@@ -364,9 +369,9 @@ ol.linenums li {
 }
 
 img.github {
-  position: absolute; 
-  top: 0; 
-  right: 0; 
+  position: absolute;
+  top: 0;
+  right: 0;
   border: 0;
   width: auto!important;
 }
