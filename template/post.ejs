@@ -30,7 +30,7 @@
 
       <div class="text-center avatar">
         <a href="<%= blog.baseUrl %>">
-          <img src="<%= author.avatar %>" class="img-circle desktop" title="<%= author.name %>" alt="<%= author.name %>" />
+          <img src="<%= author.avatar %>" style="width:120px;" class="img-circle desktop" title="<%= author.name %>" alt="<%= author.name %>" />
         </a>
       </div>
 
@@ -127,6 +127,10 @@
           </div>
 
           <%- post.content %>
+        </div>
+        <div style="margin-top: 20px;margin-bottom: 20px;text-align:center">
+          <p>If you like my content, please consider buying me a coffee.</p>
+          <p><a href="https://www.buymeacoffee.com/wrFJ6ftAi" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a></p>
         </div>
         <div class="pagination-container">
         <% if(pagination.prev) { %>
