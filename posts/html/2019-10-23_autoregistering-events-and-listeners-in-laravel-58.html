@@ -4,11 +4,11 @@
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="How to build a twitter bot that uses the Github API">
+<meta name="description" content="Auto-registering events and listeners in Laravel 5.8">
 <meta name="author" content="Qawelesizwe Mlilo">
 <meta name="generator" content="Node Blogger" />
 
-<title>Building a twitter bot for posting the latest package releases on Github</title>
+<title>Auto-registering events and listeners in Laravel 5.8</title>
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
@@ -85,58 +85,58 @@
     <div class="container content">
       <div class="row">
         <div class="post blogpost">
-          <h1>Building a twitter bot for posting the latest package releases on Github</h1>
+          <h1>Auto-registering events and listeners in Laravel 5.8</h1>
 
           <div class="row date">
             <div class="dt col-xs-12 col-sm-8 col-md-8 col-lg-8">
               <span style="margin-right:10px">
-                19
-                Mar
-                <a href="/2018">2018</a>
+                23
+                Oct
+                <a href="/2019">2019</a>
               </span>
 
               
                   &nbsp;
                   <span class="label label-default">
-                    <a href="/tags/bots">bots</a>
+                    <a href="/tags/php">php</a>
                   </span>
               
                   &nbsp;
                   <span class="label label-default">
-                    <a href="/tags/ twitter"> twitter</a>
+                    <a href="/tags/ laravel"> laravel</a>
                   </span>
               
                   &nbsp;
                   <span class="label label-default">
-                    <a href="/tags/ github"> github</a>
+                    <a href="/tags/ events"> events</a>
                   </span>
               
                   &nbsp;
                   <span class="label label-default">
-                    <a href="/tags/ api"> api</a>
+                    <a href="/tags/ listeners"> listeners</a>
                   </span>
               
             </div>
             <div class="sharep col-xs-12 col-sm-4 col-md-4 col-lg-4" style="text-align:right">
               <ul class="list-inline list-unstyled">
                 <li>
-                  <a target="_blank" href="http://www.facebook.com/share.php?u=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-fb" title="Share on Facebook">&nbsp;</a>
+                  <a target="_blank" href="http://www.facebook.com/share.php?u=https://blog.ragingflame.co.za/2019/10/23/autoregistering-events-and-listeners-in-laravel-58" class="share-fb" title="Share on Facebook">&nbsp;</a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://twitter.com/home?status=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-twitter" title="Share on Twitter">
+              <a target="_blank" href="http://twitter.com/home?status=https://blog.ragingflame.co.za/2019/10/23/autoregistering-events-and-listeners-in-laravel-58" class="share-twitter" title="Share on Twitter">
                &nbsp;
               </a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://reddit.com/submit?url=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-reddit" title="Share on Reddit">
+              <a target="_blank" href="http://reddit.com/submit?url=https://blog.ragingflame.co.za/2019/10/23/autoregistering-events-and-listeners-in-laravel-58" class="share-reddit" title="Share on Reddit">
                &nbsp;
               </a>
                 </li>
 
                 <li>
-              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=https://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" class="share-linkedin" title="Share on LinkedIn">
+              <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=https://blog.ragingflame.co.za/2019/10/23/autoregistering-events-and-listeners-in-laravel-58" class="share-linkedin" title="Share on LinkedIn">
                &nbsp;
               </a>
                 </li>
@@ -145,110 +145,66 @@
             </div>
           </div>
 
-          <h3>Motivation</h3>
-<p>You are a busy guy/girl, you have a regular 9 to 5 job and a demanding family life. You have a few side projects that each have their own Twitter account. Balancing your busy life and   keeping your audiences engaged is an almost impossible task. Then it hits you! We're living in the automation era, why work hard when a robot can do all the work for you?</p>
-<p>Like you, I have a few side projects with Twitter accounts that I don't always have time to create content for.</p>
-<p>Today we're going to build a bot for <a href="https://nodeza.co.za">NodeZA</a>, a social platform for Node.js developers in South Africa. Our bot is going to use the Github API to post the latest package releases for Node and Express (we could add more if we like).</p>
-<h3>Requirements</h3>
-<p>This project requires 3 external node.js modules:</p>
+          <p><em>First published on <a href="https://dev.to/qawemlilo/auto-registering-events-and-listeners-in-laravel-5-8-kkd">Dev.to</a></em></p>
+<p>For the past 4 years I have been working on a <code>Laravel 4.2</code> application which I inherited as an MVP. This application has grown over the years and accumulated a lot of technical debt. About a month ago I started refactoring the entire codebase and upgrading it to <code>Laravel 5.8</code>. This process has presented a number challenges which have required a pragmatic approach.</p>
+<p>In this post I will share with you how to auto-register events and listeners which is useful when handling a large number of events and listeners.</p>
+<p>Our application has more than 100 different emails that are triggered by different types of events. In our old set up, all the events were defined in one file and the logic lived in a 'god' Mailer class which was about 4000 lines long. In the upgrade I decided to follow the observer implementation with each event, listener, and mailer having its own class. This approach would help with decoupling and maintenance of the application's mailing logic. Below is an illustration of directory structure in the upgrade:</p>
+<pre><code>App/
+  Events/
+    UserRegistered.php
+  Listeners/
+    HandleUserRegistered.php
+  Mail/
+    UserRegistered.php
+</code></pre>
+<h3>Registering Events &amp; Listeners</h3>
+<p>Breaking down our Mailer class led to the creation of 100s of files for events, listeners and mailers. When events and listeners have been created, they need to mapped and registered in the <code>EventServiceProvider</code>. Manually importing all events and listeners in <code>EventServiceProvider</code> quickly became messy as the class got too large making it easy to introduce errors and mix up the pairing of events and listeners.</p>
+<p>This problem got me wondering, is there a better way of registering events and listeners without explicitly importing them in the <code>EventServiceProvider</code>? I did a bit of googling but no satisfactory results came up. So I decided to write my own solution.</p>
+<h3>The Idea</h3>
+<p>Create a method in the <code>EventServiceProvider</code> that does the following:</p>
 <ol>
-<li><code>twit</code> - a Twitter API client</li>
-<li><code>axios</code> - http client (you can replace it with <code>request</code> if you like)</li>
-<li><code>moment</code> - date/time operations</li>
+<li>Searches for all event classes</li>
+<li>Finds their corresponding listeners</li>
+<li>Pairs and registers them</li>
 </ol>
-<p>I am using the latest Node LTS version - v8.9.4.</p>
-<h3>Getting started</h3>
-<p>Create your project folder and init npm:</p>
-<pre><code>
-mkdir twitbot &amp;&amp; npm init
+<p>In order for this idea to work I needed to come up with a predictable naming convention for the events and listeners. This is how I did it: for every event class created, I create a corresponding listener which adds <code>Handle</code> as a prefix to the event class name. For example, if I have an event called <code>UserRegistered</code>, the corresponding listener class would be named <code>HandleUserRegistered</code>.</p>
+<h3>The solution</h3>
+<p>Below is the new implementation of the <code>EventServiceProvider</code>.</p>
+<pre><code>&lt;?php
 
-</code></pre>
-<p>Next install your dependencies:</p>
-<pre><code>npm install twit axios moment --save
-</code></pre>
-<p>Once your modules have been installed, you need to go to Twitter Apps and create a new app. Create a new file, <code>.env.js</code>, where you'll store your API Keys:</p>
-<pre><code class="language-javascript">
-module.exports = {
-  TWITTER_BOT_KEY: '',
-  TWITTER_BOT_SECRET: '',
-  TWITTER_BOT_TOKEN_KEY: '',
-  TWITTER_BOT_TOKEN_SECRET: '',
-};
+namespace App\Providers;
 
-</code></pre>
-<h3>The main program: bot.js</h3>
-<p>Now we're ready to write the main program, this is how it's going to work:</p>
-<ol>
-<li>Fetch a repo's releases through Github API using <code>axios</code>.</li>
-<li>Use <code>moment</code> to determine how long ago each release was published, if it's within the last 24 hours, tweet the release using the <code>twit</code> module.</li>
-</ol>
-<pre><code>
-&quot;use strict&quot;;
-
-const Twitter = require('twit');
-const axios = require('axios');
-const moment = require('moment');
-const config = require('./.env');
+use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 
-const client = new Twitter({
-  consumer_key: config.TWITTER_BOT_KEY,
-  consumer_secret: config.TWITTER_BOT_SECRET,
-  access_token: config.TWITTER_BOT_TOKEN_KEY,
-  access_token_secret: config.TWITTER_BOT_TOKEN_SECRET
-});
+class EventServiceProvider extends ServiceProvider
+{
+  protected $listen = [];
 
 
-console.log();
-console.log(' &gt; Checking for new packages releases');
-console.log();
+  public function boot()
+  {
+      parent::boot();
+
+      $this-&gt;registerEventsAndListeners();
+  }
 
 
-async function findAndTweetNewReleases(name, url) {
-  try {
-    let res = await axios.get(url);
-    let releases = res.data;
+  protected function registerEventsAndListeners()
+  {
+    $eventsDir = app_path('Events');
 
-    if (releases &amp;&amp; releases.length) {
-      releases.forEach(function (release) {
-        let hoursAgo = moment().diff(moment(release.published_at), 'hours');
+    foreach (glob(&quot;$eventsDir/*.php&quot;) as $filename) {
+      $eventClassName = basename($filename, &quot;.php&quot;);
 
-        if (hoursAgo &lt; 24) {
-        let tweet = `New #${name} release: ${release.tag_name} - ${release.html_url}`;
-
-          tweeterClient.post('statuses/update', { status: tweet }, function(err, data, response) {
-            if (error) {
-              console.error(error)
-            }
-          });
-        }
-      });
+      Event::listen('App\Events\\' . $eventClassName, 'App\Listeners\Handle' . $eventClassName);
     }
   }
-  catch (error) {
-    console.error(error);
-  }
 }
-
-
-// nodejs
-findAndTweetNewReleases('nodejs', 'https://api.github.com/repos/nodejs/node/releases');
-
-// express
-findAndTweetNewReleases('express', 'https://api.github.com/repos/expressjs/express/releases');
-
-// add your own....
-
 </code></pre>
-<h3>Running the bot</h3>
-<p>The bot will run as a cronjob once a day at 9am.</p>
-<pre><code>
-0  9  *  *  *    /usr/bin/env node /var/www/staging.nodeza.co.za/bots/tweet-package-releases.js
-
-</code></pre>
-<p>That's all folks, you're now on your way to building your own Skynet that'll one day take over the world.</p>
-<p>Happy hacking!</p>
-<p>P.S. &quot;I'll Be Back&quot;.</p>
+<p>Now I have a clean and minimal <code>EventServiceProvider</code> plus I don't have to worry about registering events and listeners that I create in future.</p>
+<p>Let me know what you think. Do you have any interesting solutions for this problem?</p>
 
         </div>
         <div style="margin-top: 20px;margin-bottom: 20px;text-align:center">
@@ -257,11 +213,9 @@ findAndTweetNewReleases('express', 'https://api.github.com/repos/expressjs/expre
         </div>
         <div class="pagination-container">
         
-          <a href="/2016/10/3/handing-nodejs-migrations-with-knex-and-widgetknexschema" title="Previous Post" class="pagination-arrow newer">Prev</a>
+          <a href="/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github" title="Previous Post" class="pagination-arrow newer">Prev</a>
         
 
-        
-          <a href="/2019/10/23/autoregistering-events-and-listeners-in-laravel-58" title="Next Post" class="pagination-arrow older">Next</a>
         
       </div>
 
@@ -273,9 +227,9 @@ findAndTweetNewReleases('express', 'https://api.github.com/repos/expressjs/expre
 <script src="/js/script_v1571813380540.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
-    var disqus_identifier = '/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github';
-    var disqus_title = 'Building a twitter bot for posting the latest package releases on Github';
-    var disqus_url = 'http://blog.ragingflame.co.za/2018/3/19/building-a-twitter-bot-for-posting-the-latest-package-releases-on-github';
+    var disqus_identifier = '/2019/10/23/autoregistering-events-and-listeners-in-laravel-58';
+    var disqus_title = 'Auto-registering events and listeners in Laravel 5.8';
+    var disqus_url = 'http://blog.ragingflame.co.za/2019/10/23/autoregistering-events-and-listeners-in-laravel-58';
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {

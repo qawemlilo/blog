@@ -513,5 +513,23 @@
             " api"
         ],
         "author": "Qawelesizwe Mlilo"
+    },
+    {
+        "id": 1571812863039,
+        "title": "Auto-registering events and listeners in Laravel 5.8",
+        "description": "Auto-registering events and listeners in Laravel 5.8",
+        "date": "2019-10-23T06:41:03.039Z",
+        "year": 2019,
+        "month": 10,
+        "day": 23,
+        "filename": "2019-10-23_autoregistering-events-and-listeners-in-laravel-58",
+        "url": "/2019/10/23/autoregistering-events-and-listeners-in-laravel-58",
+        "categories": [
+            "php",
+            " laravel",
+            " events",
+            " listeners"
+        ],
+        "author": "Qawelesizwe Mlilo"
     }
 ]
