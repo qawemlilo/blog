@@ -12,7 +12,7 @@
 
 <link rel="alternate" type="application/rss+xml" title="RSS Feed for blg.ragingflame.co.za" href="/rss" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<link href="/css/style_v1571813380540.css" rel="stylesheet">
+<link href="/css/style_v1591887143290.css" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700&amp;subset=latin,cyrillic-ext" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -39,7 +39,7 @@
       </p>
 
       <p class="coffee">
-        <a href="https://www.buymeacoffee.com/wrFJ6ftAi" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+        <a href="https://www.buymeacoffee.com/wrFJ6ftAi" target="_blank"><img src="/img/default-orange.webp" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" class="img-rounded"></a>
       </p>
       
       <ul class="nav navmenu-nav">
@@ -145,7 +145,7 @@
             </div>
           </div>
 
-          <p><em>First published on <a href="https://dev.to/qawemlilo/auto-registering-events-and-listeners-in-laravel-5-8-kkd">Dev.to</a></em></p>
+          <p><em>(First published on <a href="https://dev.to/qawemlilo/auto-registering-events-and-listeners-in-laravel-5-8-kkd">Dev.to</a>)</em></p>
 <p>For the past 4 years I have been working on a <code>Laravel 4.2</code> application which I inherited as an MVP. This application has grown over the years and accumulated a lot of technical debt. About a month ago I started refactoring the entire codebase and upgrading it to <code>Laravel 5.8</code>. This process has presented a number challenges which have required a pragmatic approach.</p>
 <p>In this post I will share with you how to auto-register events and listeners which is useful when handling a large number of events and listeners.</p>
 <p>Our application has more than 100 different emails that are triggered by different types of events. In our old set up, all the events were defined in one file and the logic lived in a 'god' Mailer class which was about 4000 lines long. In the upgrade I decided to follow the observer implementation with each event, listener, and mailer having its own class. This approach would help with decoupling and maintenance of the application's mailing logic. Below is an illustration of directory structure in the upgrade:</p>
@@ -224,7 +224,7 @@ class EventServiceProvider extends ServiceProvider
       </div>
     </div>
 
-<script src="/js/script_v1571813380540.js"></script>
+<script src="/js/script_v1591887143290.js"></script>
 <script type="text/javascript">
     var disqus_shortname = 'ragingflameblog';
     var disqus_identifier = '/2019/10/23/autoregistering-events-and-listeners-in-laravel-58';
